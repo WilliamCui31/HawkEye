@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <title>鹰眼系统</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="styles/normalize.css">
+    <link rel="stylesheet" href="styles/main.css">
+  </head>
+  <body>
+    <!--[if lt IE 8]>
+      <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+  
+    <div class="top-bar">
+      <ul class="top-menu clearfix">
+        <li><a href="javascript:;" class="active">用户管理</a></li>
+        <li><a href="javascript:;">P2P业务报表</a></li>
+        <li><a href="javascript:;">运营报表</a></li>
+        <li><a href="javascript:;">财务报表</a></li>
+        <li><a href="javascript:;">活动管理</a></li>
+        <li><a href="javascript:;">预警管理</a></li>
+        <li><a href="javascript:;">推广渠道</a></li>
+      </ul>
+      <div class="top-account">
+        <span class="top-greating">您好，Admin</span> <button class="link-button">退出登录</button>
+      </div>
+    </div>
+
+    <ul class="side-bar">
+      <li class="side-category">
+        <h1 class="side-category-tit">用户管理<i class="hy-icon down-arrow"></i></h1>
+        <div class="side-category-cont">
+          <a href="javascript:;" class="active">用户修改</a>
+          <a href="javascript:;">用户新增</a>
+          <a href="javascript:;">用户列表</a>
+          <a href="javascript:;">用户角色</a>
+        </div>
+      </li>
+      <li class="side-ategory">
+        <h1 class="side-category-tit">安全中心<i class="hy-icon down-arrow"></i></h1>
+        <div class="side-category-cont">
+          <a href="javascript:;">密码重置</a>
+          <a href="javascript:;">运营报告</a>
+        </div>
+      </li>
+    </ul>
+
+    <div class="hy-cont">
+      <div class="hy-panel">
+        <!-- 表单组件 -->
+        <ul class="hy-inline-form clearfix">
+          <li><label>用户名：</label><input type="text" class="hy-input" placeholder="请输入用户名"></li>
+          <li><label>真实姓名：</label><input type="text" class="hy-input" placeholder="输入真实的姓名"></li>
+          <li>
+            <label>所在部门：</label>
+            <span class="hy-select-outer">
+              <span class="hy-select-inner">
+                <select class="hy-select" name="department" id="department">
+                  <option value="" disabled selected hidden>选择其所在部门</option>  
+                  <option value="part1">产品部</option>
+                  <option value="part2">技术部</option>
+                  <option value="part3">运营部</option>
+                  <option value="part4">财务部</option>
+                  <option value="part5">人事部</option>
+                </select>
+              </span>
+            </span>
+          </li>
+          <li><label>密码：</label><input type="text" class="hy-input" placeholder="请设置"></li>
+          <li><button class="hy-button query-button">查询</button></li>
+        </ul>
+        <!-- 表单组件 -->
+      </div>
+      <div class="hy-section pdg20">
+
+        <!-- 登录信息 -->
+        <!-- <ul class="login-info">
+          <li>
+            <label>上次登录时间：</label><span>2016-08-12 10:25</span>
+          </li>
+          <li>
+            <label>上次登录地点：</label><span>深圳市</span>
+          </li>
+          <li>
+            <label>上次登录IP：</label><span>220.17.181.12</span>
+          </li>
+        </ul> -->
+        <!-- 登录信息 -->
+        
+        <!-- 统计类表格组件 -->
+        <table class="statistic-grid" width="100%">
+         <caption>查询结果：<i class="hy-icon info" title="汇总每个类型的数量以及金额"></i></caption>
+         <thead>
+           <tr>
+             <th>用户名</th>
+             <th>真实姓名</th>
+             <th>登录密码</th>
+             <th>所在部门</th>
+             <th>当前状态</th>
+             <th width="20%">操作</th>
+           </tr>
+         </thead>
+         <tbody>
+           <tr>
+             <td>zhaojianping</td>
+             <td>赵建平</td>
+             <td>ntjr123456</td>
+             <td>产品部</td>
+             <td>正在使用</td>
+             <td><button class="link-button">修改</button>
+             <button class="link-button warning">禁用</button></td>
+           </tr>
+         </tbody>
+        </table>
+        <!-- 统计类表格组件 -->
+        
+        <!-- 列表类表格组件 -->
+        <!-- <table class="list-grid" width="100%">
+          <thead>
+            <tr>
+              <th>序号</th>
+              <th>用户名</th>
+              <th>真实姓名</th>
+              <th>所在部门</th>
+              <th>当前状态</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1</td>
+              <td>spenven</td>
+              <td>罗晓杰</td>
+              <td>运营部</td>
+              <td>禁用</td>
+            </tr>
+            <tr>
+              <td>2</td>
+              <td>linda</td>
+              <td>张丽丽</td>
+              <td>产品部</td>
+              <td>启用</td>
+            </tr>
+            <tr>
+              <td>3</td>
+              <td>kevenlin</td>
+              <td>林玉冰</td>
+              <td>测试部</td>
+              <td>离线</td>
+            </tr>
+            <tr>
+              <td>4</td>
+              <td>wendly</td>
+              <td>成蓝蓝</td>
+              <td>财务部</td>
+              <td>在线</td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr>
+              <td colspan="5">
+                <span class="paging-desc">当页共20条数据</span>
+                <button class="paging-button prev"></button>
+                <span class="paging-number">1/6</span>
+                <button class="paging-button next"></button>
+              </td>
+            </tr>
+          </tfoot>
+        </table> -->
+        <!-- 列表类表格组件 -->
+
+        <!-- 菜单权限组件 -->
+        <div class="control-menu">
+          <h1 class="control-menu-header">
+            菜单权限：
+            <label for="controlAll" class="hy-checkbox all">
+              <input type="checkbox" name="controlAll" id="controlAll">全部勾选
+            </label>
+          </h1>
+          <dl class="control-menu-accordion">
+            <dt>
+              <label for="userManagement" class="hy-checkbox unit">
+                <input type="checkbox" name="userManagement" id="userManagement"><i class="hy-icon down-triangle"></i>用户管理
+              </label>
+              <i class="hy-icon down-arrow"></i>
+            </dt>
+            <dd>
+              <ul class="control-menu-list">
+                <li>
+                  <label for="queryUser" class="hy-checkbox">
+                    <input type="checkbox" name="queryUer" id="queryUser">查询用户
+                  </label>
+                </li>
+                <li>
+                  <label for="addUser" class="hy-checkbox">
+                    <input type="checkbox" name="addUser" id="addUser">新增用户
+                  </label>
+                </li>
+              </ul>
+            </dd>
+            <dt>
+              <label for="userManagement" class="hy-checkbox unit">
+                <input type="checkbox" name="userManagement" id="userManagement"><i class="hy-icon down-triangle"></i>安全设置
+              </label>
+              <i class="hy-icon down-arrow"></i>
+            </dt>
+            <dd>
+              <ul class="control-menu-list">
+                <li>
+                  <label for="queryUser" class="hy-checkbox">
+                    <input type="checkbox" name="queryUer" id="queryUser">密码重置
+                  </label>
+                </li>
+              </ul>
+            </dd>
+            <dt>
+              <label for="userManagement" class="hy-checkbox unit">
+                <input type="checkbox" name="userManagement" id="userManagement"><i class="hy-icon down-triangle"></i>P2P业务报表
+              </label>
+              <i class="hy-icon down-arrow"></i>
+            </dt>
+            <dd>
+              <ul class="control-menu-list">
+                <li>
+                  <label for="queryUser" class="hy-checkbox">
+                    <input type="checkbox" name="queryUer" id="queryUser">子级菜单1
+                  </label>
+                </li>
+                <li>
+                  <label for="addUser" class="hy-checkbox">
+                    <input type="checkbox" name="addUser" id="addUser">子级菜单2
+                  </label>
+                </li>
+              </ul>
+            </dd>
+          </dl>
+          <div class="control-menu-footer clearfix">
+            <button class="hy-button secondary pull-left">取消</button>
+            <button class="hy-button pull-right">确认</button>
+          </div>
+        </div>
+        <!-- 菜单权限组件 -->
+
+        <!-- 弹窗组件 -->
+        <div class="hy-popup">
+          <div class="hy-popup-box">
+            <h1 class="hy-popup-box-header">提示<i class="hy-icon fork hy-popup-box-close"></i></h1>
+            <div class="hy-popup-box-cont">
+              <ul class="hy-multiline-form">
+                <li><label>用户名：</label>zhaojianping</li>
+                <li><label>真实姓名：</label><input type="text" class="hy-input" value="赵建平"></li>
+                <li><label>所在部门：</label><input type="text" class="hy-input" value="产品部"></li>
+                <li><label>修改密码：</label><input type="password" class="hy-input" value="ntjr123456"></li>
+                <li><label>确认密码：</label><input type="password" class="hy-input" value="ntjr123456"></li>
+              </ul>
+              <!-- <p class="hy-popup-box-message"><i class="hy-icon failure"></i>密码重置成功!</p> -->
+            </div>
+            <div class="hy-popup-box-footer">
+              <button class="hy-button secondary">取消</button>
+              <button class="hy-button">确认</button>
+            </div>
+          </div>
+        </div>
+        <!-- 弹窗组件 -->
+
+        <!-- 加载中遮罩 -->
+        <!-- <div class="hy-loading"></div> -->
+        <!-- 加载中遮罩 -->
+
+      </div>
+    </div>
+
+    <script src="scripts/jquery.min.js"></script>
+    <script>
+
+      //多选框
+      $(".hy-checkbox").on("click",function(e){
+        if($(this).hasClass("checked")) {
+          $(this).removeClass("checked");
+          if($(this).hasClass("unit")) {
+            $(this).parent().next("dd").find(".hy-checkbox").removeClass("checked");
+          }
+          if($(this).hasClass("all")) {
+            $(".control-menu-accordion").find(".hy-checkbox").removeClass("checked");
+          }
+        }else {
+          $(this).addClass("checked"); 
+          if($(this).hasClass("unit")) {
+            $(this).parent().next("dd").find(".hy-checkbox").addClass("checked");
+          }
+          if($(this).hasClass("all")) {
+            $(".control-menu-accordion").find(".hy-checkbox").addClass("checked");
+          }
+        }
+        return false;
+      });
+
+      //手风琴伸缩
+      $(".control-menu-accordion").on("click","dt",function() {
+        var $list=$(this).next("dd").find(".control-menu-list");
+        if($list.hasClass("spread")) $list.removeClass("spread");
+        else $list.addClass("spread");
+      });
+
+    </script>
+  </body>
+</html>

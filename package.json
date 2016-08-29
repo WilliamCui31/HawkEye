@@ -1,0 +1,33 @@
+{
+  "name": "hawkeye",
+  "version": "1.0.0",
+  "description": "react + webpack + flux for HawkEye",
+  "main": "webpack.config.js",
+  "scripts": {
+    "dev": "webpack-dev-server --devtool eval --progress --colors --hot --inline --content-base ./ --history-api-fallback"
+  },
+  "keywords": [
+    "HawkEye",
+    "React"
+  ],
+  "author": "William Cui",
+  "license": "ISC",
+  "dependencies": {
+    "react": "^15.3.1",
+    "react-dom": "^15.3.1",
+    "react-router": "^2.7.0"
+  },
+  "devDependencies": {
+    "babel-core": "^6.14.0",
+    "babel-loader": "^6.2.5",
+    "babel-preset-es2015": "^6.14.0",
+    "babel-preset-react": "^6.11.1",
+    "css-loader": "^0.24.0",
+    "file-loader": "^0.9.0",
+    "open-browser-webpack-plugin": "^0.0.2",
+    "style-loader": "^0.13.1",
+    "url-loader": "^0.5.7",
+    "webpack": "^1.13.2",
+    "webpack-dev-server": "^1.15.0"
+  }
+}
