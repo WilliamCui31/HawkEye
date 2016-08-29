@@ -16,3 +16,5 @@ var Routes = function() {
 	</Route>
 	<Route path="/login" component={Login} />
 }
+
+exports default Routes

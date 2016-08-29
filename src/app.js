@@ -12,8 +12,9 @@ import { Router, Route, browserHistory, IndexRedirect} from 'react-router';
 render(
 	<Router history={browserHistory}>
 		<Route path="/" component={Main}>
-			<IndexRedirect to="/welcome" />
-			<Route component={UserManagement}>
+			<IndexRedirect to="/userManagement" />
+			<Route path="/userManagement" component={UserManagement}>
+				<IndexRedirect to="/welcome" />
 				<Route path="/welcome" component={Welcome} />
 				<Route path="/userModify" component={UserModify} />
 			</Route>
