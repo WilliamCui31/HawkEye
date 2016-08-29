@@ -397,6 +397,7 @@ ul {
   display: inline-block;
   width: 16px;
   height: 16px;
+  margin-right: 5px;
   border: 1px solid #DFDFDF;
   content: "";
   color: #3EB7B0;

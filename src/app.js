@@ -3,17 +3,19 @@ import { render } from 'react-dom';
 
 import Login from './views/Login';
 import Main from './views/Main';
-import UserMan from './views/UserMan/UserMan';
-import UserMod from './views/UserMan/UserMod';
+import Welcome from './views/UserManagement/Welcome';
+import UserManagement from './views/UserManagement/UserManagement';
+import UserModify from './views/UserManagement/UserModify';
 
-import { Router, Route, IndexRoute, browserHistory, IndexRedirect} from 'react-router';
+import { Router, Route, browserHistory, IndexRedirect} from 'react-router';
 
 render(
 	<Router history={browserHistory}>
 		<Route path="/" component={Main}>
-			<IndexRedirect to="/userMan" />
-			<Route path="/userMan" component={UserMan}>
-				<Route path="modify" component={UserMod} />
+			<IndexRedirect to="/welcome" />
+			<Route component={UserManagement}>
+				<Route path="/welcome" component={Welcome} />
+				<Route path="/userModify" component={UserModify} />
 			</Route>
 		</Route>
 		<Route path="/login" component={Login} />
