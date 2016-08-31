@@ -130,7 +130,8 @@ body {
 	right: 0px;
 	bottom: 0px;
 	left: 210px;
-	overflow: auto;
+	overflow-x: hidden;
+	overflow-y: auto;
 }
 .hy-panel {
 	padding: 20px 25px 10px 25px;
@@ -146,10 +147,16 @@ body {
 }
 
 .login-info {
-	width: 300px;
+	width: 260px;
 	margin: 0 auto;
 	padding-top: 215px;
 	color: #999;
+}
+.login-info-tit {
+	margin: 20px 0;
+	color: #3BCCAA;
+	font-size: 24px;
+	text-align: center;
 }
 .login-info>li>label {
 	display: inline-block;
@@ -408,4 +415,24 @@ body {
 	bottom: 0;
 	left: 0;
 	background: rgba(0,0,0,.5) url(../images/loading.gif) center center no-repeat;
+}
+
+
+/* cut 转场动画 */
+.left_cut-enter {
+	opacity: 0;
+	transform: translateX(50%);
+	transition: transform .2s ease-out;
+}
+.left_cut-enter.left_cut-enter-active {
+	opacity: 1;
+	transform: translateX(0);
+}
+.left_cut-leave {
+	opacity: 1;
+	transition: transform .2s ease-out;
+}
+.left_cut-leave.left_cut-leave-active {
+	opacity: 0;
+	transform: translateX(-50%);
 }

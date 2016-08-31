@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default class UserModify extends React.Component{
+export default class UserAdd extends React.Component{
 	constructor(props) {
 		super(props);
 	}
@@ -11,32 +11,28 @@ export default class UserModify extends React.Component{
 			<div className="hy-panel">
 		        <ul className="hy-inline-form clearfix">
 		          <li><label>用户名：</label><input type="text" className="hy-input" /></li>
+		          <li><label>姓名：</label><input type="text" className="hy-input" /></li>
+		          <li>
+		            <label>所在部门：</label>
+		            <span className="hy-select-outer">
+		              <span className="hy-select-inner">
+		                <select className="hy-select" name="department" id="department" defaultValue="part0">
+		                  <option value="part0" disabled hidden>选择其所在部门</option>  
+		                  <option value="part1">产品部</option>
+		                  <option value="part2">技术部</option>
+		                  <option value="part3">运营部</option>
+		                  <option value="part4">财务部</option>
+		                  <option value="part5">人事部</option>
+		                </select>
+		              </span>
+		            </span>
+		          </li>
+		          <li><label>密码：</label><input type="text" className="hy-input" /></li>
 		          <li><button className="hy-button query-button">查询</button></li>
 		        </ul>
 		    </div>
 
 		    <div className="hy-section pdg20">
-		    	<table className="statistic-grid" width="100%">
-		    	 <caption>查询结果：</caption>
-		    	 <thead>
-		    	   <tr>
-		    	     <th>用户名</th>
-		    	     <th>姓名</th>
-		    	     <th>所在部门</th>
-		    	     <th>所在角色</th>
-		    	     <th>当前状态</th>
-		    	   </tr>
-		    	 </thead>
-		    	 <tbody>
-		    	   <tr>
-		    	     <td>zhaojianping</td>
-		    	     <td>赵建平</td>
-		    	     <td>产品部</td>
-		    	     <td></td>
-		    	     <td>启用</td>
-		    	   </tr>
-		    	 </tbody>
-		    	</table>
 				
 				<div className="control-menu">
 				  <h1 className="control-menu-header">
