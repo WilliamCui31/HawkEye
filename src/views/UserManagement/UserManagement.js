@@ -32,6 +32,7 @@ export default class UserManagement extends React.Component{
 					{React.cloneElement(this.props.children, {key: this.props.location.pathname})}
 				</ReactCSSTransitionGroup>
 			</div>
+			
 		</div>
 	}
 }

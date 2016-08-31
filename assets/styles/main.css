@@ -4,7 +4,6 @@ body {
 	left: 0;
 	width: 100%;
 	height: 100%;
-	background-color: #E7EAF3;
 }
 
 /* top-bar */
@@ -132,6 +131,7 @@ body {
 	left: 210px;
 	overflow-x: hidden;
 	overflow-y: auto;
+	background-color: #E7EAF3;
 }
 .hy-panel {
 	padding: 20px 25px 10px 25px;
@@ -147,7 +147,7 @@ body {
 }
 
 .login-info {
-	width: 260px;
+	width: 270px;
 	margin: 0 auto;
 	padding-top: 215px;
 	color: #999;
@@ -339,7 +339,6 @@ body {
 	margin-top: -100%;
 	overflow: hidden;
 	transition: all .3s;
-	-webkit-transition: all .3s;
 }
 .control-menu-list.spread {
 	margin-top: 0;
@@ -421,8 +420,8 @@ body {
 /* cut 转场动画 */
 .left_cut-enter {
 	opacity: 0;
-	transform: translateX(50%);
-	transition: transform .2s ease-out;
+	transform: translateX(10%);
+	transition: all .2s ease-out;
 }
 .left_cut-enter.left_cut-enter-active {
 	opacity: 1;
@@ -430,9 +429,9 @@ body {
 }
 .left_cut-leave {
 	opacity: 1;
-	transition: transform .2s ease-out;
+	transition: all .2s ease-out;
 }
 .left_cut-leave.left_cut-leave-active {
 	opacity: 0;
-	transform: translateX(-50%);
+	transform: translateX(-10%);
 }

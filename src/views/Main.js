@@ -1,8 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router';
 
-import '../../assets/styles/normalize.css';
-import '../../assets/styles/main.css';
+import 'styles/normalize.css';
+import 'styles/main.css';
 
 export default class Main extends React.Component{
 	constructor(props) {

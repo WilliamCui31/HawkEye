@@ -1,5 +1,5 @@
 var path = require('path');
-var openBrowserPlugin = require('open-browser-webpack-plugin');
+var webpack = require('webpack');
 var autoprefixer = require('autoprefixer');
 var csswring = require('csswring');
 
@@ -7,6 +7,7 @@ const NODE_MODULES = path.resolve(__dirname, 'node_modules');
 
 
 module.exports = {
+	devtool: 'cheap-module-source-map',
 	entry: {
 		app: [
 			'webpack/hot/dev-server',
@@ -42,6 +43,14 @@ module.exports = {
 		}]
 	},
 	plugins: [
-		new openBrowserPlugin({url: 'http://localhost:9000'})
+		new webpack.DefinePlugin({
+			'process.env': {
+				'NODE_ENV': JSON.stringify('production')
+			}
+		}),
+		new webpack.optimize.CommonsChunkPlugin('common.js'),
+		new webpack.optimize.DedupePlugin(),
+		new webpack.optimize.UglifyJsPlugin(),
+		new webpack.optimize.AggressiveMergingPlugin()
 	]
 }
