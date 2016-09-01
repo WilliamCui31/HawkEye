@@ -9,11 +9,7 @@ const NODE_MODULES = path.resolve(__dirname, 'node_modules');
 module.exports = {
 	devtool: 'cheap-module-source-map',
 	entry: {
-		app: [
-			'webpack/hot/dev-server',
-			'webpack-dev-server/client?http://localhost:9000',
-			path.resolve(__dirname, './src/app.js')
-		],
+		app: path.resolve(__dirname, './src/app.js'),
 		login: path.resolve(__dirname, './src/views/Login.js')
 	},
 	output: {
@@ -48,7 +44,7 @@ module.exports = {
 				'NODE_ENV': JSON.stringify('production')
 			}
 		}),
-		new webpack.optimize.CommonsChunkPlugin('common.js'),
+		//new webpack.optimize.CommonsChunkPlugin('common.js'),
 		new webpack.optimize.DedupePlugin(),
 		new webpack.optimize.UglifyJsPlugin(),
 		new webpack.optimize.AggressiveMergingPlugin()
