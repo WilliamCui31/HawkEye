@@ -5,7 +5,7 @@
   "main": "webpack.config.js",
   "scripts": {
     "dev": "webpack-dev-server --devtool eval --progress --colors --hot --inline --content-base ./dist --history-api-fallback",
-    "build": "NODE_ENV=production webpack -p --config ./webpack.production.config.js"
+    "build": "set NODE_ENV=production && webpack --config ./webpack.production.config.js"
   },
   "keywords": [
     "HawkEye",

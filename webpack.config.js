@@ -1,10 +1,5 @@
 var path = require('path');
 var openBrowserPlugin = require('open-browser-webpack-plugin');
-var autoprefixer = require('autoprefixer');
-var csswring = require('csswring');
-
-const NODE_MODULES = path.resolve(__dirname, 'node_modules');
-
 
 module.exports = {
 	entry: {
@@ -29,7 +24,7 @@ module.exports = {
 		loaders: [{
 			test: /\.jsx?$/,
 			loader: 'babel',
-			exclude: NODE_MODULES,
+			exclude: 'node_modules',
 			query: {
 				presets: ['react', 'es2015']
 			}

@@ -1,10 +1,5 @@
 var path = require('path');
 var webpack = require('webpack');
-var autoprefixer = require('autoprefixer');
-var csswring = require('csswring');
-
-const NODE_MODULES = path.resolve(__dirname, 'node_modules');
-
 
 module.exports = {
 	devtool: 'cheap-module-source-map',
@@ -26,7 +21,6 @@ module.exports = {
 		loaders: [{
 			test: /\.jsx?$/,
 			loader: 'babel',
-			exclude: NODE_MODULES,
 			query: {
 				presets: ['react', 'es2015']
 			}
@@ -43,10 +37,10 @@ module.exports = {
 			'process.env': {
 				'NODE_ENV': JSON.stringify('production')
 			}
-		}),
+		})
 		//new webpack.optimize.CommonsChunkPlugin('common.js'),
-		new webpack.optimize.DedupePlugin(),
-		new webpack.optimize.UglifyJsPlugin(),
-		new webpack.optimize.AggressiveMergingPlugin()
+		//new webpack.optimize.DedupePlugin(),
+		//new webpack.optimize.UglifyJsPlugin(),
+		//new webpack.optimize.AggressiveMergingPlugin()
 	]
 }

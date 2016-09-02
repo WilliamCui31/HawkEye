@@ -37,3 +37,8 @@ export default class Login extends React.Component{
 		</div>
 	}
 }
+
+render(
+	<Login />,
+	document.getElementById('app')
+)
