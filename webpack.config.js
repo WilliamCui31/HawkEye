@@ -29,7 +29,7 @@ module.exports = {
 			loader: 'babel',
 			exclude: 'node_modules',
 			query: {
-				presets: ['react', 'latest']
+				presets: ['react', 'es2015']
 			}
 		},{
 			test: /\.css$/,

@@ -1,3 +1,5 @@
-import { Dispatcher } from 'flux';
+var Dispatcher=require('flux').Dispatcher;
 
-export default class new Dispatcher();
+var AppDispatcher=new Dispatcher();
+
+module.exports=AppDispatcher;

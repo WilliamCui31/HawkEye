@@ -1,6 +1,14 @@
-import AppDispatcher from '../dispatcher/AppDispatcher';
-import LoginConstants from '../constants/LoginConstans';
+var AppDispatcher=require('../dispatcher/AppDispatcher');
+var LoginConstants=require('../constants/LoginConstants');
 
-var LoginActions={
+var LoginActions = {
+
+	getVerfiyCode: function(){
+		AppDispatcher.dispatch({
+			actionType: LoginConstants.GET_VERFIY_CODE
+		});
+	}
 	
 }
+
+module.exports = LoginActions;
