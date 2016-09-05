@@ -1,7 +1,6 @@
 import React from 'react';
-import { render } from 'react-dom';
 
-import ajax from '../ajax';
+//import ajax from '../ajax';
 
 import '../../assets/styles/normalize.css';
 import '../../assets/styles/login.css';
@@ -12,12 +11,12 @@ export default class Login extends React.Component{
 	}
 
 	login() {
-		ajax({
+		/*ajax({
 			url:'/eye/code/getCode.json',
 			success: function(data) {
 				console.log(data);
 			}
-		});
+		});*/
 	}
 
 	render() {
@@ -37,8 +36,3 @@ export default class Login extends React.Component{
 		</div>
 	}
 }
-
-render(
-	<Login />,
-	document.getElementById('app')
-)
