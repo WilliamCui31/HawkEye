@@ -2,7 +2,6 @@ var path = require('path');
 var webpack = require('webpack');
 var HtmlWebpackplugin = require('html-webpack-plugin');
 var CleanPlugin = require('clean-webpack-plugin');
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 var autoprefixer = require('autoprefixer');
 
@@ -32,7 +31,7 @@ module.exports = {
 			}
 		},{
 			test: /\.css$/,
-			loader: ExtractTextPlugin.extract("style-loader", "css-loader", 'postcss-loader')
+			loader: 'style!css'
 		},{
 			test: /\.(png|jpg|gif|eot|svg|ttf|woff)\??.*$/,
 			loader: 'url?limit=25000&name=[path][name].[ext]'
@@ -44,7 +43,6 @@ module.exports = {
 	        verbose: true,
 	        dry: false
     	}),
-    	new ExtractTextPlugin("assets/styles/[name].[hash].css"),
 		new HtmlWebpackplugin({
 			template: path.resolve(__dirname, './src/index.html'),
 			filename: 'index.html',

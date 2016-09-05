@@ -7,4 +7,4 @@
 	excludesfile=/c/Users/Administrator/.gitignore_global
 
 ***** dist directory *****
-/dist
+/dist/**/*

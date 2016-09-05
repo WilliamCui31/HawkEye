@@ -1,5 +1,5 @@
 import React from 'react';
-import { Router, Route, hasHistory, IndexRedirect} from 'react-router';
+import { Router, Route, hasHistory, browserHistory, IndexRedirect} from 'react-router';
 
 import Login from './views/Login';
 import Main from './views/Main';
@@ -11,7 +11,7 @@ import UserList from './views/UserManagement/UserList';
 
 
 export default (
-	<Router history={hasHistory}>
+	<Router history={browserHistory}>
 		<Route path="/" component={Main}>
 			<IndexRedirect to="/welcome" />
 			<Route path="/userManagement" component={UserManagement}>

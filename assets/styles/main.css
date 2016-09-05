@@ -420,18 +420,19 @@ body {
 /* cut 转场动画 */
 .left_cut-enter {
 	opacity: 0;
-	transform: translateX(10%);
+	transform: translateY(10%);
 	transition: all .2s ease-out;
 }
 .left_cut-enter.left_cut-enter-active {
 	opacity: 1;
-	transform: translateX(0);
+	transform: translateY(0);
 }
 .left_cut-leave {
 	opacity: 1;
+	transform: translateY(0);
 	transition: all .2s ease-out;
 }
 .left_cut-leave.left_cut-leave-active {
 	opacity: 0;
-	transform: translateX(-10%);
+	transform: translateY(-10%);
 }
