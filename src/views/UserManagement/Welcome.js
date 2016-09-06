@@ -11,6 +11,7 @@ ajax({
 
 var Welcome=React.createClass({
 
+	getInite
 
 	render: function(){
 		return <div className="hy-section">
