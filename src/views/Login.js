@@ -34,7 +34,6 @@ var Login = React.createClass({
 	},
 
 	render: function() {
-		console.log(LoginStore.getVerfiyCode());
 		return (
 			<div className="login-container">
 				<div className="login-box">
@@ -55,10 +54,14 @@ var Login = React.createClass({
 	},
 
 	_refreshCode: function(){
+		LoginActions.getVerfiyCode()
+	},
+
+	_onChange: function(){
 		this.setState({
-			verfiyCode: LoginActions.getVerfiyCode()
+			verfiyCode: LoginStore.getVerfiyCode()
 		});
-	}
+	},
 });
 
 module.exports = Login;
