@@ -1,11 +1,18 @@
-import React from 'react';
+var React=require('react');
+var ajax=require('../../ajax');
 
-export default class Welcome extends React.Component{
-	constructor(props) {
-		super(props);
+ajax({
+	url: '/eye/user/v1/lastLoginRecordInfo.json',
+	data: {userId: "1"},
+	success: function(data) {
+		console.log(data);
 	}
+});
 
-	render() {
+var Welcome=React.createClass({
+
+
+	render: function(){
 		return <div className="hy-section">
 			<ul className="login-info">
 				<li className="login-info-tit">欢迎回来!</li>
@@ -21,4 +28,7 @@ export default class Welcome extends React.Component{
 			</ul>
 		</div>
 	}
-}
+
+});
+
+module.exports=Welcome;

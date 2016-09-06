@@ -64,7 +64,7 @@ function ajax(obj) {
 
     //通过使用JS随机字符串解决IE浏览器第二次默认获取缓存的问题
     //开发环境下，向本地服务器http://192.168.1.90:9090/ci.jsp发送请求，考虑到移动端的联调，所以使用了ip地址
-    obj.url = "http://192.168.1.112:8081/ntjr-eye"+obj.url;
+    obj.url = "http://192.168.1.242:9701"+obj.url;
     obj.method = obj.method || "post";//因为实际开发环境中的接口大部分都是post请求，所以默认是post方法。
 
     //开发环境中，默认要发送BASIC_DATA数据到服务器，如果调用时传入了数据参数，则先合并，然后通过params()将名值对转换成字符串
@@ -74,8 +74,9 @@ function ajax(obj) {
         initData.content=JSON.stringify(initData.content);
     }*/
     //console.log("data send to sever:",initData);
-   
-    obj.async = obj.async || true; //默认使用异步请求
+    if(!obj.async && obj.async!==false){
+        obj.async = true; //默认使用异步请求
+    }
 
     //若是GET请求，则将数据加到url后面
     if (obj.method === 'get') {
@@ -97,9 +98,10 @@ function ajax(obj) {
     if (obj.method === 'post') {
         //post方式需要自己设置http的请求头，来模仿表单提交。
         //放在open方法之后，send方法之前。
-        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+        xhr.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
         //xhr.setRequestHeader('Access-Control-Allow-Origin', '*');
-        xhr.send(obj.data);		//post方式将数据放在send()方法里
+        //console.log(JSON.stringify(obj.data));
+        xhr.send(JSON.stringify(obj.data));		//post方式将数据放在send()方法里
     } else {
         xhr.send(null);		//get方式则填null
     }

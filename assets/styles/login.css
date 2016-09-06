@@ -73,12 +73,20 @@
 	margin-left: 10px;
 	line-height: 40px;
 	text-align: center;
+	cursor: pointer;
 	vertical-align: middle;
 	background-color: #DFDFDF;
 }
+.login-form>.login-error-message {
+	height: 20px;
+	margin: 0 -20px;
+	color: #F00;
+	font-size: 14px;
+	text-align: center;
+}
 .login-form>li>input.hy-button {
 	float: right;
-	margin-top: 30px;
+	margin-top: 10px;
 	background-color: #22C9D3;
 }
 .login-form>li>input.hy-button:hover {
