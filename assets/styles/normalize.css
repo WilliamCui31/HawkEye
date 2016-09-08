@@ -250,7 +250,6 @@ ul {
 
 /* input */
 .hy-input {
-  width: 185px;
   height: 40px;
   padding: 0 10px;
   border: 1px solid #DFDFDF;
@@ -259,6 +258,12 @@ ul {
   line-height: 40px;
   outline: none;
   vertical-align: middle;
+}
+.hy-input.primary {
+  width: 200px;
+}
+.hy-input.small {
+  width: 120px;
 }
 .hy-input:focus {
   border-color: #22C9D3;
@@ -307,7 +312,6 @@ ul {
   content: "";
 }
 .hy-select {
-  width: 185px;
   height: 40px;
   padding-left: 10px;
   border: 1px solid #DFDFDF;
@@ -320,6 +324,9 @@ ul {
   -webkit-appearance: none; 
   -moz-appearance: none; 
   -o-appearance: none; 
+}
+.hy-select.primary {
+  width: 200px;
 }
 .hy-select:focus {
   border-color: #22C9D3;
@@ -342,6 +349,9 @@ ul {
   outline: none;
   background-color: #51D7B8;
 }
+.hy-button.primary {
+  width: 200px;
+}
 .hy-button.secondary {
   background-color: #243048;
 }
@@ -351,6 +361,8 @@ ul {
 .hy-button.secondary:hover {
   background-color: #304162;
 }
+
+/* 查询按钮 */
 .query-button {
   position: relative;
 }
@@ -374,7 +386,7 @@ ul {
   content: "";
   transform: rotate(50deg);
 }
-
+/* 类链接按钮 */
 .link-button {
   border: none;
   outline: none;
@@ -523,8 +535,7 @@ ul {
   height: 1px;
   content: "";
   background-color: #51D7B8;
-  /* transform: rotate(45deg) translateX(-30%) translateY(-30%); */
-  -webkit-transform: rotate(45deg) translateX(-10%);
+  transform: rotate(45deg) translateX(-10%);
 }
 .hy-icon.failure:after {
   position: absolute;
@@ -534,6 +545,5 @@ ul {
   height: 1px;
   content: "";
   background-color: #51D7B8;
-  /* transform: rotate(-45deg) translateX(-50%) translateY(-50%); */
-  -webkit-transform: rotate(-45deg) translateX(-60%);
+  transform: rotate(-45deg) translateX(-60%);
 }

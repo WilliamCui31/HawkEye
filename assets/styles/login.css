@@ -62,14 +62,10 @@
 	overflow: hidden;
 	content: "";
 }
-.login-form>li>input {
-	vertical-align: middle;
-	width: 200px;
-}
 .verify-code {
 	display: inline-block;
 	height: 40px;
-	width: 60px;
+	width: 70px;
 	margin-left: 10px;
 	line-height: 40px;
 	text-align: center;

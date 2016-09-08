@@ -10,12 +10,12 @@ export default class UserList extends React.Component{
 
 			<div className="hy-panel">
 		        <ul className="hy-inline-form clearfix">
-		          <li><label>用户名：</label><input type="text" className="hy-input" /></li>
+		          <li><label>用户名：</label><input type="text" className="hy-input primary" /></li>
 		          <li>
 		            <label>所在部门：</label>
 		            <span className="hy-select-outer">
 		              <span className="hy-select-inner">
-		                <select className="hy-select" name="department" id="department" defaultValue="part0">
+		                <select className="hy-select primary" name="department" id="department" defaultValue="part0">
 		                  <option value="part0" disabled hidden>选择其所在部门</option>  
 		                  <option value="part1">产品部</option>
 		                  <option value="part2">技术部</option>

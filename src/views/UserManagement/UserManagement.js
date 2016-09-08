@@ -1,27 +1,50 @@
 import React from 'react';
 import { Link } from 'react-router';
+import ajax from '../../ajax';
 
 var ReactCSSTransitionGroup=require('react/lib/ReactCSSTransitionGroup');
 
+//加载菜单
+function loadMenu(){
+	var menuData;
+	ajax({
+		url: '/eye/user/v1/getUserRights.json',
+		data: {userId: '1',pid: "1"},
+		async: false,
+		success: function(data) {
+			if(data.code==="0000") {
+				menuData=data.data;
+			}
+		}
+	});
+	return menuData;
+}
+
 export default class UserManagement extends React.Component{
-	constructor(props) {
-		super(props);
-	}
 
 	render() {
+
+		var menusData=loadMenu(),menus=[];
+
+		for(let category of menusData) {
+			var linkDatas=category.datas, links=[];
+			for(let link of linkDatas){
+				links.push(<Link key={link.id} to={link.url} activeClassName="active">{link.name}</Link>);
+			}
+			menus.push(
+				<li key={category.id} className="side-category">
+				<h1 className="side-category-tit">{category.name}<i className="hy-icon down-arrow"></i></h1>
+				<div className="side-category-cont">
+					{links}
+				</div>
+				</li>
+			);
+		}
+
 		return <div>
 		
 			<ul className="side-bar">
-			  <li className="side-category">
-			    <h1 className="side-category-tit">用户管理<i className="hy-icon down-arrow"></i></h1>
-			    <div className="side-category-cont">
-			      <Link to="/userModify" activeClassName="active">权限修改</Link>
-			      <Link to="/userAdd" activeClassName="active">用户新增</Link>
-			      <Link to="/userList" activeClassName="active">用户列表</Link>
-			      <Link to="/userRole" activeClassName="active">用户角色</Link>
-			      <Link to="/resetPassword" activeClassName="active">密码重置</Link>
-			    </div>
-			  </li>
+			    {menus}
 			</ul>
 
 			<div className="hy-cont">

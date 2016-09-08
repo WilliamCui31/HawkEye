@@ -11,7 +11,7 @@ import UserList from './views/UserManagement/UserList';
 
 
 export default (
-	<Router history={browserHistory}>
+	<Router history={hasHistory}>
 		<Route path="/" component={Main}>
 			<IndexRedirect to="/welcome" />
 			<Route path="/userManagement" component={UserManagement}>

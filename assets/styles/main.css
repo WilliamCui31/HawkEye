@@ -167,9 +167,6 @@ body {
 }
 
 /* hy-inline-form(单行表单) */
-.hy-inline-form {
-
-}
 .hy-inline-form>li {
 	float: left;
 	margin-bottom: 10px;
@@ -187,7 +184,6 @@ body {
 
 /* hy-multiline-form(多行表单) */
 .hy-multiline-form {
-	width: 270px;
 	margin: 10px 0;
 }
 .hy-multiline-form>li {
@@ -198,6 +194,13 @@ body {
 	width: 80px;
 	margin-right: 5px;
 	text-align: right;
+}
+
+.assign-role {
+	margin-bottom: 30px;
+}
+.assign-role>.hy-checkbox {
+	margin-right: 10px;
 }
 
 /* statistic-grid(统计类表格) */
@@ -306,7 +309,8 @@ body {
 
 /* control-menu(菜单权限组件) */
 .control-menu {
-	width: 305px;
+	margin: 20px 0;
+	width: 285px;
 }
 .control-menu-header {
 	font-size: 16px;
@@ -317,40 +321,35 @@ body {
 	border-left: 1px solid #DFDFDF;
 	border-bottom: 1px solid #DFDFDF;
 }
-.control-menu-accordion>dt {
+.control-menu-tit {
 	position: relative;
 	height: 48px;
 	padding-left: 20px;
 	border-top: 1px solid #DFDFDF;
-	border-bottom: 1px solid #DFDFDF;
 	line-height: 48px;
+}
+.control-menu-level1>.control-menu-tit {
 	background-color: #FAF9F9;
 }
-.control-menu-accordion>dt>.down-arrow {
+.control-menu-level2>.control-menu-tit {
+	padding-left: 44px;
+	border-bottom: 1px solid #DFDFDF;
+}
+.control-menu-tit>.down-arrow {
 	position: absolute;
 	top: 20px;
 	right: 22px;
 }
-.control-menu-accordion>dd {
-	margin-left: 0;
+.control-menu-level3 {
 	overflow: hidden;
 }
-.control-menu-list {
-	margin-top: -100%;
-	overflow: hidden;
-	transition: all .3s;
-}
-.control-menu-list.spread {
-	margin-top: 0;
-	overflow: hidden;
-}
-.control-menu-list>li {
+.control-menu-level3>li {
 	height: 48px;
-	padding-left: 42px;
+	padding-left: 68px;
 	border-bottom: 1px solid #DFDFDF;
 	line-height: 48px;
 }
-.control-menu-list>li:last-child {
+.control-menu-level3>li:last-child {
 	border-bottom: none;
 }
 

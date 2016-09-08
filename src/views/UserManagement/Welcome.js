@@ -1,35 +1,53 @@
-var React=require('react');
-var ajax=require('../../ajax');
+import React from 'react';
+import ajax from '../../ajax';
 
-ajax({
-	url: '/eye/user/v1/lastLoginRecordInfo.json',
-	data: {userId: "1"},
-	success: function(data) {
-		console.log(data);
-	}
-});
+function loadLoginInfo(){
+	var LoginInfo;
+	ajax({
+		url: '/eye/user/v1/lastLoginRecordInfo.json',
+		data: {userId: '1'},
+		async: false,
+		success: function(data) {
+			if(data.code==="0000") {
+				LoginInfo=data.data;
+			}
+		}
+	});
+	return LoginInfo;
+}
 
-var Welcome=React.createClass({
+export default class Welcome extends React.Component{
 
-	getInite
+	render() {
 
-	render: function(){
+		var LoginInfo=loadLoginInfo(),infoDom;
+
+		if(LoginInfo) {
+			infoDom=(
+				<ul className="login-info">
+					<li className="login-info-tit">欢迎回来!</li>
+					<li>
+						<label>上次登录时间：</label><span>{LoginInfo.loginTime}</span>
+					</li>
+					<li>
+						<label>上次登录地点：</label><span>{LoginInfo.loginArea}</span>
+					</li>
+					<li>
+						<label>上次登录IP：</label><span>{LoginInfo.loginIp}</span>
+					</li>
+				</ul>
+			);
+		}else {
+			infoDom=(
+				<ul className="login-info">
+					<li className="login-info-tit">欢迎使用鹰眼系统!</li>
+				</ul>
+			);
+		}
+		
 		return <div className="hy-section">
-			<ul className="login-info">
-				<li className="login-info-tit">欢迎回来!</li>
-				<li>
-					<label>上次登录时间：</label><span>2016-08-12 10:25</span>
-				</li>
-				<li>
-					<label>上次登录地点：</label><span>深圳市</span>
-				</li>
-				<li>
-					<label>上次登录IP：</label><span>220.17.181.12</span>
-				</li>
-			</ul>
+			{infoDom}
 		</div>
 	}
 
-});
-
-module.exports=Welcome;
+};

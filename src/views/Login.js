@@ -21,7 +21,7 @@ var Login = React.createClass({
 		LoginStore.removeChangeListener(this._onChange);
 	},
 
-	render: function() {
+	render: function(){
 		var loginData=this.state.loginData;
 		return (
 			<div className="login-container">
@@ -30,12 +30,12 @@ var Login = React.createClass({
 					<div className="login-box-cont">
 						<h1 className="login-tit">欢迎登录鹰眼系统</h1>
 					    <ul className="login-form">
-					      <li><label>用户名</label>：<input type="text" className="hy-input" onBlur={this._setUserName} /></li>
-					      <li><label>密码</label>：<input type="password" className="hy-input" onBlur={this._setPassword} /></li>
-					      <li><label>验证码</label>：<input type="text" className="hy-input" onBlur={this._setCheckCode} style={{width: "130px"}} />
+					      <li><label>用户名</label>：<input type="text" className="hy-input primary" onBlur={this._setUserName} /></li>
+					      <li><label>密码</label>：<input type="password" className="hy-input primary" onBlur={this._setPassword} /></li>
+					      <li><label>验证码</label>：<input type="text" className="hy-input small" onBlur={this._setCheckCode} />
 					      <span className="verify-code" onClick={this._refreshCode}>{loginData.verfiyCode}</span></li>
 					      <li className="login-error-message">{loginData.errorMsg}</li>
-					      <li className="clearfix"><input type="submit" className="hy-button" value="登 录" onClick={this._submit} /></li>
+					      <li className="clearfix"><input type="submit" className="hy-button primary" value="登 录" onClick={this._submit} /></li>
 					    </ul>
 					</div>
 				</div>
@@ -65,7 +65,7 @@ var Login = React.createClass({
 
 	_onChange: function(){
 		this.setState({
-			verfiyCode: LoginStore.getData()
+			loginData: LoginStore.getData()
 		});
 	},
 });
