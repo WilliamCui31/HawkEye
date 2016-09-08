@@ -1,48 +1,64 @@
-var AppDispatcher=require('../dispatcher/AppDispatcher');
-var EventEmitter=require('events').EventEmitter;
-var LoginConstants=require('../constants/LoginConstants');
-var assign=require('object-assign');
-var ajax=require('../ajax');
+import AppDispatcher from '../dispatcher/AppDispatcher';
+import { EventEmitter } from 'events';
+import LoginConstants from '../constants/LoginConstants';
+import assign from 'object-assign';
+import ajax from '../ajax';
+import utils from '../utils';
 
-var CHANGE_EVENT='change';
+const CHANGE_EVENT='change';
 
-var loginData={
-	userName: '',
-	password: '',
-	checkCode: '',
+var _loginData={
 	verfiyCode: getVerfiyCode(),
-	errorMsg: ''
+	errorMsg: '',
+	account: {}
 }
 
+//获取验证码
 function getVerfiyCode(){
 	var str;
 	ajax({
 		url:'/eye/code/getCode.json',
 		async: false,
 		success: function(data) {
+			//console.log("code",data.data);
 			str=data.data;
 		}
 	});
 	return str;
 }
 
-function submit(postData){
+//登录请求
+function submit(account){
 	ajax({
 		url: '/eye/user/v1/userLogin.json',
-		data: postData,
+		data: account,
+		async: false,
 		success: function(data) {
 			console.log(data);
 			if(data.code==="0000") {
-				location.href='/welcome';
+				//登录成功
+
+				//设置登录验证秘钥
+				utils.setCookie("validateKey",data.data.userId);
+
+				//跳转系统欢迎页面
+				location.assign('/#/welcome');
+			}else {
+				_loginData.errorMsg=data.description;
 			}
 		}
 	});
 }
 
-var LoginStore=assign({},EventEmitter.prototype,{
+//保存更新账户
+function updateAccount(id,value){
+	_loginData.account[id]=value;
+}
+
+const LoginStore=assign({},EventEmitter.prototype,{
 
 	getData: function(){
-		return loginData;
+		return _loginData;
 	},
 
 	emitChange: function(){
@@ -66,35 +82,22 @@ AppDispatcher.register(function(action){
 			LoginStore.emitChange();
 			break;
 
-		case LoginConstants.SET_USER_NAME:
-			loginData.userName=action.value;
-			LoginStore.emitChange();
-			break;
-
-		case LoginConstants.SET_PASSWORD:
-			loginData.password=action.value;
-			LoginStore.emitChange();
-			break;
-
-		case LoginConstants.SET_CHECK_CODE:
-			loginData.checkCode=action.value;
+		case LoginConstants.UPDATE_ACCOUNT:
+			updateAccount(action.id,action.value);
 			LoginStore.emitChange();
 			break;
 
 		case LoginConstants.SUBMIT:
-			if(!loginData.userName) {
-				loginData.errorMsg="请输入用户名！";
-			}else if (!loginData.password) {
-				loginData.errorMsg="请输入密码！";
-			}else if (!loginData.checkCode) {
-				loginData.errorMsg="请输入验证码！";
+			var account=_loginData.account;
+			if(!account.accountName) {
+				_loginData.errorMsg="请输入用户名！";
+			}else if (!account.password) {
+				_loginData.errorMsg="请输入密码！";
+			}else if (!account.valideNum) {
+				_loginData.errorMsg="请输入验证码！";
 			}else{
-				var postData={
-					"accountName": loginData.userName,
-					"password": loginData.password,
-					"valideNum": loginData.checkCode
-				}
-				submit(postData);
+				console.log(account);
+				submit(account);
 			}
 			LoginStore.emitChange();
 			break;
@@ -104,4 +107,4 @@ AppDispatcher.register(function(action){
 	}
 });
 
-module.exports=LoginStore;
+export default LoginStore;

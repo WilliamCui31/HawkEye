@@ -1,18 +1,39 @@
-var React = require('react');
+import React from 'react';
+import classnames from 'classnames';
 
-var Input = React.createClass({
+const Input = React.createClass({
 
 	propTypes: {
-		type: ReactPropTypes.string,
-		className: ReactPropTypes.string,
-		placeholder: ReactPropTypes.string,
-		focus: ReactPropTypes.bool
+		id: React.PropTypes.string.isRequired,
+		updateAction: React.PropTypes.func.isRequired,
+		type: React.PropTypes.string,
+		appearance: React.PropTypes.string,
+		placeholder: React.PropTypes.string,
+		focus: React.PropTypes.bool
 	},	
 
+	getInitialState: function(){
+		return {
+			type: this.props.type||"input"
+		}
+	},
+
 	render: function(){
-		return <input type="text" className="hy-input primary" />
-	}
+		return (
+			<input 
+				id={this.props.id}
+				type={this.state.type}
+				className={classnames('hy-input',this.props.appearance)}
+				placeholder={this.props.placeholder}
+				autoFocus={this.props.focus}
+				onBlur={this._onBlur}
+			/>
+		)
+	},
 	
+	_onBlur: function(e){
+		this.props.updateAction(this.props.id,e.target.value);
+	}
 });
 
-module.exports=Input;
+export default Input;

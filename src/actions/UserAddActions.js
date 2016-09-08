@@ -1,13 +1,28 @@
-var AppDispatcher=require('../dispatcher/AppDispatcher');
-var UserAddConstants=require('../constants/UserAddConstants');
+import AppDispatcher from '../dispatcher/AppDispatcher';
+import UserAddConstants from '../constants/UserAddConstants';
 
-var UserAddActions = {
+const UserAddActions = {
 
-	saveUser: function(){
+	updateData: function(id,value){
 		AppDispatcher.dispatch({
-			actionType: UserAddConstants.SAVE_USER
+			actionType: UserAddConstants.UPDATE_DATA,
+			id: id,
+			value: value
+		});
+	},
+
+	updateRight: function(id){
+		AppDispatcher.dispatch({
+			actionType: UserAddConstants.UPDATE_RIGHT,
+			id: id
+		});
+	},
+
+	addUser: function(){
+		AppDispatcher.dispatch({
+			actionType: UserAddConstants.ADD_USER
 		});
 	}
 }
 
-module.exports = UserAddActions;
+export default UserAddActions;

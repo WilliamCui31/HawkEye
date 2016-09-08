@@ -1,30 +1,30 @@
 import React from 'react';
 import { Link } from 'react-router';
 import ajax from '../../ajax';
+import GlobalStore from '../../stores/GlobalStore';
+import utils from '../../utils';
 
 var ReactCSSTransitionGroup=require('react/lib/ReactCSSTransitionGroup');
 
-//加载菜单
-function loadMenu(){
-	var menuData;
-	ajax({
-		url: '/eye/user/v1/getUserRights.json',
-		data: {userId: '1',pid: "1"},
-		async: false,
-		success: function(data) {
-			if(data.code==="0000") {
-				menuData=data.data;
-			}
+const UserManagement=React.createClass({
+
+	getInitialState: function(){
+		return {
+			menusData: GlobalStore.getMenusData()
 		}
-	});
-	return menuData;
-}
+	},
 
-export default class UserManagement extends React.Component{
+	componentDidMount: function(){
+		GlobalStore.addChangeListener(this._onChange);
+	},
 
-	render() {
+	componentWillUnmount: function(){
+		GlobalStore.removeChangeListener(this._onChange);
+	},
 
-		var menusData=loadMenu(),menus=[];
+	render: function(){
+
+		var menusData=this.state.menusData,menus=[];
 
 		for(let category of menusData) {
 			var linkDatas=category.datas, links=[];
@@ -57,5 +57,13 @@ export default class UserManagement extends React.Component{
 			</div>
 			
 		</div>
+	},
+
+	_onChange: function(){
+		this.setState({
+			menusData: GlobalStore.getMenusData()
+		});
 	}
-}
+});
+
+export default UserManagement;

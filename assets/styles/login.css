@@ -75,10 +75,11 @@
 }
 .login-form>.login-error-message {
 	height: 20px;
-	margin: 0 -20px;
 	color: #F00;
 	font-size: 14px;
-	text-align: center;
+}
+.login-form>.login-error-message>label {
+	margin-right: 15px;
 }
 .login-form>li>input.hy-button {
 	float: right;

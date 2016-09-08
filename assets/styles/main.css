@@ -196,13 +196,6 @@ body {
 	text-align: right;
 }
 
-.assign-role {
-	margin-bottom: 30px;
-}
-.assign-role>.hy-checkbox {
-	margin-right: 10px;
-}
-
 /* statistic-grid(统计类表格) */
 .statistic-grid {
 	margin-bottom: 20px;

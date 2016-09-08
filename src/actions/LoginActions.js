@@ -1,7 +1,7 @@
-var AppDispatcher=require('../dispatcher/AppDispatcher');
-var LoginConstants=require('../constants/LoginConstants');
+import AppDispatcher from '../dispatcher/AppDispatcher';
+import LoginConstants from '../constants/LoginConstants';
 
-var LoginActions = {
+const LoginActions = {
 
 	getVerfiyCode: function(){
 		AppDispatcher.dispatch({
@@ -9,25 +9,12 @@ var LoginActions = {
 		});
 	},
 
-	setUserName: function(value){
+	updateAccount: function(id,value){
 		AppDispatcher.dispatch({
-			actionType: LoginConstants.SET_USER_NAME,
+			actionType: LoginConstants.UPDATE_ACCOUNT,
+			id: id,
 			value: value
-		})
-	},
-
-	setPassword: function(value){
-		AppDispatcher.dispatch({
-			actionType: LoginConstants.SET_PASSWORD,
-			value: value
-		})
-	},
-
-	setCheckCode: function(value){
-		AppDispatcher.dispatch({
-			actionType: LoginConstants.SET_CHECK_CODE,
-			value: value
-		})
+		});
 	},
 
 	submit: function(){
@@ -38,4 +25,4 @@ var LoginActions = {
 	
 }
 
-module.exports = LoginActions;
+export default LoginActions;

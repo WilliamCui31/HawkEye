@@ -1,15 +1,20 @@
-var AppDispatcher=require('../dispatcher/AppDispatcher');
-var EventEmitter=require('events').EventEmitter;
-var userAddConstants=require('../constants/userAddConstants');
-var assign=require('object-assign');
-var ajax=require('../ajax');
+import AppDispatcher from '../dispatcher/AppDispatcher';
+import { EventEmitter } from 'events';
+import UserAddConstants from '../constants/UserAddConstants';
+import assign from 'object-assign';
+import ajax from '../ajax';
 
-var CHANGE_EVENT='change';
+const CHANGE_EVENT='change';
 
-var userAddData={
+var _userAddData={
 	departMents: getDepartments(),
 	roles: getRoles(),
-	rights: getRights()
+	rights: getRights(),
+	userInfo: {
+		user: {},
+		rights: null,
+		roleId: null
+	}
 }
 
 //加载部门
@@ -51,10 +56,26 @@ function getRights(){
 	return rights;
 }
 
-var UserAddStore=assign({},EventEmitter.prototype,{
+//更新保存用户信息
+function updateUser(id,value){
+	_userAddData.userInfo.user[id]=value;
+}
+
+//确认新增用户
+function addUser(userInfo){
+	ajax({
+		url:'/eye/user/v1/saveUser.json',
+		data: userInfo,
+		success: function(data) {
+			console.log(data);
+		}
+	});
+}
+
+const UserAddStore=assign({},EventEmitter.prototype,{
 
 	getData: function(){
-		return userAddData;
+		return _userAddData;
 	},
 
 	emitChange: function(){
@@ -73,8 +94,24 @@ var UserAddStore=assign({},EventEmitter.prototype,{
 
 AppDispatcher.register(function(action){
 	switch(action.actionType){
-		case userAddConstants.SAVE_USER:
-			
+		case UserAddConstants.UPDATE_DATA:
+			if(action.value!==_userAddData.userInfo.user[action.id]){
+				if(action.id!=="roleId"){
+					updateUser(action.id,action.value);
+				}else {
+					_userAddData.userInfo[action.id]=action.value;
+				}
+				//console.log(_userAddData.userInfo);
+			}
+			break;
+
+		case UserAddConstants.UPDATE_RIGHT:
+			alert(1);
+			//console.log(_userAddData.userInfo);
+			break;
+
+		case UserAddConstants.ADD_USER:
+			addUser(_userAddData.userInfo);
 			break;
 
 		default:
@@ -82,4 +119,4 @@ AppDispatcher.register(function(action){
 	}
 });
 
-module.exports=UserAddStore;
+export default UserAddStore;

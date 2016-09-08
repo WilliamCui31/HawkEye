@@ -1,9 +1,11 @@
-var React = require('react');
-var ControlMenu = require('../../components/ControlMenu');
-var UserAddStore = require('../../stores/UserAddStore');
-var UserAddActions = require('../../actions/UserAddActions');
+import React from 'react';
+import Input from '../../components/Input';
+import Select from '../../components/Select';
+import ControlMenu from '../../components/ControlMenu';
+import UserAddStore from '../../stores/UserAddStore';
+import UserAddActions from '../../actions/UserAddActions';
 
-var UserAdd = React.createClass({
+const UserAdd = React.createClass({
 
 	getInitialState: function(){
 		return {
@@ -20,13 +22,10 @@ var UserAdd = React.createClass({
 	},
 
 	render: function(){
-		var departmentData=this.state.userAddData.departMents,departments=[];
+		//部门列表
+		var departmentData=this.state.userAddData.departMents;
 		var roleData=this.state.userAddData.roles,roles=[];
 		var rightData=this.state.userAddData.rights;
-
-		for(let department of departmentData){
-			departments.push(<option key={department.id} value={department.id}>{department.name}</option>);
-		}
 
 		for(let role of roleData){
 			roles.push(<option key={role.id} value={role.id}>{role.name}</option>);
@@ -35,36 +34,22 @@ var UserAdd = React.createClass({
 		return <div className="hy-section pdg20">
 
 	    	<ul className="hy-multiline-form clearfix">
-	          <li><label>用户名：</label><input type="text" className="hy-input primary" /></li>
-	          <li><label>姓名：</label><input type="text" className="hy-input primary" /></li>
+	          <li><label>用户名：</label><Input appearance="primary" id="name" updateAction={UserAddActions.updateData} /></li>
+	          <li><label>姓名：</label><Input appearance="primary" id="realName" updateAction={UserAddActions.updateData} /></li>
 	          <li>
 	            <label>所在部门：</label>
-	            <span className="hy-select-outer">
-	              <span className="hy-select-inner">
-	                <select className="hy-select primary" name="department" id="department" defaultValue="part0">
-	                  <option value="part0" disabled hidden>选择其所在部门</option>  
-	                  {departments}
-	                </select>
-	              </span>
-	            </span>
+	            <Select appearance="primary" id="deptId" initialData={departmentData} updateAction={UserAddActions.updateData} placeholder="选择部门" />
 	          </li>
-	          <li><label>密码：</label><input type="text" className="hy-input primary" /></li>
+	          <li><label>密码：</label><Input type="password" appearance="primary" id="pwd" updateAction={UserAddActions.updateData} /></li>
 	          <li>
 	          	<label>分配角色：</label>
-				<span className="hy-select-outer">
-	              <span className="hy-select-inner">
-	                <select className="hy-select primary" name="department" id="department" defaultValue="part0">
-	                  <option value="part0" disabled hidden>选择角色</option>  
-	                  {roles}
-	                </select>
-	              </span>
-	            </span>
+	          	<Select appearance="primary" id="roleId" initialData={roleData} updateAction={UserAddActions.updateData} placeholder="选择角色" />
 	          </li>
 	        </ul>
 
-			<ControlMenu rights={rightData} />
+			<ControlMenu rights={rightData} action={UserAddActions.updateRight} />
 
-			<button className="hy-button" onClick={this._saveUser}>确认</button>
+			<button className="hy-button" onClick={this._addUser}>确认</button>
 	    </div>
 	},
 
@@ -74,9 +59,9 @@ var UserAdd = React.createClass({
 		});
 	},
 
-	_saveUser: function(){
-		UserAddActions.saveUser();
+	_addUser: function(){
+		UserAddActions.addUser();
 	}
 });
 
-module.exports=UserAdd;
+export default UserAdd;

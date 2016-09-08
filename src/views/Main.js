@@ -1,54 +1,39 @@
 import React from 'react';
 import { Link } from 'react-router';
 import ajax from '../ajax';
+import GlobalActions from '../actions/GlobalActions';
+import GlobalStore from '../stores/GlobalStore';
 
 import 'styles/normalize.css';
 import 'styles/main.css';
 
-//加载系统栏目
-function loadColumn(){
-	var columnData;
-	ajax({
-		url: '/eye/user/v1/getUserMenues.json',
-		data: {userId: '1'},
-		async: false,
-		success: function(data) {
-			if(data.code==="0000") {
-				columnData=data.data;
-			}
+const Main=React.createClass({
+
+	getInitialState: function(){
+		return {
+			columnsData: GlobalStore.getColumnsData(),
+			userInfo: GlobalStore.getUserInfo()
 		}
-	});
-	return columnData;
-}
+	},
 
-//加载用户信息
-function loadUserInfo(){
-	var userInfo;
-	ajax({
-		url: '/eye/user/v1/getLoginUserInfo.json',
-		data: {userId: '1'},
-		async: false,
-		success: function(data) {
-			if(data.code==="0000") {
-				userInfo=data.data;
-			}
-		}
-	});
-	return userInfo;
-}
+	componentDidMount: function(){
+		GlobalStore.addChangeListener(this._onChange);
+	},
 
-export default class Main extends React.Component{
+	componentWillUnmount: function(){
+		GlobalStore.removeChangeListener(this._onChange);
+	},
 
-	render() {
-
+	render: function(){
+		//console.log(this.state.columnData)
 		//系统栏目
-		var columnData=loadColumn(),columns=[];
-		for(let column of columnData) {
-			columns.push(<li key={column.id}><Link to={column.url} activeClassName="active">{column.name}</Link></li>)
+		var columnsData=this.state.columnsData,columns=[];
+		for(let column of columnsData) {
+			columns.push(<li key={column.id}><Link to={column.url} activeClassName="active" name={column.id} onClick={this._onSwitchColumn}>{column.name}</Link></li>)
 		}
 
 		//用户名
-		var userName=loadUserInfo().name;
+		var userName=this.state.userInfo.name;
 
 		return <div>
 
@@ -64,17 +49,30 @@ export default class Main extends React.Component{
 			{this.props.children}
 
 		</div>
-	}
+	},
 
-	_logout() {
+	_logout: function(){
 		//退出登录
 		ajax({
 			url: '/eye/user/v1/logout.json',
 			success: function(data) {
 				if(data.code==="0000") {
-					console.log("退出登录");
+					location.assign("/#/");
 				}
 			}
 		});
+	},
+
+	_onChange: function(){
+		this.setState({
+			columnsData: GlobalStore.getColumnsData(),
+			userInfo: GlobalStore.getUserInfo()
+		});
+	},
+
+	_onSwitchColumn: function(e) {
+		GlobalActions.switchColumn(e.target.name);
 	}
-}
+});
+
+export default Main;

@@ -1,5 +1,7 @@
-var keyMirror=require('keymirror');
+import keyMirror from 'keymirror';
 
-module.exports=keyMirror({
-	SAVE_USER: null
+export default keyMirror({
+	UPDATE_DATA: null,
+	UPDATE_RIGHT: null,
+	ADD_USER: null
 });

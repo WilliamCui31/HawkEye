@@ -399,7 +399,7 @@ ul {
 
 /* hy-checkbox */
 .hy-checkbox {
-  
+  display: inline-block;
 }
 .hy-checkbox>input[type="checkbox"] {
   display: none;

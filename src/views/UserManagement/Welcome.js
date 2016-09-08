@@ -1,11 +1,14 @@
 import React from 'react';
 import ajax from '../../ajax';
+import utils from '../../utils';
+import LoginStore from '../../stores/LoginStore';
 
+//加载登录信息
 function loadLoginInfo(){
 	var LoginInfo;
 	ajax({
 		url: '/eye/user/v1/lastLoginRecordInfo.json',
-		data: {userId: '1'},
+		data: {validateKey: utils.getCookie("validateKey")},
 		async: false,
 		success: function(data) {
 			if(data.code==="0000") {
