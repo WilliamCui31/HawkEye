@@ -9,7 +9,8 @@ const UserAdd = React.createClass({
 
 	getInitialState: function(){
 		return {
-			userAddData: UserAddStore.getData()
+			userAddData: UserAddStore.getData(),
+			areAllRightChecked: UserAddStore.areAllRightChecked()
 		}
 	},
 
@@ -47,7 +48,7 @@ const UserAdd = React.createClass({
 	          </li>
 	        </ul>
 
-			<ControlMenu rights={rightData} action={UserAddActions.updateRight} />
+			<ControlMenu initialData={rightData} checkHandle={UserAddActions.checkRight} checkAllHandle={UserAddActions.checkAllRights} areAllRightChecked={this.state.areAllRightChecked}/>
 
 			<button className="hy-button" onClick={this._addUser}>确认</button>
 	    </div>
@@ -55,7 +56,8 @@ const UserAdd = React.createClass({
 
 	_onChange: function(){
 		this.setState({
-			userAddData: UserAddStore.getData()
+			userAddData: UserAddStore.getData(),
+			areAllRightChecked: UserAddStore.areAllRightChecked()
 		});
 	},
 

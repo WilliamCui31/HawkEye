@@ -52,15 +52,7 @@ const Main=React.createClass({
 	},
 
 	_logout: function(){
-		//退出登录
-		ajax({
-			url: '/eye/user/v1/logout.json',
-			success: function(data) {
-				if(data.code==="0000") {
-					location.assign("/#/");
-				}
-			}
-		});
+		GlobalActions.logout();
 	},
 
 	_onChange: function(){

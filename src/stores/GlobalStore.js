@@ -5,23 +5,29 @@ import assign from 'object-assign';
 import ajax from '../ajax';
 import utils from '../utils';
 
-console.log(utils.getCookie("validateKey"));
-
 const CHANGE_EVENT='change';
 
-var _globalData={
-	columnsData: loadColumn(),
-	userInfo: loadUserInfo()
-}
+//从cookie取出validateKey
+var validateKey=utils.getCookie("validateKey");
 
+//如果没有validateKey就跳转到登录页面
+if(!validateKey) location.assign("/#/");
+
+//声明栏目ID
 var pid;
 
+var _globalData={
+	columnsData: loadColumn(validateKey),
+	userInfo: loadUserInfo(validateKey),
+	menusData: loadMenu(validateKey,pid)
+}
+
 //加载系统栏目
-function loadColumn(){
+function loadColumn(validateKey){
 	var columnsData;
 	ajax({
 		url: '/eye/user/v1/getUserMenues.json',
-		data: {validateKey: utils.getCookie("validateKey")},
+		data: {validateKey: validateKey},
 		async: false,
 		success: function(data) {
 			if(data.code==="0000") {
@@ -34,11 +40,11 @@ function loadColumn(){
 }
 
 //加载用户信息
-function loadUserInfo(){
+function loadUserInfo(validateKey){
 	var userInfo;
 	ajax({
 		url: '/eye/user/v1/getLoginUserInfo.json',
-		data: {validateKey: utils.getCookie("validateKey")},
+		data: {validateKey:validateKey},
 		async: false,
 		success: function(data) {
 			if(data.code==="0000") {
@@ -50,11 +56,11 @@ function loadUserInfo(){
 }
 
 //加载菜单
-function loadMenu(pid){
+function loadMenu(validateKey,pid){
 	var menusData;
 	ajax({
 		url: '/eye/user/v1/getUserRights.json',
-		data: {validateKey: utils.getCookie("validateKey"),pid: pid},
+		data: {validateKey: validateKey,pid: pid},
 		async: false,
 		success: function(data) {
 			if(data.code==="0000") {
@@ -63,6 +69,23 @@ function loadMenu(pid){
 		}
 	});
 	return menusData;
+}
+
+//退出登录
+function logout(){
+	ajax({
+		url: '/eye/user/v1/logout.json',
+		data: {validateKey: utils.getCookie("validateKey")},
+		success: function(data) {
+			if(data.code==="0000") {
+				//从cookie删除validateKey
+				utils.delCookie("validateKey");
+
+				//跳转到登录页
+				location.assign("/#/");
+			}
+		}
+	});
 }
 
 const GlobalStore=assign({},EventEmitter.prototype,{
@@ -76,7 +99,7 @@ const GlobalStore=assign({},EventEmitter.prototype,{
 	},
 
 	getMenusData: function(){
-		return loadMenu(pid);
+		return _globalData.menusData;
 	},
 
 	emitChange: function(){
@@ -95,8 +118,28 @@ const GlobalStore=assign({},EventEmitter.prototype,{
 
 AppDispatcher.register(function(action){
 	switch(action.actionType){
+		case GlobalConstants.SET_VALIDATE_KEY:
+			_globalData.columnsData=loadColumn(action.key);
+			_globalData.userInfo=loadUserInfo(action.key);
+			_globalData.menusData=loadMenu(action.key,pid);
+
+			//把validateKey放入Cookie
+			utils.setCookie("validateKey",action.key);
+
+			GlobalStore.emitChange();
+			break;
+
 		case GlobalConstants.SWITCH_COLUMN:
+
 			pid=action.pid;
+			_globalData.menusData=loadMenu(validateKey,pid);
+
+			GlobalStore.emitChange();
+			break;
+
+		case GlobalConstants.LOGOUT:
+			logout();
+
 			GlobalStore.emitChange();
 			break;
 

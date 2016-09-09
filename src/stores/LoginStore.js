@@ -9,6 +9,7 @@ const CHANGE_EVENT='change';
 
 var _loginData={
 	verfiyCode: getVerfiyCode(),
+	validateKey: '',
 	errorMsg: '',
 	account: {}
 }
@@ -29,6 +30,7 @@ function getVerfiyCode(){
 
 //登录请求
 function submit(account){
+	var validateKey;
 	ajax({
 		url: '/eye/user/v1/userLogin.json',
 		data: account,
@@ -38,8 +40,7 @@ function submit(account){
 			if(data.code==="0000") {
 				//登录成功
 
-				//设置登录验证秘钥
-				utils.setCookie("validateKey",data.data.userId);
+				validateKey=data.data.userId;
 
 				//跳转系统欢迎页面
 				location.assign('/#/welcome');
@@ -48,6 +49,7 @@ function submit(account){
 			}
 		}
 	});
+	return validateKey;
 }
 
 //保存更新账户
@@ -78,7 +80,7 @@ const LoginStore=assign({},EventEmitter.prototype,{
 AppDispatcher.register(function(action){
 	switch(action.actionType){
 		case LoginConstants.GET_VERFIY_CODE:
-			loginData.verfiyCode=getVerfiyCode();
+			_loginData.verfiyCode=getVerfiyCode();
 			LoginStore.emitChange();
 			break;
 
@@ -96,8 +98,10 @@ AppDispatcher.register(function(action){
 			}else if (!account.valideNum) {
 				_loginData.errorMsg="请输入验证码！";
 			}else{
-				console.log(account);
-				submit(account);
+				//console.log(account);
+				var validateKey=submit(account);
+				_loginData.validateKey=validateKey;
+				console.log(_loginData);
 			}
 			LoginStore.emitChange();
 			break;

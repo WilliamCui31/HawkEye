@@ -11,10 +11,18 @@ const UserAddActions = {
 		});
 	},
 
-	updateRight: function(id){
+	checkRight: function(id,isChecked){
 		AppDispatcher.dispatch({
-			actionType: UserAddConstants.UPDATE_RIGHT,
-			id: id
+			actionType: UserAddConstants.CHECK_RIGHT,
+			id: id,
+			isChecked: isChecked
+		});
+	},
+
+	checkAllRights: function(isCheckedAll){
+		AppDispatcher.dispatch({
+			actionType: UserAddConstants.CHECK_ALL_RIGHTS,
+			isCheckedAll: isCheckedAll
 		});
 	},
 

@@ -1,5 +1,7 @@
 import keyMirror from'keymirror';
 
 export default keyMirror({
-	SWITCH_COLUMN: null
+	SET_VALIDATE_KEY: null,
+	SWITCH_COLUMN: null,
+	LOGOUT: null
 });

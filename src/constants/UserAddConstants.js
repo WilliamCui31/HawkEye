@@ -2,6 +2,7 @@ import keyMirror from 'keymirror';
 
 export default keyMirror({
 	UPDATE_DATA: null,
-	UPDATE_RIGHT: null,
+	CHECK_RIGHT: null,
+	CHECK_ALL_RIGHTS: null,
 	ADD_USER: null
 });
