@@ -6,7 +6,7 @@ const Select = React.createClass({
 	propTypes: {
 		id: React.PropTypes.string.isRequired,
 		initialData: React.PropTypes.array.isRequired,
-		updateAction: React.PropTypes.func.isRequired,
+		selectAction: React.PropTypes.func.isRequired,
 		className: React.PropTypes.string,
 		placeholder: React.PropTypes.string,
 		defaultValue: React.PropTypes.string
@@ -41,7 +41,7 @@ const Select = React.createClass({
 	
 	_onChange: function(e){
 		if(e.target.value)
-		this.props.updateAction(this.props.id,e.target.value);
+		this.props.selectAction(this.props.id,e.target.value);
 	}
 });
 

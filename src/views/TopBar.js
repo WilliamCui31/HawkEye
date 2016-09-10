@@ -25,7 +25,7 @@ const Main=React.createClass({
 	},
 
 	render: function(){
-		//console.log(this.state.columnData)
+
 		//系统栏目
 		var columnsData=this.state.columnsData,columns=[];
 		for(let column of columnsData) {

@@ -1,11 +1,21 @@
 import React from 'react';
+import ajax from '../../ajax';
+import GlobalStore from '../../stores/GlobalStore';
+var statusData=GlobalStore.getStatusData();
 
-export default class UserModify extends React.Component{
-	constructor(props) {
-		super(props);
+ajax({
+	url:'/eye/user/v1/getUserDetail.json',
+	async: false,
+	data: {name: "admin",validateKey:statusData.validateKey},
+	success: function(data) {
+		console.log(data);
 	}
+});
 
-	render() {
+
+const UserModify = React.createClass({
+
+	render: function() {
 		return <div>
 
 			<div className="hy-panel">
@@ -44,4 +54,6 @@ export default class UserModify extends React.Component{
 
 	    </div>
 	}
-}
+});
+
+export default UserModify;

@@ -9,47 +9,44 @@ const CHANGE_EVENT='change';
 
 var _loginData={
 	verfiyCode: getVerfiyCode(),
-	validateKey: '',
 	errorMsg: '',
 	account: {}
 }
 
 //获取验证码
 function getVerfiyCode(){
-	var str;
+	var verfiyCode;
 	ajax({
 		url:'/eye/code/getCode.json',
 		async: false,
 		success: function(data) {
-			//console.log("code",data.data);
-			str=data.data;
+			verfiyCode=data.data;
+			console.log("getcode");
 		}
 	});
-	return str;
+	return verfiyCode;
 }
 
 //登录请求
 function submit(account){
-	var validateKey;
 	ajax({
 		url: '/eye/user/v1/userLogin.json',
 		data: account,
-		async: false,
 		success: function(data) {
 			console.log(data);
 			if(data.code==="0000") {
 				//登录成功
 
-				validateKey=data.data.userId;
+				utils.setCookie("validateKey",data.data.userId);
 
 				//跳转系统欢迎页面
 				location.assign('/#/welcome');
 			}else {
 				_loginData.errorMsg=data.description;
+				LoginStore.emitChange();
 			}
 		}
 	});
-	return validateKey;
 }
 
 //保存更新账户
@@ -80,7 +77,9 @@ const LoginStore=assign({},EventEmitter.prototype,{
 AppDispatcher.register(function(action){
 	switch(action.actionType){
 		case LoginConstants.GET_VERFIY_CODE:
+
 			_loginData.verfiyCode=getVerfiyCode();
+
 			LoginStore.emitChange();
 			break;
 
@@ -100,7 +99,7 @@ AppDispatcher.register(function(action){
 			}else{
 				//console.log(account);
 				var validateKey=submit(account);
-				_loginData.validateKey=validateKey;
+				utils.setCookie("validateKey",validateKey);
 				console.log(_loginData);
 			}
 			LoginStore.emitChange();

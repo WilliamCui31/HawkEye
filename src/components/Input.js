@@ -5,7 +5,7 @@ const Input = React.createClass({
 
 	propTypes: {
 		id: React.PropTypes.string.isRequired,
-		updateAction: React.PropTypes.func.isRequired,
+		inputAction: React.PropTypes.func.isRequired,
 		type: React.PropTypes.string,
 		appearance: React.PropTypes.string,
 		placeholder: React.PropTypes.string,
@@ -32,7 +32,7 @@ const Input = React.createClass({
 	},
 	
 	_onBlur: function(e){
-		this.props.updateAction(this.props.id,e.target.value);
+		this.props.inputAction(this.props.id,e.target.value);
 	}
 });
 

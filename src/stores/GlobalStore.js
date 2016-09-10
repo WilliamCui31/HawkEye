@@ -9,25 +9,40 @@ const CHANGE_EVENT='change';
 
 //从cookie取出validateKey
 var validateKey=utils.getCookie("validateKey");
+console.log(validateKey);
 
 //如果没有validateKey就跳转到登录页面
 if(!validateKey) location.assign("/#/");
+
+//定义状态数据对象
+var statusData={
+	validateKey: validateKey
+}
 
 //声明栏目ID
 var pid;
 
 var _globalData={
-	columnsData: loadColumn(validateKey),
-	userInfo: loadUserInfo(validateKey),
-	menusData: loadMenu(validateKey,pid)
+	//头部栏目列表
+	columnsData: null,
+	//用户信息
+	userInfo: null,
+	//右侧菜单
+	menusData: null,
+	//部门列表
+	departments: null,
+	//角色列表
+	roles: null,
+	//声明栏目ID
+	pid: null
 }
 
 //加载系统栏目
-function loadColumn(validateKey){
+function loadColumn(){
 	var columnsData;
 	ajax({
 		url: '/eye/user/v1/getUserMenues.json',
-		data: {validateKey: validateKey},
+		data: statusData,
 		async: false,
 		success: function(data) {
 			if(data.code==="0000") {
@@ -40,11 +55,11 @@ function loadColumn(validateKey){
 }
 
 //加载用户信息
-function loadUserInfo(validateKey){
-	var userInfo;
+function loadUserInfo(){
+	var userInfo
 	ajax({
 		url: '/eye/user/v1/getLoginUserInfo.json',
-		data: {validateKey:validateKey},
+		data: statusData,
 		async: false,
 		success: function(data) {
 			if(data.code==="0000") {
@@ -56,11 +71,15 @@ function loadUserInfo(validateKey){
 }
 
 //加载菜单
-function loadMenu(validateKey,pid){
-	var menusData;
+function loadMenu(pid){
+	var requestData={pid: pid},menusData;
+
+	//合并请求参数
+	requestData=assign({},requestData,statusData);
+
 	ajax({
 		url: '/eye/user/v1/getUserRights.json',
-		data: {validateKey: validateKey,pid: pid},
+		data: requestData,
 		async: false,
 		success: function(data) {
 			if(data.code==="0000") {
@@ -71,16 +90,43 @@ function loadMenu(validateKey,pid){
 	return menusData;
 }
 
+//加载部门
+function getDepartments(){
+	var departments;
+	ajax({
+		url:'/eye/dept/v1/getDepts.json',
+		data: statusData,
+		async: false,
+		success: function(data) {
+			departments=data.data;
+		}
+	});
+	return departments;
+}
+
+//加载角色
+function getRoles(){
+	var roles;
+	ajax({
+		url:'/eye/role/v1/getRoles.json',
+		data: statusData,
+		async: false,
+		success: function(data) {
+			roles=data.data;
+		}
+	});
+	return roles;
+}
+
 //退出登录
 function logout(){
 	ajax({
 		url: '/eye/user/v1/logout.json',
-		data: {validateKey: utils.getCookie("validateKey")},
+		data: statusData,
 		success: function(data) {
 			if(data.code==="0000") {
 				//从cookie删除validateKey
 				utils.delCookie("validateKey");
-
 				//跳转到登录页
 				location.assign("/#/");
 			}
@@ -90,16 +136,28 @@ function logout(){
 
 const GlobalStore=assign({},EventEmitter.prototype,{
 
+	getStatusData: function(){
+		return statusData;
+	},
+
 	getColumnsData: function(){
-		return _globalData.columnsData;
+		return loadColumn();
 	},
 
 	getUserInfo: function(){
-		return _globalData.userInfo;
+		return loadUserInfo();
 	},
 
 	getMenusData: function(){
-		return _globalData.menusData;
+		return loadMenu(pid);
+	},
+
+	getDepartments: function(){
+		return getDepartments();
+	},
+
+	getRoles: function(){
+		return getRoles();
 	},
 
 	emitChange: function(){
@@ -118,16 +176,6 @@ const GlobalStore=assign({},EventEmitter.prototype,{
 
 AppDispatcher.register(function(action){
 	switch(action.actionType){
-		case GlobalConstants.SET_VALIDATE_KEY:
-			_globalData.columnsData=loadColumn(action.key);
-			_globalData.userInfo=loadUserInfo(action.key);
-			_globalData.menusData=loadMenu(action.key,pid);
-
-			//把validateKey放入Cookie
-			utils.setCookie("validateKey",action.key);
-
-			GlobalStore.emitChange();
-			break;
 
 		case GlobalConstants.SWITCH_COLUMN:
 

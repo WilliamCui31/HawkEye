@@ -1,5 +1,6 @@
 import AppDispatcher from '../dispatcher/AppDispatcher';
 import { EventEmitter } from 'events';
+import GlobalStore from '../stores/GlobalStore';
 import UserAddConstants from '../constants/UserAddConstants';
 import assign from 'object-assign';
 import ajax from '../ajax';
@@ -7,46 +8,19 @@ import utils from '../utils';
 
 const CHANGE_EVENT='change';
 
-//从cookie取出validateKey
-var validateKey=utils.getCookie("validateKey");
+//调用状态数据对象
+var statusData=GlobalStore.getStatusData();
 
+//定义新增用户数据对象
 var _userAddData={
-	departMents: getDepartments(),
-	roles: getRoles(),
+	//所有权限树结构
 	rights: getRights(),
-	userInfo: {
+	//要提交新增用户的信息
+	addAccount: {
 		user: {},
 		rights: [],
 		roleId: null
 	}
-}
-
-//加载部门
-function getDepartments(){
-	var departMents;
-	ajax({
-		url:'/eye/dept/v1/getDepts.json',
-		data: {validateKey: validateKey},
-		async: false,
-		success: function(data) {
-			departMents=data.data;
-		}
-	});
-	return departMents;
-}
-
-//加载角色
-function getRoles(){
-	var roles;
-	ajax({
-		url:'/eye/role/v1/getRoles.json',
-		data: {validateKey: validateKey},
-		async: false,
-		success: function(data) {
-			roles=data.data;
-		}
-	});
-	return roles;
 }
 
 //加载权限
@@ -54,7 +28,7 @@ function getRights(){
 	var rights;
 	ajax({
 		url:'/eye/right/v1/getAllRighs.json',
-		data: {validateKey: validateKey},
+		data: statusData,
 		async: false,
 		success: function(data) {
 			rights=data.data;
@@ -63,17 +37,13 @@ function getRights(){
 	return rights;
 }
 
-//更新保存用户信息
-function updateUser(id,value){
-	_userAddData.userInfo.user[id]=value;
-}
-
 //确认新增用户
-function addUser(userInfo){
-	userInfo.validateKey=validateKey;
+function addUser(addAccount){
+	//合并请求参数
+	addAccount=assign({},addAccount,statusData);
 	ajax({
 		url:'/eye/user/v1/saveUser.json',
-		data: userInfo,
+		data: addAccount,
 		success: function(data) {
 			console.log(data);
 		}
@@ -118,12 +88,12 @@ const UserAddStore=assign({},EventEmitter.prototype,{
 
 AppDispatcher.register(function(action){
 	switch(action.actionType){
-		case UserAddConstants.UPDATE_DATA:
-			if(action.value!==_userAddData.userInfo.user[action.id]){
+		case UserAddConstants.INPUT_DATA:
+			if(action.value!==_userAddData.addAccount.user[action.id]){
 				if(action.id!=="roleId"){
-					updateUser(action.id,action.value);
+					_userAddData.addAccount.user[action.id]=action.value;
 				}else {
-					_userAddData.userInfo[action.id]=action.value;
+					_userAddData.addAccount[action.id]=action.value;
 				}
 			}
 
@@ -132,6 +102,7 @@ AppDispatcher.register(function(action){
 
 		case UserAddConstants.CHECK_RIGHT:
 
+			//权限选择操作
 			if(action.isChecked){
 				//取消权限
 
@@ -151,7 +122,6 @@ AppDispatcher.register(function(action){
 					}
 
 					//二级遍历
-					var secondeDropOff=false;
 					children.forEach(function(element,index,array){
 						var children=element.datas;
 
@@ -163,16 +133,10 @@ AppDispatcher.register(function(action){
 						}
 
 						//三级遍历
-						var threeDropOff=false;
 						children.forEach(function(element,index,array){
 							if(element.id==action.id) element.isChecked="0";
-							if(element.isChecked=="0") threeDropOff=true;
 						});
-						if(threeDropOff) element.isChecked="0";
-
-						if(element.isChecked=="0") secondeDropOff=true;
 					});
-					if(secondeDropOff) element.isChecked="0";
 
 				});
 			}else{
@@ -194,7 +158,7 @@ AppDispatcher.register(function(action){
 					}
 
 					//二级遍历
-					var secondeAllChecked=true;
+					var firstChecked=false;
 					children.forEach(function(element,index,array){
 						var children=element.datas;
 
@@ -203,29 +167,32 @@ AppDispatcher.register(function(action){
 							children.forEach(function(element,index,array){
 								element.isChecked="1";
 							});
+							firstChecked=true;
 						}
 
 						//三级遍历
-						var threeAllChecked=true;
+						var secondeChecked=false;
 						children.forEach(function(element,index,array){
-							if(element.id==action.id) element.isChecked="1";
-							if(element.isChecked!="1") threeAllChecked=false;
+							if(element.id==action.id) {
+								element.isChecked="1";
+								secondeChecked=true;
+							}
 						});
-						if(threeAllChecked) element.isChecked="1";
+						if(secondeChecked) element.isChecked="1";
 
-						if(element.isChecked!="1") secondeAllChecked=false;
+						if(element.isChecked=="1") firstChecked=true;
 					});
-					if(secondeAllChecked) element.isChecked="1";
+					if(firstChecked) element.isChecked="1";
 
 				});
 			}
-			//_userAddData.areAllRightChecked=areAllRightChecked(_userAddData.rights);
 
 			UserAddStore.emitChange();
 			break;
 
 		case UserAddConstants.CHECK_ALL_RIGHTS:
 
+			//菜单权限全选操作
 			if(action.isCheckedAll){
 				//全选
 				_userAddData.rights.forEach(function(element,index,array){
@@ -258,8 +225,36 @@ AppDispatcher.register(function(action){
 			break;
 
 		case UserAddConstants.ADD_USER:
-			console.log(_userAddData.userInfo);
-			addUser(_userAddData.userInfo);
+
+			//把选中的权限放入addAccount.rights数组
+			_userAddData.rights.forEach(function(element,index,array){
+				if(element.isChecked=="1") {
+					var right={"rightId":element.id}
+					_userAddData.addAccount.rights.push(right);
+				}
+
+				let children=element.datas; 
+				children.forEach(function(element,index,array){
+					if(element.isChecked=="1") {
+						var right={"rightId":element.id}
+						_userAddData.addAccount.rights.push(right);
+					}
+
+					let children=element.datas;
+					children.forEach(function(element,index,array){
+						if(element.isChecked=="1") {
+							var right={"rightId":element.id}
+							_userAddData.addAccount.rights.push(right);
+						}
+					});
+				});
+			});
+
+			console.log(_userAddData.addAccount);
+
+			//发送新增用户请求
+			addUser(_userAddData.addAccount);
+
 			UserAddStore.emitChange();
 			break;
 

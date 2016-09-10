@@ -3,9 +3,9 @@ import UserAddConstants from '../constants/UserAddConstants';
 
 const UserAddActions = {
 
-	updateData: function(id,value){
+	inputData: function(id,value){
 		AppDispatcher.dispatch({
-			actionType: UserAddConstants.UPDATE_DATA,
+			actionType: UserAddConstants.INPUT_DATA,
 			id: id,
 			value: value
 		});

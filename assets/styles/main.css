@@ -47,12 +47,10 @@ body {
 	bottom: 0;
 	width: 250px;
 	padding-top: 28px;
-	padding-right: 10px;
 	text-align: center;
 }
 .top-greating {
 	display: inline-block;
-	margin-right: 10px;
 	padding: 0 20px;
 	border-right: 1px solid #fff;
 }
@@ -236,20 +234,24 @@ body {
 	padding: 20px 25px;
 	text-align: right;
 }
+.list-grid tr.list-grid-placeholder>td {
+	padding: 40px 0;
+}
 
 
 /* hy-paging(分页组件) */
-.paging-desc {
+.hy-paging{}
+.hy-paging-desc {
 	display: inline-block;
 	margin-right: 30px;
 	color: #999;
 	font-size: 14px;
 }
-.paging-number {
+.hy-paging-number {
 	display: inline-block;
 	margin: 0 10px;
 }
-.paging-button {
+.hy-paging-button {
 	position: relative;
 	width: 40px;
 	height: 30px;
@@ -259,7 +261,7 @@ body {
 	background-color: #fff;
 	outline: none;
 }
-.paging-button:before {
+.hy-paging-button:before {
 	position: absolute;
 	top: 50%;
 	left: 50%;
@@ -269,7 +271,7 @@ body {
 	border-width: 8px;
 	content: "";
 }
-.paging-button:after{
+.hy-paging-button:after{
 	position: absolute;
 	top: 50%;
 	left: 50%;
@@ -280,24 +282,27 @@ body {
 	border-width: 8px;
 	content: "";
 }
-.paging-button.prev:before {
+.hy-paging-button.prev:before {
 	border-right-color: #35B4AC;
 	transform: translateX(-80%) translateY(-50%);
 }
-.paging-button.prev:after {
+.hy-paging-button.prev:after {
 	border-right-color: #fff;
 	transform: translateX(-70%) translateY(-50%);
 }
-.paging-button.next:before {
+.hy-paging-button.next:before {
 	border-left-color: #35B4AC;
 	transform: translateX(-20%) translateY(-50%);
 }
-.paging-button.next:after {
+.hy-paging-button.next:after {
 	border-left-color: #fff;
 	transform: translateX(-30%) translateY(-50%);
 }
-.paging-button.disabled:before {
+.hy-paging-button.prev.disabled:before {
 	border-right-color: #DFDFDF;
+}
+.hy-paging-button.next.disabled:before {
+	border-left-color: #DFDFDF;
 }
 
 /* control-menu(菜单权限组件) */
