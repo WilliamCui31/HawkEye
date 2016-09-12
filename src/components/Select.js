@@ -21,7 +21,7 @@ const Select = React.createClass({
 	render: function(){
 		var optionsData=this.props.initialData,options=[];
 		for(let option of optionsData){
-			options.push(<option key={option.id} value={option.id}>{option.name}</option>);
+			options.push(<option key={option.id} value={option.id.toString()}>{option.name}</option>);
 		}
 		return (
 			<span className="hy-select-outer">

@@ -4,6 +4,7 @@ import LoginConstants from '../constants/LoginConstants';
 import assign from 'object-assign';
 import ajax from '../ajax';
 import utils from '../utils';
+import { hashHistory } from 'react-router';
 
 const CHANGE_EVENT='change';
 
@@ -21,7 +22,6 @@ function getVerfiyCode(){
 		async: false,
 		success: function(data) {
 			verfiyCode=data.data;
-			console.log("getcode");
 		}
 	});
 	return verfiyCode;
@@ -33,14 +33,13 @@ function submit(account){
 		url: '/eye/user/v1/userLogin.json',
 		data: account,
 		success: function(data) {
-			console.log(data);
 			if(data.code==="0000") {
 				//登录成功
 
 				utils.setCookie("validateKey",data.data.userId);
 
 				//跳转系统欢迎页面
-				location.assign('/#/welcome');
+				hashHistory.push("/welcome");
 			}else {
 				_loginData.errorMsg=data.description;
 				LoginStore.emitChange();

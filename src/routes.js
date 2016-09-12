@@ -5,9 +5,10 @@ import Login from './views/Login';
 import TopBar from './views/TopBar';
 import SideBar from './views/UserManagement/SideBar';
 import Welcome from './views/UserManagement/Welcome';
-import UserModify from './views/UserManagement/UserModify';
 import UserAdd from './views/UserManagement/UserAdd';
 import UserList from './views/UserManagement/UserList';
+import ModifyInfo from './views/UserManagement/ModifyInfo';
+import ModifyRights from './views/UserManagement/ModifyRights';
 
 
 export default (
@@ -16,11 +17,12 @@ export default (
   		<Route component={TopBar}>
   			<IndexRedirect to="/welcome" />
   			<Route path="/userManagement" component={SideBar}>
- 				<IndexRedirect to="/userModify" />
+ 				<IndexRedirect to="/userAdd" />
  				<Route path="/welcome" component={Welcome} />
- 				<Route path="/userModify" component={UserModify} />
  				<Route path="/userAdd" component={UserAdd} />
  				<Route path="/userList" component={UserList} />
+ 				<Route path="/modifyInfo" component={ModifyInfo} />
+ 				<Route path="/modifyRights" component={ModifyRights} />
  			</Route>
  			<Route path="/operateReport" component={SideBar}>
  				<Route path="/welcome" component={Welcome} />

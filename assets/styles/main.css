@@ -45,7 +45,6 @@ body {
 	top: 0;
 	right: 0;
 	bottom: 0;
-	width: 250px;
 	padding-top: 28px;
 	text-align: center;
 }
@@ -193,6 +192,9 @@ body {
 	margin-right: 5px;
 	text-align: right;
 }
+.hy-multiline-form-footer {
+	margin-top: 30px;
+}
 
 /* statistic-grid(统计类表格) */
 .statistic-grid {
@@ -298,6 +300,9 @@ body {
 	border-left-color: #fff;
 	transform: translateX(-30%) translateY(-50%);
 }
+.hy-paging-button.disabled {
+	cursor: default;
+}
 .hy-paging-button.prev.disabled:before {
 	border-right-color: #DFDFDF;
 }
@@ -354,7 +359,6 @@ body {
 /* hy-popup(弹窗组件) */
 .hy-popup {
 	z-index: 9999;
-	display: none;
 	position: fixed;
 	top: 0;
 	right: 0;
@@ -390,7 +394,7 @@ body {
 	margin: 0 auto;
 }
 .hy-popup-box-message {
-	padding: 0 30px;
+	padding: 30px;
 	text-align: center;
 }
 .hy-popup-box-footer {

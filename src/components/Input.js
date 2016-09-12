@@ -7,6 +7,7 @@ const Input = React.createClass({
 		id: React.PropTypes.string.isRequired,
 		inputAction: React.PropTypes.func.isRequired,
 		type: React.PropTypes.string,
+		defaultValue: React.PropTypes.string,
 		appearance: React.PropTypes.string,
 		placeholder: React.PropTypes.string,
 		focus: React.PropTypes.bool
@@ -27,6 +28,7 @@ const Input = React.createClass({
 				placeholder={this.props.placeholder}
 				autoFocus={this.props.focus}
 				onBlur={this._onBlur}
+				defaultValue={this.props.defaultValue}
 			/>
 		)
 	},

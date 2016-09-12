@@ -4,6 +4,7 @@ import GlobalConstants from '../constants/GlobalConstants';
 import assign from 'object-assign';
 import ajax from '../ajax';
 import utils from '../utils';
+import { hashHistory } from 'react-router';
 
 const CHANGE_EVENT='change';
 
@@ -12,7 +13,7 @@ var validateKey=utils.getCookie("validateKey");
 console.log(validateKey);
 
 //如果没有validateKey就跳转到登录页面
-if(!validateKey) location.assign("/#/");
+if(!validateKey) hashHistory.push("/");
 
 //定义状态数据对象
 var statusData={
@@ -126,7 +127,7 @@ function logout(){
 		success: function(data) {
 			if(data.code==="0000") {
 				//从cookie删除validateKey
-				utils.delCookie("validateKey");
+				//utils.delCookie("validateKey");
 				//跳转到登录页
 				location.assign("/#/");
 			}

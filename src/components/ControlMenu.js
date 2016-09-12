@@ -19,12 +19,12 @@ const ControlMenu = React.createClass({
 			for(let level2 of level2Data) {
 				var level3Data=level2.datas,level3Menu=[];
 				for(let level3 of level3Data) {
-					level3Menu.push(<li key={level3.id}><CheckBox id={level3.id} text={level3.name} isChecked={level3.isChecked==="1"} onCheck={this._onCheck} /></li>);
+					level3Menu.push(<li key={level3.id}><CheckBox id={level3.id} text={level3.name} isChecked={level3.isChecked==1} onCheck={this._onCheck} /></li>);
 				}
 
 				level2Menu.push(<div key={level2.id} className="control-menu-level2">
 					<h1 className="control-menu-tit">
-						<CheckBox id={level2.id} text={level2.name} hasIcon={true} isChecked={level2.isChecked==="1"} onCheck={this._onCheck} />
+						<CheckBox id={level2.id} text={level2.name} hasIcon={true} isChecked={level2.isChecked==1} onCheck={this._onCheck} />
 						<i className="hy-icon down-arrow"></i>
 					</h1>
 					<ul className="control-menu-level3">
@@ -35,7 +35,7 @@ const ControlMenu = React.createClass({
 
 			level1Menu.push(<div key={level1.id} className="control-menu-level1">
 				<h1 className="control-menu-tit">
-					<CheckBox id={level1.id} text={level1.name} hasIcon={true} isChecked={level1.isChecked==="1"} onCheck={this._onCheck} />
+					<CheckBox id={level1.id} text={level1.name} hasIcon={true} isChecked={level1.isChecked==1} onCheck={this._onCheck} />
 					<i className="hy-icon down-arrow"></i>
 				</h1>
 				{level2Menu}

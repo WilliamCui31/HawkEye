@@ -27,13 +27,9 @@ const UserAdd = React.createClass({
 		//部门列表
 		var departmentsData=GlobalStore.getDepartments();
 		//角色列表
-		var rolesData=GlobalStore.getRoles(),roles=[];
+		var rolesData=GlobalStore.getRoles();
 		//权限树列表
-		var rightData=this.state.userAddData.rights;
-
-		for(let role of rolesData){
-			roles.push(<option key={role.id} value={role.id}>{role.name}</option>);
-		}
+		var rightsData=this.state.userAddData.rights;
 
 		return <div className="hy-section pdg20">
 
@@ -51,7 +47,7 @@ const UserAdd = React.createClass({
 	          </li>
 	        </ul>
 
-			<ControlMenu initialData={rightData} checkHandle={UserAddActions.checkRight} checkAllHandle={UserAddActions.checkAllRights} areAllRightChecked={this.state.areAllRightChecked}/>
+			<ControlMenu initialData={rightsData} checkHandle={UserAddActions.checkRight} checkAllHandle={UserAddActions.checkAllRights} areAllRightChecked={this.state.areAllRightChecked}/>
 
 			<button className="hy-button" onClick={this._addUser}>确认</button>
 	    </div>
