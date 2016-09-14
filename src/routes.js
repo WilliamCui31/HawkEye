@@ -9,6 +9,9 @@ import UserAdd from './views/UserManagement/UserAdd';
 import UserList from './views/UserManagement/UserList';
 import ModifyInfo from './views/UserManagement/ModifyInfo';
 import ModifyRights from './views/UserManagement/ModifyRights';
+import UserRole from './views/UserManagement/UserRole';
+import AssignUsers from './views/UserManagement/AssignUsers';
+import AssignRights from './views/UserManagement/AssignRights';
 
 
 export default (
@@ -21,8 +24,11 @@ export default (
  				<Route path="/welcome" component={Welcome} />
  				<Route path="/userAdd" component={UserAdd} />
  				<Route path="/userList" component={UserList} />
- 				<Route path="/modifyInfo" component={ModifyInfo} />
- 				<Route path="/modifyRights" component={ModifyRights} />
+ 				<Route path="/modifyInfo/:userId" component={ModifyInfo} />
+ 				<Route path="/modifyRights/:userId" component={ModifyRights} />
+ 				<Route path="/userRole" component={UserRole} />
+ 				<Route path="/assignUsers" component={AssignUsers} />
+ 				<Route path="/assignRights" component={AssignRights} />
  			</Route>
  			<Route path="/operateReport" component={SideBar}>
  				<Route path="/welcome" component={Welcome} />

@@ -247,6 +247,11 @@ ul {
 .align-center {
   margin: 0 auto;
 }
+.hy-strong {
+  padding: 0 5px;
+  color: #3BCCAA;
+  font-weight: normal;
+}
 
 /* input */
 .hy-input {

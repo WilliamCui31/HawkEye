@@ -220,6 +220,12 @@ body {
 
 /* list-grid(列表类表格) */
 .list-grid {}
+.list-grid-header {
+	padding: 15px 20px;
+}
+.list-grid-header-text {
+	line-height: 40px;
+}
 .list-grid th,
 .list-grid td {
 	padding: 10px;
@@ -388,7 +394,7 @@ body {
 	cursor: pointer;
 }
 .hy-popup-box-cont {
-	padding: 30px 0;
+	padding: 30px 20px;
 }
 .hy-popup-box-cont>ul {
 	margin: 0 auto;

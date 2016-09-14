@@ -37,6 +37,7 @@ const UserList = React.createClass({
 			pageSize=0,
 			recordCount=0,
 			currentPage=0,
+			currentRecord=0,
 			totalPage=0,
 			paging=null;
 
@@ -45,7 +46,7 @@ const UserList = React.createClass({
 			currentPage=userListData.pageNum*1;
 			recordCount=userListData.recordCount;
 			totalPage=Math.ceil(recordCount/pageSize)*1;
-			pageSize=userListData.list.length;
+			currentRecord=userListData.list.length;
 
 			var _this=this;
 			userListData.list.forEach(function(element,index,array){
@@ -64,7 +65,7 @@ const UserList = React.createClass({
 	            </tr>)
 			});
 			paging=<Paging 
-				pageSize={pageSize} 
+				pageSize={currentRecord} 
 				currentPage={currentPage} 
 				totalPage={totalPage} 
 				switchPageAction={UserListActions.queryUsers} 
@@ -169,17 +170,17 @@ const UserList = React.createClass({
 	},
 
 	_modifyUserInfo: function(e){
-		//修改用户
+		//修改用户信息
 		var userId=e.target.parentNode.parentNode.id;
 		UserListActions.getUserDetail(userId);
-		this.context.router.push("/modifyInfo");
+		this.context.router.push("/modifyInfo/:"+userId);
 	},
 	
 	_modifyUserRights: function(e){
 		//修改用户权限
 		var userId=e.target.parentNode.parentNode.id;
 		UserListActions.getUserDetail(userId);
-		this.context.router.push("/modifyRights");
+		this.context.router.push("/modifyRights/:"+userId);
 	}
 
 });

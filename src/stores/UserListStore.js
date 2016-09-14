@@ -148,7 +148,7 @@ AppDispatcher.register(function(action){
 
 		case UserListConstants.GET_USER_DETAIL:
 			//获取用户详情
-
+			
 			getUserDetail(action.userId);
 
 			break;
@@ -196,9 +196,9 @@ AppDispatcher.register(function(action){
 
 			var modifyData={
 				uid: action.userId,
-				roleId: action.roleId,
 				rights: rights
 			};
+			if(action.roleId) modifyData.roleId=action.roleId;
 
 			modifyUser(modifyData);
 
