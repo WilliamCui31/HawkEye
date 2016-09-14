@@ -1,5 +1,11 @@
 var utils={
 
+	//判断一个对象是否为空
+	isEmptyObject: function(obj){
+		for(var n in obj){return false} 
+    	return true; 
+	},
+
 	//设置Cookie
 	setCookie: function(name,value){
 		var Days = 30;

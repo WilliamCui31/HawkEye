@@ -174,8 +174,7 @@ body {
 	margin-right: 5px;
 	text-align: right;
 }
-.hy-inline-form>li>input,
-.hy-inline-form>li>.hy-select-outer {
+.hy-inline-form>li {
 	margin-right: 50px;
 }
 
@@ -198,6 +197,8 @@ body {
 
 /* statistic-grid(统计类表格) */
 .statistic-grid {
+	float: left;
+	margin-right: 20px;
 	margin-bottom: 20px;
 }
 .statistic-grid>caption {

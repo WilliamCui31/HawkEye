@@ -3,6 +3,7 @@ import Paging from '../../components/Paging';
 import Confirm from '../../components/Confirm';
 import UserRoleStore from '../../stores/UserRoleStore';
 import UserRoleActions from '../../actions/UserRoleActions';
+import { Link } from 'react-router';
 
 const AssignUsers = React.createClass({
 
@@ -62,39 +63,37 @@ const AssignUsers = React.createClass({
 			/>
 		}
 
-		return <div>
-
-		    <div className="hy-section">
-				<table className="list-grid" width="100%">
-				  <caption className="list-grid-header clearfix">
-					  <span className="list-grid-header-text pull-left"><strong className="hy-strong">{this.state.role.name}</strong>所在用户</span>
-					  <button className="hy-button pull-right" onClick={this._addRole}>添加用户</button>
-				  </caption>
-		          <thead>
-		            <tr>
-		              <th>序号</th>
-		              <th>用户名</th>
-		              <th>姓名</th>
-		              <th>操作</th>
-		            </tr>
-		          </thead>
-		          <tbody>
-					{users}
-		          </tbody>
-		          <tfoot>
-		            <tr>
-		              <td colSpan="4">
-		              	{paging}
-		              </td>
-		            </tr>
-		          </tfoot>
-		        </table>
-
-		    </div>
-
-		   	{this.state.popup}
-
+		return <div className="hy-section">
+			<table className="list-grid" width="100%">
+			  <caption className="list-grid-header clearfix">
+				  <span className="list-grid-header-text pull-left"><strong className="hy-strong">{this.state.role.name}</strong>所在用户</span>
+				  <div className="pull-right">
+				  	<Link to="/userRole" className="link-button">返回角色列表</Link>
+				  	<button className="hy-button" onClick={this._addRole}>添加用户</button>
+				  </div>
+			  </caption>
+	          <thead>
+	            <tr>
+	              <th>序号</th>
+	              <th>用户名</th>
+	              <th>姓名</th>
+	              <th>操作</th>
+	            </tr>
+	          </thead>
+	          <tbody>
+				{users}
+	          </tbody>
+	          <tfoot>
+	            <tr>
+	              <td colSpan="4">
+	              	{paging}
+	              </td>
+	            </tr>
+	          </tfoot>
+	        </table>
+	        {this.state.popup}
 	    </div>
+
 	},
 
 	_onChange: function(){

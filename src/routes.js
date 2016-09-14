@@ -12,7 +12,8 @@ import ModifyRights from './views/UserManagement/ModifyRights';
 import UserRole from './views/UserManagement/UserRole';
 import AssignUsers from './views/UserManagement/AssignUsers';
 import AssignRights from './views/UserManagement/AssignRights';
-
+import ResetPassword from './views/UserManagement/ResetPassword';
+import OperateForm from './views/UserManagement/OperateForm';
 
 export default (
 	<Router history={hashHistory}>
@@ -29,9 +30,11 @@ export default (
  				<Route path="/userRole" component={UserRole} />
  				<Route path="/assignUsers" component={AssignUsers} />
  				<Route path="/assignRights" component={AssignRights} />
+ 				<Route path="/resetPassword" component={ResetPassword} />
  			</Route>
  			<Route path="/operateReport" component={SideBar}>
- 				<Route path="/welcome" component={Welcome} />
+ 				<IndexRedirect to="/operateForm" />
+ 				<Route path="/operateForm" component={OperateForm} />
  			</Route>
  		</Route>
  	</Router>

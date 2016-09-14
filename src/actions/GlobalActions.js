@@ -7,7 +7,7 @@ const GlobalActions = {
 		AppDispatcher.dispatch({
 			actionType: GlobalConstants.SET_VALIDATE_KEY,
 			key: key
-		})
+		});
 	},
 
 	switchColumn: function(pid){
@@ -20,7 +20,15 @@ const GlobalActions = {
 	logout: function(){
 		AppDispatcher.dispatch({
 			actionType: GlobalConstants.LOGOUT
-		})
+		});
+	},
+
+	resetPassword: function(cpwd,newPwd){
+		AppDispatcher.dispatch({
+			actionType: GlobalConstants.RESET_PASSWORD,
+			cpwd: cpwd,
+			newPwd: newPwd
+		});
 	}
 	
 }

@@ -25,7 +25,7 @@ export default class Welcome extends React.Component{
 
 		var LoginInfo=loadLoginInfo(),infoDom;
 
-		if(LoginInfo) {
+		if(LoginInfo&&!utils.isEmptyObject(LoginInfo)) {
 			infoDom=(
 				<ul className="login-info">
 					<li className="login-info-tit">欢迎回来!</li>

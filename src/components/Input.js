@@ -14,23 +14,29 @@ const Input = React.createClass({
 	},	
 
 	getInitialState: function(){
+		var disabled=false;
+		if(this.props.appearance==="label"
+			||this.props.appearance==="disabled"
+			||this.props.appearance==="readonly"){
+			disabled=true;
+		}
 		return {
-			type: this.props.type||"input"
+			type: this.props.type||"input",
+			disabled: disabled
 		}
 	},
 
 	render: function(){
-		return (
-			<input 
-				id={this.props.id}
-				type={this.state.type}
-				className={classnames('hy-input',this.props.appearance)}
-				placeholder={this.props.placeholder}
-				autoFocus={this.props.focus}
-				onBlur={this._onBlur}
-				defaultValue={this.props.defaultValue}
-			/>
-		)
+		return <input 
+			id={this.props.id}
+			type={this.state.type}
+			className={classnames('hy-input',this.props.appearance)}
+			placeholder={this.props.placeholder}
+			autoFocus={this.props.focus}
+			onBlur={this._onBlur}
+			defaultValue={this.props.defaultValue}
+			disabled={this.state.disabled}
+		/>
 	},
 	
 	_onBlur: function(e){

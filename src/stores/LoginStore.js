@@ -29,6 +29,7 @@ function getVerfiyCode(){
 
 //登录请求
 function submit(account){
+	console.log(account);
 	ajax({
 		url: '/eye/user/v1/userLogin.json',
 		data: account,
@@ -37,7 +38,7 @@ function submit(account){
 				//登录成功
 
 				utils.setCookie("validateKey",data.data.userId);
-
+				console.log(data);
 				//跳转系统欢迎页面
 				hashHistory.push("/welcome");
 			}else {
@@ -99,7 +100,6 @@ AppDispatcher.register(function(action){
 				//console.log(account);
 				var validateKey=submit(account);
 				utils.setCookie("validateKey",validateKey);
-				console.log(_loginData);
 			}
 			LoginStore.emitChange();
 			break;

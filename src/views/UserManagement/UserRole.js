@@ -1,4 +1,5 @@
 import React from 'react';
+import Input from '../../components/Input';
 import Paging from '../../components/Paging';
 import Confirm from '../../components/Confirm';
 import Prompt from '../../components/Prompt';
@@ -46,7 +47,9 @@ const UserRole = React.createClass({
 			rolesList.list.forEach(function(element,index,array){
 				roles.push(<tr key={element.id} id={element.id}>
 	              <td>{(currentPage-1)*pageSize+index+1}</td>
-	              <td>{element.name}</td>
+	              <td>
+		              <Input appearance="label" id="name" inputAction={_this._updateRoleName} defaultValue={element.name} />
+	              </td>
 	              <td>
 		              <button className="link-button" name={element.name} onClick={_this._assignRoleUsers}>分配用户</button>
 		              <button className="link-button" name={element.name} onClick={_this._assignRoleRights}>分配权限</button>
@@ -167,6 +170,10 @@ const UserRole = React.createClass({
 			};
 		UserRoleActions.getRoleRights(role);
 		this.context.router.push("/assignRights");
+	},
+
+	_updateRoleName: function(){
+
 	}
 
 });

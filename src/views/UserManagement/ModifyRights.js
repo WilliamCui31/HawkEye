@@ -47,7 +47,7 @@ const ModifyRights = React.createClass({
 				</li>
 				<li className="hy-multiline-form-footer clearfix">
 					<button className="hy-button secondary pull-left" onClick={this._cancel}>取消</button>
-		          	<button className="hy-button default pull-right" onClick={this._confirm}>确认</button>
+		          	<button className="hy-button pull-right" onClick={this._confirm}>确认</button>
 		        </li>
 			</ul>	
 

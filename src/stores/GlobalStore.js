@@ -20,9 +20,6 @@ var statusData={
 	validateKey: validateKey
 }
 
-//声明栏目ID
-var pid;
-
 var _globalData={
 	//头部栏目列表
 	columnsData: null,
@@ -35,7 +32,7 @@ var _globalData={
 	//角色列表
 	roles: null,
 	//声明栏目ID
-	pid: null
+	pid: 1
 }
 
 //加载系统栏目
@@ -48,7 +45,7 @@ function loadColumn(){
 		success: function(data) {
 			if(data.code==="0000") {
 				columnsData=data.data;
-				pid=columnsData[0].id;
+				_globalData.pid=columnsData[0].id;
 			}
 		}
 	});
@@ -74,10 +71,8 @@ function loadUserInfo(){
 //加载菜单
 function loadMenu(pid){
 	var requestData={pid: pid},menusData;
-
 	//合并请求参数
 	requestData=assign({},requestData,statusData);
-
 	ajax({
 		url: '/eye/user/v1/getUserRights.json',
 		data: requestData,
@@ -135,6 +130,35 @@ function logout(){
 	});
 }
 
+//密码重置
+function resetPassword(cpwd,newPwd){
+	var requestData={
+		cpwd: cpwd,
+		newPwd: newPwd
+	};
+	requestData=assign({},requestData,statusData);
+	console.log(requestData);
+	ajax({
+		url: '/eye/user/v1/editPwd.json',
+		data: requestData,
+		success: function(data) {
+			if(data.code==="0000") {
+				//密码重置成功
+				_globalData.resetPassword={
+					status: true
+				}
+			}else {
+				_globalData.resetPassword={
+					status: false,
+					msg: data.description
+				}
+			}
+			console.log(data);
+			GlobalStore.emitChange();
+		}
+	});
+}
+
 const GlobalStore=assign({},EventEmitter.prototype,{
 
 	getStatusData: function(){
@@ -150,7 +174,7 @@ const GlobalStore=assign({},EventEmitter.prototype,{
 	},
 
 	getMenusData: function(){
-		return loadMenu(pid);
+		return loadMenu(_globalData.pid);
 	},
 
 	getDepartments: function(){
@@ -159,6 +183,10 @@ const GlobalStore=assign({},EventEmitter.prototype,{
 
 	getRoles: function(){
 		return getRoles();
+	},
+
+	resetPasswordfeedback: function(){
+		return _globalData.resetPassword
 	},
 
 	emitChange: function(){
@@ -179,17 +207,19 @@ AppDispatcher.register(function(action){
 	switch(action.actionType){
 
 		case GlobalConstants.SWITCH_COLUMN:
-
-			pid=action.pid;
-			_globalData.menusData=loadMenu(validateKey,pid);
-
+			//切换栏目
+			_globalData.pid=action.pid;
 			GlobalStore.emitChange();
 			break;
 
 		case GlobalConstants.LOGOUT:
+			//退出登录
 			logout();
+			break;
 
-			GlobalStore.emitChange();
+		case GlobalConstants.RESET_PASSWORD:
+			//重置密码
+			resetPassword(action.cpwd,action.newPwd);
 			break;
 
 		default:
