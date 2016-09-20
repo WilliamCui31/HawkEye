@@ -264,11 +264,6 @@ ul {
   outline: none;
   vertical-align: middle;
 }
-.hy-input.label{
-  border: none;
-  text-align: center;
-  background-color: transparent;
-}
 .hy-input.primary {
   width: 200px;
 }
@@ -436,6 +431,7 @@ ul {
 /* icons */
 .hy-icon {
   position: relative;
+  margin: 5px;
   display: inline-block;
   vertical-align: middle;
 }

@@ -395,7 +395,10 @@ body {
 	cursor: pointer;
 }
 .hy-popup-box-cont {
+	max-height: 600px;
 	padding: 30px 20px;
+	overflow-x: hidden;
+	overflow-y: auto
 }
 .hy-popup-box-cont>ul {
 	margin: 0 auto;
@@ -405,8 +408,9 @@ body {
 	text-align: center;
 }
 .hy-popup-box-footer {
-	margin-bottom: 30px;
+	padding: 20px 0;
 	text-align: center;
+	border-top: 1px solid #FAF9F9;
 }
 .hy-popup-box-footer>.hy-button {
 	margin: 0 30px;
@@ -425,7 +429,7 @@ body {
 }
 
 
-/* cut 转场动画 */
+/* left_cut 转场动画 */
 .left_cut-enter {
 	opacity: 0;
 	transform: translateY(10%);

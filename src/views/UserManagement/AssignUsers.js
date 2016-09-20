@@ -1,6 +1,8 @@
 import React from 'react';
 import Paging from '../../components/Paging';
 import Confirm from '../../components/Confirm';
+import Popup from '../../components/Popup';
+import Structure from '../../components/Structure';
 import UserRoleStore from '../../stores/UserRoleStore';
 import UserRoleActions from '../../actions/UserRoleActions';
 import { Link } from 'react-router';
@@ -12,7 +14,6 @@ const AssignUsers = React.createClass({
 	},
 
 	getInitialState: function(){
-		console.log(UserRoleStore.getRole().name);
 		return {
 			roleUsers: UserRoleStore.getRoleUsers(),
 			role: UserRoleStore.getRole()
@@ -104,6 +105,28 @@ const AssignUsers = React.createClass({
 		});
 	},
 
+	_addRole: function(){
+		var userTreeData=UserRoleStore.getUserTree(this.state.role.id);
+		var structure=<Structure initialData={userTreeData} export={this._exportUsers}  />;
+
+		var addUserPopup=<Popup 
+			title="添加用户"
+			content={structure}
+			confirm={this._confirmAddUser} 
+			close={this._closePopup}
+		/>;
+
+		this.setState({popup: addUserPopup});
+	},
+
+	_confirmAddUser: function(){
+		UserRoleActions.addRoleUser(this.state.role.id,this.state.users);
+	},
+
+	_exportUsers: function(users){
+		this.state.users=users;
+	},
+
 	_deleteUser: function(e){
 		var userId=e.target.parentNode.parentNode.id,
 			userName=e.target.name,
@@ -112,6 +135,7 @@ const AssignUsers = React.createClass({
 				<p>删除该用户后，该用户将不再拥有该角色权限！</p>
 			</div>,
 			deletUserPopup=<Confirm 
+				title="删除用户"
 				message={message}
 				confirm={this._confirmDeleteUser} 
 				close={this._closePopup}
@@ -124,7 +148,7 @@ const AssignUsers = React.createClass({
 	},
 
 	_confirmDeleteUser: function(){
-		UserRoleActions.deleteUser(this.state.userId,this.state.role.id);
+		UserRoleActions.deleteRoleUser(this.state.userId,this.state.role.id);
 	},
 
 	_closePopup: function(){

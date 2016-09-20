@@ -19,7 +19,8 @@ module.exports = {
 	resolve: {
 		extentions: ['', '.js', '.jsx'],
 		alias: {
-			'styles': path.resolve(__dirname, './assets/styles')
+			'styles': path.resolve(__dirname, './assets/styles'),
+			'images': path.resolve(__dirname, './assets/images')
 		}
 	},
 	postcss: [autoprefixer({browsers:['last 2 versions']})],

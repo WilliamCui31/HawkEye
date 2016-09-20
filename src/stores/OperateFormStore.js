@@ -22,10 +22,10 @@ function queryForm(start,end){
 	console.log(requireData);
 
 	//活动统计
-	//query("activityData","/ntjr-eye/operatorReport/activityStatistic",requireData);
+	query("activityData","/eye/operatorReport/v1/activityStatistic.json",requireData);
 
 	//基础数据统计
-	//query("baseData","/eye/operatorReport/baseStatistic",requireData);
+	query("baseData","/eye/operatorReport/v1/baseStatistic.json",requireData);
 
 	//用户星座
 	query("onstellationData","/eye/operatorReport/v1/getInvestDataByXz.json",requireData);
@@ -38,7 +38,7 @@ function queryForm(start,end){
 
 	//用户年代投资列表
 	query("yearData","/eye/operatorReport/v1/getInvestDataByAgeYear.json",requireData);
-	
+
 	//用户投资列表
 	query("userData","/eye/operatorReport/v1/getInvestDataByUser.json",requireData);
 
@@ -49,7 +49,7 @@ function queryForm(start,end){
 	query("reinvestData","/eye/operatorReport/v1/getInvestDataByFuT.json",requireData);
 
 	//用户收益统计
-	//query("incomeData","/eye/operatorReport/userProfitStatitic.json",requireData);
+	query("incomeData","/eye/operatorReport/v1/userProfitStatitic.json",requireData);
 
 	//用户性别统计
 	query("sexData","/eye/operatorReport/v1/getInvestDataBySex.json",requireData);
@@ -58,10 +58,13 @@ function queryForm(start,end){
 	query("recommendData","/eye/operatorReport/v1/getEyeRecommend.json",requireData);
 
 	//借款金额排行统计
-	//query("borrowMoneyData","/eye/operatorReport/borrowMoneyStatitic.json",requireData);
+	query("borrowMoneyData","/eye/operatorReport/v1/borrowMoneyStatitic.json",requireData);
 
 	//借款类型统计
-	//query("borrowTypeData","/eye/operatorReport/borrowTypeStatitic.json",requireData);
+	query("borrowTypeData","/eye/operatorReport/v1/borrowTypeStatitic.json",requireData);
+
+	//投资最活跃
+	query("activeUserData","/eye/operatorReport/v1/getInveUserByTimes.json",requireData);
 
 }
 
@@ -71,7 +74,6 @@ function query(queryData,queryURL,requireData){
 		data: requireData,
 		success: function(data) {
 			_operateFormData[queryData]=data.data;
-			console.log(queryData,_operateFormData[queryData]);
 			OperateFormStore.emitChange();
 		}
 	});

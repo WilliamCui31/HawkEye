@@ -3,11 +3,11 @@ import UserListConstants from '../constants/UserListConstants';
 
 const UserListActions = {
 
-	inputData: function(id,value){
+	inputData: function(e){
 		AppDispatcher.dispatch({
 			actionType: UserListConstants.INPUT_DATA,
-			id: id,
-			value: value
+			id: e.target.id,
+			value: e.target.value
 		});
 	},
 

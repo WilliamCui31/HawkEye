@@ -9,5 +9,7 @@ export default keyMirror({
 	CHECK_ALL_ROLE_RIGHTS: null,
 	ASSIGN_ROLE_RIGHTS: null,
 	GET_ROLE_USERS: null,
-	DELETE_USER: null
+	DELETE_ROLE_USER: null,
+	ADD_ROLE_USER: null,
+	MODIFY_ROLE_NAME: null
 });

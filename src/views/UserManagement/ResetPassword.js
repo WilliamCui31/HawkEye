@@ -58,8 +58,8 @@ const ResetPassword = React.createClass({
 		this.setState({popup: resetPasswordPopup});
 	},
 
-	_inputData: function(id,value) {
-		this.state[id]=value;
+	_inputData: function(e) {
+		this.state[e.target.id]=e.target.value;
 	},
 
 	_resetPassword: function(){

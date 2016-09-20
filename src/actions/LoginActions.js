@@ -9,11 +9,11 @@ const LoginActions = {
 		});
 	},
 
-	updateAccount: function(id,value){
+	inputAccount: function(e){
 		AppDispatcher.dispatch({
-			actionType: LoginConstants.UPDATE_ACCOUNT,
-			id: id,
-			value: value
+			actionType: LoginConstants.INPUT_ACCOUNT,
+			id: e.target.id,
+			value: e.target.value
 		});
 	},
 
@@ -22,7 +22,7 @@ const LoginActions = {
 			actionType: LoginConstants.SUBMIT
 		})
 	}
-	
+
 }
 
 export default LoginActions;

@@ -41,7 +41,7 @@ const Select = React.createClass({
 	
 	_onChange: function(e){
 		if(e.target.value)
-		this.props.selectAction(this.props.id,e.target.value);
+		this.props.selectAction(e);
 	}
 });
 

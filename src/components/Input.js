@@ -4,30 +4,25 @@ import classnames from 'classnames';
 const Input = React.createClass({
 
 	propTypes: {
-		id: React.PropTypes.string.isRequired,
-		inputAction: React.PropTypes.func.isRequired,
+		id: React.PropTypes.string,
+		inputAction: React.PropTypes.func,
 		type: React.PropTypes.string,
 		defaultValue: React.PropTypes.string,
 		appearance: React.PropTypes.string,
 		placeholder: React.PropTypes.string,
-		focus: React.PropTypes.bool
-	},	
+		focus: React.PropTypes.bool,
+		disabled: React.PropTypes.bool,
+		readonly: React.PropTypes.bool
+	},
 
 	getInitialState: function(){
-		var disabled=false;
-		if(this.props.appearance==="label"
-			||this.props.appearance==="disabled"
-			||this.props.appearance==="readonly"){
-			disabled=true;
-		}
 		return {
-			type: this.props.type||"input",
-			disabled: disabled
+			type: this.props.type||"input"
 		}
 	},
 
 	render: function(){
-		return <input 
+		return <input
 			id={this.props.id}
 			type={this.state.type}
 			className={classnames('hy-input',this.props.appearance)}
@@ -35,12 +30,13 @@ const Input = React.createClass({
 			autoFocus={this.props.focus}
 			onBlur={this._onBlur}
 			defaultValue={this.props.defaultValue}
-			disabled={this.state.disabled}
+			disabled={this.props.disabled}
+			readOnly={this.props.readonly}
 		/>
 	},
-	
+
 	_onBlur: function(e){
-		this.props.inputAction(this.props.id,e.target.value);
+		this.props.inputAction(e);
 	}
 });
 

@@ -61,11 +61,27 @@ const UserRoleActions = {
 		});
 	},
 
-	deleteUser: function(userId,roleId){
+	deleteRoleUser: function(userId,roleId){
 		AppDispatcher.dispatch({
-			actionType: UserRoleConstants.DELETE_USER,
+			actionType: UserRoleConstants.DELETE_ROLE_USER,
 			userId: userId,
 			roleId: roleId
+		});
+	},
+
+	addRoleUser: function(roleId,users){
+		AppDispatcher.dispatch({
+			actionType: UserRoleConstants.ADD_ROLE_USER,
+			roleId: roleId,
+			users: users
+		});
+	},
+
+	modifyRoleName: function(roleId,roleName){
+		AppDispatcher.dispatch({
+			actionType: UserRoleConstants.MODIFY_ROLE_NAME,
+			roleId: roleId,
+			roleName: roleName
 		});
 	}
 

@@ -36,7 +36,7 @@ const ModifyRights = React.createClass({
 		var rightsData=this.state.userRights;
 
 		return <div className="hy-section pdg20">
-		    	
+
 			<ul className="hy-multiline-form clearfix" style={{width: "285px"}}>
 				<li>
 					<label>用户角色：</label>
@@ -49,7 +49,7 @@ const ModifyRights = React.createClass({
 					<button className="hy-button secondary pull-left" onClick={this._cancel}>取消</button>
 		          	<button className="hy-button pull-right" onClick={this._confirm}>确认</button>
 		        </li>
-			</ul>	
+			</ul>
 
 		</div>
 
@@ -64,8 +64,8 @@ const ModifyRights = React.createClass({
 		});
 	},
 
-	_setRoleId: function(id,value){
-		this.state[id]=value;
+	_setRoleId: function(e){
+		this.state[e.target.id]=e.target.value;
 	},
 
 	_cancel: function(){

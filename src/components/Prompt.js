@@ -38,8 +38,8 @@ const Prompt = React.createClass({
 		)
 	},
 
-	_inputValue: function(id,value){
-		this.state.input=value;
+	_inputValue: function(e){
+		this.state.input=e.target.value;
 	},
 
 	_confirm: function(){

@@ -17,6 +17,7 @@ var _userRoleData={
 	usersPageIndex: 1
 }
 
+//获取角色列表
 getRolesList(_userRoleData.pageIndex);
 function getRolesList(pageIndex){
 	var requireData={
@@ -34,6 +35,7 @@ function getRolesList(pageIndex){
 	});
 }
 
+//删除角色
 function deleteRole(roleId){
 	var requireData={id: roleId};
 	requireData=assign({},requireData,statusData);
@@ -48,6 +50,7 @@ function deleteRole(roleId){
 	});
 }
 
+//新增角色
 function addRole(name){
 	var requireData={name: name};
 	requireData=assign({},requireData,statusData);
@@ -62,6 +65,7 @@ function addRole(name){
 	});
 }
 
+//获取角色权限
 function getRoleRights(roleId){
 	var requireData={roleId: roleId};
 	requireData=assign({},requireData,statusData);
@@ -77,6 +81,7 @@ function getRoleRights(roleId){
 	});
 }
 
+//分配角色权限
 function assignRoleRights(requireData){
 	requireData=assign({},requireData,statusData);
 	console.log(requireData);
@@ -90,6 +95,7 @@ function assignRoleRights(requireData){
 	});
 }
 
+//获取角色所在用户列表
 function getRoleUsers(roleId,pageIndex){
 	var requireData={
 		pageNum: pageIndex,
@@ -110,7 +116,8 @@ function getRoleUsers(roleId,pageIndex){
 	});
 }
 
-function deletUser(userId,roleId){
+//从角色删除所在的用户
+function deletRoleUser(userId,roleId){
 	var requireData={
 		uid: userId,
 		roleId: roleId
@@ -127,6 +134,42 @@ function deletUser(userId,roleId){
 	});
 }
 
+//添加角色用户
+function addRoleUser(roleId,users){
+	var requireData={
+		roleId: roleId,
+		users: users
+	}
+	requireData=assign({},requireData,statusData);
+	console.log(requireData);
+	ajax({
+		url:'/eye/role/v1/editUserRole.json',
+		data: requireData,
+		success: function(data) {
+			console.log(data);
+			getRoleUsers(_userRoleData.role.id,_userRoleData.usersPageIndex);
+		}
+	});
+}
+
+//修改角色名称
+function modifyRoleName(roleId,roleName){
+	var requireData={
+		id: roleId,
+		name: roleName
+	}
+	requireData=assign({},requireData,statusData);
+	console.log(requireData);
+	ajax({
+		url:'/eye/role/v1/editRole.json',
+		data: requireData,
+		success: function(data) {
+			console.log(data);
+			getRolesList(_userRoleData.pageIndex);
+		}
+	});
+}
+
 const UserRoleStore=assign({},EventEmitter.prototype,{
 
 	getRolesList: function(){
@@ -139,6 +182,23 @@ const UserRoleStore=assign({},EventEmitter.prototype,{
 
 	getRole: function(){
 		return _userRoleData.role;
+	},
+
+	getUserTree: function(id){
+		var userTreeData;
+		var requireData={
+			roleId: id
+		};
+		requireData=assign({},requireData,statusData);
+		ajax({
+			url:'/eye/dept/v1/getDeptUsers.json',
+			data: requireData,
+			async: false,
+			success: function(data) {
+				userTreeData=data.data;
+			}
+		});
+		return userTreeData;
 	},
 
 	areAllRightChecked: function(){
@@ -368,10 +428,24 @@ AppDispatcher.register(function(action){
 
 			break;
 
-		case UserRoleConstants.DELETE_USER:
+		case UserRoleConstants.DELETE_ROLE_USER:
 			//删除角色用户
 			
-			deletUser(action.userId,action.roleId);
+			deletRoleUser(action.userId,action.roleId);
+
+			break;
+
+		case UserRoleConstants.ADD_ROLE_USER:
+			//添加角色用户
+			
+			addRoleUser(action.roleId,action.users);
+
+			break;
+
+		case UserRoleConstants.MODIFY_ROLE_NAME:
+			//修改角色名称
+			
+			modifyRoleName(action.roleId,action.roleName);
 
 			break;
 

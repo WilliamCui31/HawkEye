@@ -45,10 +45,20 @@ const UserRole = React.createClass({
 
 			var _this=this;
 			rolesList.list.forEach(function(element,index,array){
+				var roleName=<span>{element.name}<i className="hy-icon edit" onClick={_this._enableEdit} title="修改角色名称"></i></span>;
+				if(element.editable) {
+					roleName=<Input 
+						appearance="primary" 
+						id="name" 
+						inputAction={_this._updateRoleName} 
+						defaultValue={element.name} 
+						focus={true}
+					/>;
+				}
 				roles.push(<tr key={element.id} id={element.id}>
 	              <td>{(currentPage-1)*pageSize+index+1}</td>
-	              <td>
-		              <Input appearance="label" id="name" inputAction={_this._updateRoleName} defaultValue={element.name} />
+	              <td style={{width: "200px"}}>
+		              {roleName}
 	              </td>
 	              <td>
 		              <button className="link-button" name={element.name} onClick={_this._assignRoleUsers}>分配用户</button>
@@ -107,6 +117,7 @@ const UserRole = React.createClass({
 	_addRole: function(){
 		var message=<p>角色名称是汉字，长度在2-10个汉字以内</p>;
 		var addRolePrompt=<Prompt 
+			title="新增角色"
 			name="角色名称"
 			message={message}
 			confirm={this._confirmAddRole}
@@ -130,6 +141,7 @@ const UserRole = React.createClass({
 				<p>删除该角色后，所在用户都将失去该角色权限</p>
 			</div>,
 			deletRolePopup=<Confirm 
+				title="删除角色"
 				message={message}
 				confirm={this._confirmDeleteRole} 
 				close={this._closePopup}
@@ -172,8 +184,24 @@ const UserRole = React.createClass({
 		this.context.router.push("/assignRights");
 	},
 
-	_updateRoleName: function(){
+	_enableEdit: function(e){
+		var rolesList=this.state.rolesList;
+		var roleId=e.target.parentNode.parentNode.parentNode.id;
+		rolesList.list.forEach(function(element,index,array){
+			if(element.id==roleId) element.editable=true;
+		});
+		this.setState({rolesList: rolesList});
+	},
 
+	_updateRoleName: function(e){
+		var rolesList=this.state.rolesList;
+		var roleId=e.target.parentNode.parentNode.id;
+		var roleName=e.target.value;
+		rolesList.list.forEach(function(element,index,array){
+			if(element.id==roleId) delete element.editable;
+		});
+		this.setState({rolesList: rolesList});
+		if(roleName) UserRoleActions.modifyRoleName(roleId,roleName);
 	}
 
 });
