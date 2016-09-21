@@ -9,6 +9,7 @@ import UserAddActions from '../../actions/UserAddActions';
 const UserAdd = React.createClass({
 
 	getInitialState: function(){
+		UserAddActions.getRights();
 		return {
 			userAddData: UserAddStore.getData(),
 			areAllRightChecked: UserAddStore.areAllRightChecked()

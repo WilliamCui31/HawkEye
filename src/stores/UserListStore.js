@@ -8,9 +8,6 @@ import utils from '../utils';
 
 const CHANGE_EVENT='change';
 
-//调用状态数据对象
-var statusData=GlobalStore.getStatusData();
-
 var _userListData={
 	queryParam: {
 		//每页10条
@@ -20,7 +17,6 @@ var _userListData={
 
 //查询用户
 function queryUsers(queryParam) {
-	queryParam=assign({},queryParam,statusData);
 	ajax({
 		url: '/eye/user/v1/getUsers.json',
 		data: queryParam,
@@ -36,7 +32,6 @@ function queryUsers(queryParam) {
 
 //修改用户
 function modifyUser(modifyData) {
-	modifyData=assign({},modifyData,statusData);
 	console.log(modifyData);
 	ajax({
 		url: '/eye/user/v1/editUser.json',
@@ -54,7 +49,6 @@ function modifyUser(modifyData) {
 //获取用户详情
 function getUserDetail(userId) {
 	var queryParam={uid: userId};
-	queryParam=assign({},queryParam,statusData);
 	ajax({
 		url: '/eye/user/v1/getUserDetail.json',
 		data: queryParam,
@@ -116,7 +110,7 @@ const UserListStore=assign({},EventEmitter.prototype,{
 AppDispatcher.register(function(action){
 	switch(action.actionType){
 		case UserListConstants.INPUT_DATA:
-			
+
 			_userListData.queryParam[action.id]=action.value;
 
 			UserListStore.emitChange();
@@ -148,7 +142,7 @@ AppDispatcher.register(function(action){
 
 		case UserListConstants.GET_USER_DETAIL:
 			//获取用户详情
-			
+
 			getUserDetail(action.userId);
 
 			break;
@@ -177,7 +171,7 @@ AppDispatcher.register(function(action){
 					rights.push(right);
 				}
 
-				let children=element.datas; 
+				let children=element.datas;
 				children.forEach(function(element,index,array){
 					if(element.isChecked=="1") {
 						var right={"rightId":element.id}

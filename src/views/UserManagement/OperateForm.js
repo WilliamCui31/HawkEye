@@ -419,7 +419,6 @@ const OperateForm = React.createClass({
 		}else {
 			var start=this.state.startValue.format(getFormat(SHOW_TIME));
 			var end=this.state.endValue.format(getFormat(SHOW_TIME));
-			console.log("aaaaa",start,end)
 			OperateFormActions.queryForm(start,end);
 		}
 	},

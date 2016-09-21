@@ -2,6 +2,11 @@ import AppDispatcher from '../dispatcher/AppDispatcher';
 import UserAddConstants from '../constants/UserAddConstants';
 
 const UserAddActions = {
+	getRights: function(e){
+		AppDispatcher.dispatch({
+			actionType: UserAddConstants.GET_RIGHTS,
+		});
+	},
 
 	inputData: function(e){
 		AppDispatcher.dispatch({

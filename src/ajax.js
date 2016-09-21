@@ -10,16 +10,49 @@
 *  @author William Cui
 *  @date 2016-09-20
 * */
-function ajax(settings) {
+import utils from './utils';
+import md5 from './common/md5';
+import CryptoJS from './common/pad-zeropadding';
 
-    var url="http://192.168.1.242:9701"+settings.url,
+function ajax(settings) {
+    //http://192.168.1.242:9701
+    var url="http://192.168.1.70:8080/"+settings.url,
         method=settings.method || "post",
         async=settings.async,
-        data=settings.data,
+        data=settings.data || {},
         success=settings.success;
 
     if(!async && async!==false){
         async = true; //默认使用异步请求
+    }
+
+    //如果存在validateKey，表示是登录状态，data数据对象追加validateKey和token数据
+    if(utils.getCookie("validateKey")) {
+
+      //定义属性连接字符串，最终通过MD5和AES两层加密得到token
+      var propsString="",token="";
+
+      //如果有请求数据则追加到属性字符串
+      if(!utils.isEmptyObject(data)) propsString=joinProps(data)+"&";
+
+      //从cookie获取登录validateKey,追加到data数据对象
+      data.validateKey=utils.getCookie("validateKey");
+
+      //属性字符串追加validateKey
+      propsString+="validateKey="+data.validateKey;
+      console.log("propsString ",propsString);
+
+      //MD5加密
+      token=md5(propsString);
+
+      //AES加密
+    	var key=CryptoJS.enc.Latin1.parse('ntj-eye-20160920');
+    	var iv=CryptoJS.enc.Latin1.parse('ntj-2016-972385x');
+      token=CryptoJS.AES.encrypt(token,key,{iv:iv,mode:CryptoJS.mode.CBC,padding:CryptoJS.pad.ZeroPadding});
+
+      //把经过MD5和AES两次加密后的token追加到data数据对象
+      data.token=token.toString();
+
     }
 
     //基于兼容考虑，创建一个XMLHttpRequest对象
@@ -45,19 +78,38 @@ function ajax(settings) {
     if (async === true) {
        xhr.onreadystatechange = function () {
            if (xhr.readyState == 4) {   //判断对象的状态是否交互完成
-               callback();		 //回调
+               callback();
            }
        };
     }else {
       callback();
     }
 
+    //请求成功回调
     function callback() {
       if (xhr.status == 200) {  //判断http的交互是否成功，200表示成功
           success(JSON.parse(xhr.responseText));//将返回的json字符串解析返回
       } else {
           //alert('获取数据错误！错误代号：' + xhr.status + '，错误信息：' + xhr.statusText);
       }
+    }
+
+    //属性按英文字母排序，然后连接起来
+    function joinProps(data){
+      var props=[];
+      for(let i in data){
+        var value=data[i];
+        if(typeof value==="object") value=JSON.stringify(value);
+        if(i!="validateKey"&&i!="token")
+        props.push(i+"="+value);
+      }
+      props.sort(function(x,y){
+        x=x.toUpperCase();
+        y=y.toUpperCase();
+        return x>y;
+      });
+      console.log("props",props.join("&"));
+      return props.join("&");
     }
 
     //名值对转换为字符串
@@ -71,4 +123,4 @@ function ajax(settings) {
     }
 }
 
-module.exports=ajax;
+export default ajax;

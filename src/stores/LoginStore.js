@@ -78,7 +78,6 @@ AppDispatcher.register(function(action){
 
 		case LoginConstants.SUBMIT:
 			var account=_loginData.account;
-			console.log(!account.accountName);
 			if(!account.accountName) {
 				_loginData.errorMsg="请输入用户名！";
 			}else if (!account.password) {

@@ -13,6 +13,7 @@ const UserRole = React.createClass({
 	},
 
 	getInitialState: function(){
+		UserRoleActions.getRolesList(1);
 		return {
 			rolesList: UserRoleStore.getRolesList()
 		}
@@ -47,11 +48,11 @@ const UserRole = React.createClass({
 			rolesList.list.forEach(function(element,index,array){
 				var roleName=<span>{element.name}<i className="hy-icon edit" onClick={_this._enableEdit} title="修改角色名称"></i></span>;
 				if(element.editable) {
-					roleName=<Input 
-						appearance="primary" 
-						id="name" 
-						inputAction={_this._updateRoleName} 
-						defaultValue={element.name} 
+					roleName=<Input
+						appearance="primary"
+						id="name"
+						inputAction={_this._updateRoleName}
+						defaultValue={element.name}
 						focus={true}
 					/>;
 				}
@@ -67,11 +68,11 @@ const UserRole = React.createClass({
 	    	      </td>
 	            </tr>)
 			});
-			paging=<Paging 
-				pageSize={currentRecord} 
-				currentPage={currentPage} 
-				totalPage={totalPage} 
-				switchPageAction={UserRoleActions.getRolesList} 
+			paging=<Paging
+				pageSize={currentRecord}
+				currentPage={currentPage}
+				totalPage={totalPage}
+				switchPageAction={UserRoleActions.getRolesList}
 			/>
 		}
 
@@ -116,7 +117,7 @@ const UserRole = React.createClass({
 
 	_addRole: function(){
 		var message=<p>角色名称是汉字，长度在2-10个汉字以内</p>;
-		var addRolePrompt=<Prompt 
+		var addRolePrompt=<Prompt
 			title="新增角色"
 			name="角色名称"
 			message={message}
@@ -140,10 +141,10 @@ const UserRole = React.createClass({
 				<h1>确认要删除角色:<strong className="hy-strong">{roleName}</strong>吗？</h1>
 				<p>删除该角色后，所在用户都将失去该角色权限</p>
 			</div>,
-			deletRolePopup=<Confirm 
+			deletRolePopup=<Confirm
 				title="删除角色"
 				message={message}
-				confirm={this._confirmDeleteRole} 
+				confirm={this._confirmDeleteRole}
 				close={this._closePopup}
 			/>;
 

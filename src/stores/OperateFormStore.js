@@ -4,12 +4,8 @@ import GlobalStore from '../stores/GlobalStore';
 import OperateFormConstants from '../constants/OperateFormConstants';
 import assign from 'object-assign';
 import ajax from '../ajax';
-import utils from '../utils';
 
 const CHANGE_EVENT='change';
-
-//调用状态数据对象
-var statusData=GlobalStore.getStatusData();
 
 var _operateFormData={}
 
@@ -18,7 +14,6 @@ function queryForm(start,end){
 		start: start,
 		end: end
 	};
-	requireData=assign({},requireData,statusData);
 	console.log(requireData);
 
 	//活动统计
@@ -108,7 +103,6 @@ AppDispatcher.register(function(action){
 			break;
 
 		default:
-
 	}
 });
 

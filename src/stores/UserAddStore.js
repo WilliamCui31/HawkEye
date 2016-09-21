@@ -8,14 +8,10 @@ import utils from '../utils';
 
 const CHANGE_EVENT='change';
 
-//调用状态数据对象
-var statusData=GlobalStore.getStatusData();
-
 //定义新增用户数据对象
 var _userAddData={
-	//所有权限树结构
-	rights: getRights(),
 	//要提交新增用户的信息
+	rights: null,
 	addAccount: {
 		user: {},
 		rights: [],
@@ -25,22 +21,17 @@ var _userAddData={
 
 //加载权限
 function getRights(){
-	var rights;
 	ajax({
 		url:'/eye/right/v1/getAllRighs.json',
-		data: statusData,
 		async: false,
 		success: function(data) {
-			rights=data.data;
+			_userAddData.rights=data.data;
 		}
 	});
-	return rights;
 }
 
 //确认新增用户
 function addUser(addAccount){
-	//合并请求参数
-	addAccount=assign({},addAccount,statusData);
 	ajax({
 		url:'/eye/user/v1/saveUser.json',
 		data: addAccount,
@@ -88,9 +79,15 @@ const UserAddStore=assign({},EventEmitter.prototype,{
 
 AppDispatcher.register(function(action){
 	switch(action.actionType){
+		case UserAddConstants.GET_RIGHTS:
+			getRights();
+			UserAddStore.emitChange();
+			break;
+
 		case UserAddConstants.INPUT_DATA:
 			if(action.value!==_userAddData.addAccount.user[action.id]){
 				if(action.id!=="roleId"){
+					console.log("9999999",typeof action.value);
 					_userAddData.addAccount.user[action.id]=action.value;
 				}else {
 					_userAddData.addAccount[action.id]=action.value;
@@ -233,7 +230,7 @@ AppDispatcher.register(function(action){
 					_userAddData.addAccount.rights.push(right);
 				}
 
-				let children=element.datas; 
+				let children=element.datas;
 				children.forEach(function(element,index,array){
 					if(element.isChecked=="1") {
 						var right={"rightId":element.id}

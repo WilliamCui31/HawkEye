@@ -8,18 +8,6 @@ import { hashHistory } from 'react-router';
 
 const CHANGE_EVENT='change';
 
-//从cookie取出validateKey
-var validateKey=utils.getCookie("validateKey");
-console.log(validateKey);
-
-//如果没有validateKey就跳转到登录页面
-if(!validateKey) hashHistory.push("/");
-
-//定义状态数据对象
-var statusData={
-	validateKey: validateKey
-}
-
 var _globalData={
 	//头部栏目列表
 	columnsData: null,
@@ -32,7 +20,7 @@ var _globalData={
 	//角色列表
 	roles: null,
 	//声明栏目ID
-	pid: 1
+	pid: null
 }
 
 //加载系统栏目
@@ -40,7 +28,6 @@ function loadColumn(){
 	var columnsData;
 	ajax({
 		url: '/eye/user/v1/getUserMenues.json',
-		data: statusData,
 		async: false,
 		success: function(data) {
 			if(data.code==="0000") {
@@ -57,7 +44,6 @@ function loadUserInfo(){
 	var userInfo
 	ajax({
 		url: '/eye/user/v1/getLoginUserInfo.json',
-		data: statusData,
 		async: false,
 		success: function(data) {
 			if(data.code==="0000") {
@@ -71,12 +57,10 @@ function loadUserInfo(){
 //加载菜单
 function loadMenu(pid){
 	var requestData={pid: pid},menusData;
-	//合并请求参数
-	requestData=assign({},requestData,statusData);
 	ajax({
 		url: '/eye/user/v1/getUserRights.json',
-		data: requestData,
 		async: false,
+		data: requestData,
 		success: function(data) {
 			if(data.code==="0000") {
 				menusData=data.data;
@@ -91,7 +75,6 @@ function getDepartments(){
 	var departments;
 	ajax({
 		url:'/eye/dept/v1/getDepts.json',
-		data: statusData,
 		async: false,
 		success: function(data) {
 			departments=data.data;
@@ -105,7 +88,6 @@ function getRoles(){
 	var roles;
 	ajax({
 		url:'/eye/role/v1/getRoles.json',
-		data: statusData,
 		async: false,
 		success: function(data) {
 			roles=data.data;
@@ -118,11 +100,10 @@ function getRoles(){
 function logout(){
 	ajax({
 		url: '/eye/user/v1/logout.json',
-		data: statusData,
 		success: function(data) {
 			if(data.code==="0000") {
 				//从cookie删除validateKey
-				//utils.delCookie("validateKey");
+				utils.delCookie("validateKey");
 				//跳转到登录页
 				location.assign("/#/");
 			}
@@ -136,8 +117,6 @@ function resetPassword(cpwd,newPwd){
 		cpwd: cpwd,
 		newPwd: newPwd
 	};
-	requestData=assign({},requestData,statusData);
-	console.log(requestData);
 	ajax({
 		url: '/eye/user/v1/editPwd.json',
 		data: requestData,
@@ -160,10 +139,6 @@ function resetPassword(cpwd,newPwd){
 }
 
 const GlobalStore=assign({},EventEmitter.prototype,{
-
-	getStatusData: function(){
-		return statusData;
-	},
 
 	getColumnsData: function(){
 		return loadColumn();

@@ -8,9 +8,6 @@ import utils from '../utils';
 
 const CHANGE_EVENT='change';
 
-//调用状态数据对象
-var statusData=GlobalStore.getStatusData();
-
 var _userRoleData={
 	//当前页码
 	pageIndex: 1,
@@ -18,13 +15,11 @@ var _userRoleData={
 }
 
 //获取角色列表
-getRolesList(_userRoleData.pageIndex);
 function getRolesList(pageIndex){
 	var requireData={
 		pageNum: pageIndex,
 		pageSize: 10
 	};
-	requireData=assign({},requireData,statusData);
 	ajax({
 		url:'/eye/role/v1/getRolesByPage.json',
 		data: requireData,
@@ -38,7 +33,6 @@ function getRolesList(pageIndex){
 //删除角色
 function deleteRole(roleId){
 	var requireData={id: roleId};
-	requireData=assign({},requireData,statusData);
 	console.log(requireData);
 	ajax({
 		url:'/eye/role/v1/deleteRole.json',
@@ -53,7 +47,6 @@ function deleteRole(roleId){
 //新增角色
 function addRole(name){
 	var requireData={name: name};
-	requireData=assign({},requireData,statusData);
 	console.log(requireData);
 	ajax({
 		url:'/eye/role/v1/addRole.json',
@@ -68,7 +61,6 @@ function addRole(name){
 //获取角色权限
 function getRoleRights(roleId){
 	var requireData={roleId: roleId};
-	requireData=assign({},requireData,statusData);
 	console.log(requireData);
 	ajax({
 		url:'/eye/role/v1/roleRights.json',
@@ -83,7 +75,6 @@ function getRoleRights(roleId){
 
 //分配角色权限
 function assignRoleRights(requireData){
-	requireData=assign({},requireData,statusData);
 	console.log(requireData);
 	ajax({
 		url:'/eye/role/v1/editRoleRight.json',
@@ -102,7 +93,6 @@ function getRoleUsers(roleId,pageIndex){
 		pageSize: 10,
 		roleId: roleId
 	};
-	requireData=assign({},requireData,statusData);
 	console.log(requireData);
 	ajax({
 		url:'/eye/role/v1/getRoleUsers.json',
@@ -122,7 +112,6 @@ function deletRoleUser(userId,roleId){
 		uid: userId,
 		roleId: roleId
 	}
-	requireData=assign({},requireData,statusData);
 	console.log(requireData);
 	ajax({
 		url:'/eye/role/v1/deleteUserRole.json',
@@ -140,7 +129,6 @@ function addRoleUser(roleId,users){
 		roleId: roleId,
 		users: users
 	}
-	requireData=assign({},requireData,statusData);
 	console.log(requireData);
 	ajax({
 		url:'/eye/role/v1/editUserRole.json',
@@ -158,7 +146,6 @@ function modifyRoleName(roleId,roleName){
 		id: roleId,
 		name: roleName
 	}
-	requireData=assign({},requireData,statusData);
 	console.log(requireData);
 	ajax({
 		url:'/eye/role/v1/editRole.json',
@@ -189,7 +176,6 @@ const UserRoleStore=assign({},EventEmitter.prototype,{
 		var requireData={
 			roleId: id
 		};
-		requireData=assign({},requireData,statusData);
 		ajax({
 			url:'/eye/dept/v1/getDeptUsers.json',
 			data: requireData,
@@ -395,7 +381,7 @@ AppDispatcher.register(function(action){
 					rights.push(right);
 				}
 
-				let children=element.datas; 
+				let children=element.datas;
 				children.forEach(function(element,index,array){
 					if(element.isChecked=="1") {
 						var right={"rightId":element.id}
@@ -430,21 +416,21 @@ AppDispatcher.register(function(action){
 
 		case UserRoleConstants.DELETE_ROLE_USER:
 			//删除角色用户
-			
+
 			deletRoleUser(action.userId,action.roleId);
 
 			break;
 
 		case UserRoleConstants.ADD_ROLE_USER:
 			//添加角色用户
-			
+
 			addRoleUser(action.roleId,action.users);
 
 			break;
 
 		case UserRoleConstants.MODIFY_ROLE_NAME:
 			//修改角色名称
-			
+
 			modifyRoleName(action.roleId,action.roleName);
 
 			break;
