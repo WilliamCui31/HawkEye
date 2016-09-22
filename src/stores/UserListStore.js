@@ -69,11 +69,13 @@ const UserListStore=assign({},EventEmitter.prototype,{
 		return _userListData.usersList;
 	},
 
-	getUserInfo: function(){
+	getUserInfo: function(userId){
+		getUserDetail(userId);
 		return _userListData.userInfo;
 	},
 
-	getUserRights: function(){
+	getUserRights: function(userId){
+		getUserDetail(userId);
 		return _userListData.userRights;
 	},
 
@@ -137,13 +139,6 @@ AppDispatcher.register(function(action){
 			};
 
 			modifyUser(modifyData);
-
-			break;
-
-		case UserListConstants.GET_USER_DETAIL:
-			//获取用户详情
-
-			getUserDetail(action.userId);
 
 			break;
 

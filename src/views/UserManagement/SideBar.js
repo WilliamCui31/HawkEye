@@ -8,10 +8,8 @@ var ReactCSSTransitionGroup=require('react/lib/ReactCSSTransitionGroup');
 
 const UserManagement=React.createClass({
 
-	getInitialState: function(){
-		return {
-			menusData: GlobalStore.getMenusData()
-		}
+	contextTypes: {
+		router: React.PropTypes.object
 	},
 
 	componentDidMount: function(){
@@ -23,8 +21,7 @@ const UserManagement=React.createClass({
 	},
 
 	render: function(){
-
-		var menusData=this.state.menusData,menus=[];
+		var menusData=GlobalStore.getMenusData(this.props.location.query.columnId),menus=[];
 
 		for(let category of menusData) {
 			var linkDatas=category.datas, links=[];
@@ -42,27 +39,21 @@ const UserManagement=React.createClass({
 		}
 
 		return <div>
-		
+
 			<ul className="side-bar">
 			    {menus}
 			</ul>
 
 			<div className="hy-cont">
-				<ReactCSSTransitionGroup 
-					transitionName="left_cut" 
-					transitionEnterTimeout={200} 
+				<ReactCSSTransitionGroup
+					transitionName="left_cut"
+					transitionEnterTimeout={200}
 					transitionLeaveTimeout={200}>
 					{React.cloneElement(this.props.children, {key: this.props.location.pathname})}
 				</ReactCSSTransitionGroup>
 			</div>
-			
-		</div>
-	},
 
-	_onChange: function(){
-		this.setState({
-			menusData: GlobalStore.getMenusData()
-		});
+		</div>
 	}
 });
 

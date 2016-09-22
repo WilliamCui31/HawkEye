@@ -9,6 +9,10 @@ import 'styles/main.css';
 
 const Main=React.createClass({
 
+	contextTypes: {
+		router: React.PropTypes.object
+	},
+
 	getInitialState: function(){
 		return {
 			columnsData: GlobalStore.getColumnsData(),
@@ -29,7 +33,7 @@ const Main=React.createClass({
 		//系统栏目
 		var columnsData=this.state.columnsData,columns=[];
 		for(let column of columnsData) {
-			columns.push(<li key={column.id}><Link to={column.url} activeClassName="active" name={column.id} onClick={this._onSwitchColumn}>{column.name}</Link></li>)
+			columns.push(<li key={column.id}><Link to={column.url} activeClassName="active" name={column.url} title={column.id} onClick={this._onSwitchColumn}>{column.name}</Link></li>)
 		}
 
 		//用户名
@@ -45,7 +49,7 @@ const Main=React.createClass({
 			    <span className="top-greating">您好，{userName}</span> <button className="link-button" onClick={this._logout}>退出登录</button>
 			  </div>
 			</div>
-				
+
 			{this.props.children}
 
 		</div>
@@ -63,7 +67,13 @@ const Main=React.createClass({
 	},
 
 	_onSwitchColumn: function(e) {
-		GlobalActions.switchColumn(e.target.name);
+		e.preventDefault();
+		this.context.router.push({
+			pathname: e.target.name,
+			query: {
+				columnId: e.target.title
+			}
+		});
 	}
 });
 

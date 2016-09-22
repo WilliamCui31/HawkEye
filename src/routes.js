@@ -17,7 +17,7 @@ import OperateForm from './views/UserManagement/OperateForm';
 
 export default (
 	<Router history={hashHistory}>
-		<Route path="/" component={Login} />
+			<Route path="/" component={Login} />
   		<Route component={TopBar}>
   			<IndexRedirect to="/welcome" />
   			<Route path="/userManagement" component={SideBar}>
@@ -25,8 +25,8 @@ export default (
  				<Route path="/welcome" component={Welcome} />
  				<Route path="/userAdd" component={UserAdd} />
  				<Route path="/userList" component={UserList} />
- 				<Route path="/modifyInfo/:userId" component={ModifyInfo} />
- 				<Route path="/modifyRights/:userId" component={ModifyRights} />
+ 				<Route path="/modifyInfo" component={ModifyInfo} />
+ 				<Route path="/modifyRights" component={ModifyRights} />
  				<Route path="/userRole" component={UserRole} />
  				<Route path="/assignUsers" component={AssignUsers} />
  				<Route path="/assignRights" component={AssignRights} />

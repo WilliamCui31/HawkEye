@@ -5,9 +5,64 @@ const ControlMenu = React.createClass({
 
 	propsTypes: {
 		initialData: React.PropTypes.array.isRequired,
-		checkHandle: React.PropTypes.object.isRequired,
-		checkAllHandle: React.PropTypes.object.isRequired,
-		areAllRightChecked: React.PropTypes.bool.isRequired
+		export: React.PropTypes.func.isRequired
+	},
+
+	getInitialState: function(){
+		var treeData=this.props.initialData;
+		var areAllChecked=true;
+
+		//一级遍历
+		treeData.forEach(function(element,index,array){
+			var children=element.datas;
+			if(element.isChecked!="1") areAllChecked=false;
+			//二级遍历
+			children.forEach(function(element,index,array){
+				var children=element.datas;
+				if(element.isChecked!="1") areAllChecked=false;
+				//三级遍历
+				children.forEach(function(element,index,array){
+					if(element.isChecked!="1") areAllChecked=false;
+				});
+			});
+		});
+
+		return {
+			treeData: treeData,
+			areAllChecked: areAllChecked
+		}
+	},
+
+	componentDidUpdate: function(){
+		var treeData=this.state.treeData;
+		var rights=[];
+		treeData.forEach(function(element,index,array){
+			if(element.isChecked=="1") {
+				var right={
+					rightId: element.id
+				};
+				rights.push(right);
+			}
+			var children=element.datas;
+			children.forEach(function(element,index,array){
+				if(element.isChecked=="1") {
+					var right={
+						rightId: element.id
+					};
+					rights.push(right);
+				}
+				var children=element.datas;
+				children.forEach(function(element,index,array){
+					if(element.isChecked=="1") {
+						var right={
+							rightId: element.id
+						};
+						rights.push(right);
+					}
+				})
+			});
+		});
+		this.props.export(rights);
 	},
 
 	render: function(){
@@ -44,7 +99,7 @@ const ControlMenu = React.createClass({
 
 		return <div className="control-menu">
 			<h1 className="control-menu-header">
-				菜单权限：<CheckBox id={0} text="全部勾选" isChecked={this.props.areAllRightChecked} onCheck={this._onCheckAll} />
+				菜单权限：<CheckBox id={0} text="全部勾选" isChecked={this.state.areAllChecked} onCheck={this._onCheckAll} />
 			</h1>
 			<div className="control-menu-accordion">
 				{level1Menu}
@@ -53,13 +108,84 @@ const ControlMenu = React.createClass({
 	},
 
 	_onCheck: function(id,isChecked){
-		this.props.checkHandle(id,isChecked);
+		var treeData=this.state.treeData;
+		var checked=isChecked?"0":"1";
+		var areAllChecked=true;
+
+		//一级遍历
+		treeData.forEach(function(element,index,array){
+			var children=element.datas;
+
+			if(element.id==id) {
+				element.isChecked=checked;
+				children.forEach(function(element,index,array){
+					var children=element.datas;
+					element.isChecked=checked;
+					children.forEach(function(element,index,array){
+						element.isChecked=checked;
+					});
+				});
+			}
+
+			//二级遍历
+			var firstChecked=false;
+			children.forEach(function(element,index,array){
+				var children=element.datas;
+
+				if(element.id==id) {
+					element.isChecked=checked;
+					children.forEach(function(element,index,array){
+						element.isChecked=checked;
+					});
+					firstChecked=true;
+				}
+
+				//三级遍历
+				var secondeChecked=false;
+				children.forEach(function(element,index,array){
+					if(element.id==id) {
+						element.isChecked=checked;
+						secondeChecked=true;
+					}
+					if(element.isChecked!="1") areAllChecked=false;
+				});
+				if(secondeChecked) element.isChecked="1";
+
+				if(element.isChecked=="1") firstChecked=true;
+				if(element.isChecked!="1") areAllChecked=false;
+			});
+			if(firstChecked) element.isChecked="1";
+			if(element.isChecked!="1") areAllChecked=false;
+		});
+
+		this.setState({
+			treeData: treeData,
+			areAllChecked: areAllChecked
+		});
+
 	},
 
 	_onCheckAll: function(e){
-		this.props.checkAllHandle(!this.props.areAllRightChecked);
+		var treeData=this.state.treeData;
+		var areAllChecked=this.state.areAllChecked;
+		treeData.forEach(function(element,index,array){
+			var children=element.datas;
+			element.isChecked=areAllChecked?"0":"1";
+			children.forEach(function(element,index,array){
+				var children=element.datas;
+				element.isChecked=areAllChecked?"0":"1";
+				children.forEach(function(element,index,array){
+					element.isChecked=areAllChecked?"0":"1";
+				})
+			});
+		});
+
+		this.setState({
+			treeData:treeData,
+			areAllChecked: !areAllChecked
+		})
 	}
-	
+
 });
 
 export default ControlMenu;

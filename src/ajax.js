@@ -15,8 +15,7 @@ import md5 from './common/md5';
 import CryptoJS from './common/pad-zeropadding';
 
 function ajax(settings) {
-    //http://192.168.1.242:9701
-    var url="http://192.168.1.70:8080/"+settings.url,
+    var url=settings.url,
         method=settings.method || "post",
         async=settings.async,
         data=settings.data || {},
@@ -40,7 +39,6 @@ function ajax(settings) {
 
       //属性字符串追加validateKey
       propsString+="validateKey="+data.validateKey;
-      console.log("propsString ",propsString);
 
       //MD5加密
       token=md5(propsString);
@@ -108,7 +106,6 @@ function ajax(settings) {
         y=y.toUpperCase();
         return x>y;
       });
-      console.log("props",props.join("&"));
       return props.join("&");
     }
 

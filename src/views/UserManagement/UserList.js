@@ -64,11 +64,11 @@ const UserList = React.createClass({
 	    	      </td>
 	            </tr>)
 			});
-			paging=<Paging 
-				pageSize={currentRecord} 
-				currentPage={currentPage} 
-				totalPage={totalPage} 
-				switchPageAction={UserListActions.queryUsers} 
+			paging=<Paging
+				pageSize={currentRecord}
+				currentPage={currentPage}
+				totalPage={totalPage}
+				switchPageAction={UserListActions.queryUsers}
 			/>
 		}else{
 			users.push(<tr key={0} className="list-grid-placeholder"><td colSpan="7">暂时没有数据哦，请点击查询！</td></tr>);
@@ -88,7 +88,7 @@ const UserList = React.createClass({
 		    </div>
 
 		    <div className="hy-section">
-				
+
 				<table className="list-grid" width="100%">
 		          <thead>
 		            <tr>
@@ -141,13 +141,13 @@ const UserList = React.createClass({
 			message=<div>
 				<h1>您确定要禁用该用户吗？</h1>
 				<p>对用户禁用操作后，该用户将不能再登陆使用鹰眼系统</p>
-			</div>; 
+			</div>;
 		}
 
 		this.setState({
-			popup: <Confirm 
+			popup: <Confirm
 				message={message}
-				confirm={this._switchUserStatus} 
+				confirm={this._switchUserStatus}
 				close={this._closePopup}
 			/>,
 			userId: userId,
@@ -172,15 +172,19 @@ const UserList = React.createClass({
 	_modifyUserInfo: function(e){
 		//修改用户信息
 		var userId=e.target.parentNode.parentNode.id;
-		UserListActions.getUserDetail(userId);
-		this.context.router.push("/modifyInfo/:"+userId);
+		this.context.router.push({
+			pathname: "/modifyInfo",
+			query: {userId: userId}
+		});
 	},
-	
+
 	_modifyUserRights: function(e){
 		//修改用户权限
 		var userId=e.target.parentNode.parentNode.id;
-		UserListActions.getUserDetail(userId);
-		this.context.router.push("/modifyRights/:"+userId);
+		this.context.router.push({
+			pathname: "/modifyRights",
+			query: {userId: userId}
+		});
 	}
 
 });

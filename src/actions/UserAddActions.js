@@ -2,38 +2,18 @@ import AppDispatcher from '../dispatcher/AppDispatcher';
 import UserAddConstants from '../constants/UserAddConstants';
 
 const UserAddActions = {
-	getRights: function(e){
+	getRights: function(){
 		AppDispatcher.dispatch({
 			actionType: UserAddConstants.GET_RIGHTS,
 		});
 	},
 
-	inputData: function(e){
+	addUser: function(user,rights,roleId){
 		AppDispatcher.dispatch({
-			actionType: UserAddConstants.INPUT_DATA,
-			id: e.target.id,
-			value: e.target.value
-		});
-	},
-
-	checkRight: function(id,isChecked){
-		AppDispatcher.dispatch({
-			actionType: UserAddConstants.CHECK_RIGHT,
-			id: id,
-			isChecked: isChecked
-		});
-	},
-
-	checkAllRights: function(isCheckedAll){
-		AppDispatcher.dispatch({
-			actionType: UserAddConstants.CHECK_ALL_RIGHTS,
-			isCheckedAll: isCheckedAll
-		});
-	},
-
-	addUser: function(){
-		AppDispatcher.dispatch({
-			actionType: UserAddConstants.ADD_USER
+			actionType: UserAddConstants.ADD_USER,
+			user: user,
+			rights: rights,
+			roleId: roleId
 		});
 	}
 }

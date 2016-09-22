@@ -46,10 +46,11 @@ const UserRoleActions = {
 		});
 	},
 
-	assignRoleRights: function(roleId){
+	assignRoleRights: function(roleId,rights){
 		AppDispatcher.dispatch({
 			actionType: UserRoleConstants.ASSIGN_ROLE_RIGHTS,
-			roleId: roleId
+			roleId: roleId,
+			rights: rights
 		});
 	},
 

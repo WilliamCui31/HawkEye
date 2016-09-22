@@ -56,6 +56,7 @@ function loadUserInfo(){
 
 //加载菜单
 function loadMenu(pid){
+	if(!pid) pid=_globalData.pid;
 	var requestData={pid: pid},menusData;
 	ajax({
 		url: '/eye/user/v1/getUserRights.json',
@@ -148,8 +149,8 @@ const GlobalStore=assign({},EventEmitter.prototype,{
 		return loadUserInfo();
 	},
 
-	getMenusData: function(){
-		return loadMenu(_globalData.pid);
+	getMenusData: function(columnId){
+		return loadMenu(columnId);
 	},
 
 	getDepartments: function(){
@@ -180,12 +181,6 @@ const GlobalStore=assign({},EventEmitter.prototype,{
 
 AppDispatcher.register(function(action){
 	switch(action.actionType){
-
-		case GlobalConstants.SWITCH_COLUMN:
-			//切换栏目
-			_globalData.pid=action.pid;
-			GlobalStore.emitChange();
-			break;
 
 		case GlobalConstants.LOGOUT:
 			//退出登录

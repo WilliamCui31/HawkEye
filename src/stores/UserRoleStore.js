@@ -33,12 +33,10 @@ function getRolesList(pageIndex){
 //删除角色
 function deleteRole(roleId){
 	var requireData={id: roleId};
-	console.log(requireData);
 	ajax({
 		url:'/eye/role/v1/deleteRole.json',
 		data: requireData,
 		success: function(data) {
-			console.log(data);
 			getRolesList(_userRoleData.pageIndex);
 		}
 	});
@@ -47,12 +45,10 @@ function deleteRole(roleId){
 //新增角色
 function addRole(name){
 	var requireData={name: name};
-	console.log(requireData);
 	ajax({
 		url:'/eye/role/v1/addRole.json',
 		data: requireData,
 		success: function(data) {
-			console.log(data);
 			getRolesList(_userRoleData.pageIndex);
 		}
 	});
@@ -68,7 +64,6 @@ function getRoleRights(roleId){
 		async: false,
 		success: function(data) {
 			_userRoleData.roleRights=data.data;
-			UserRoleStore.emitChange();
 		}
 	});
 }
@@ -93,15 +88,12 @@ function getRoleUsers(roleId,pageIndex){
 		pageSize: 10,
 		roleId: roleId
 	};
-	console.log(requireData);
 	ajax({
 		url:'/eye/role/v1/getRoleUsers.json',
 		data: requireData,
 		async: false,
 		success: function(data) {
-			console.log(data);
 			_userRoleData.roleUsers=data.data;
-			UserRoleStore.emitChange();
 		}
 	});
 }
@@ -117,8 +109,7 @@ function deletRoleUser(userId,roleId){
 		url:'/eye/role/v1/deleteUserRole.json',
 		data: requireData,
 		success: function(data) {
-			console.log(data);
-			getRoleUsers(_userRoleData.role.id,_userRoleData.usersPageIndex);
+			UserRoleStore.emitChange();
 		}
 	});
 }
@@ -134,8 +125,7 @@ function addRoleUser(roleId,users){
 		url:'/eye/role/v1/editUserRole.json',
 		data: requireData,
 		success: function(data) {
-			console.log(data);
-			getRoleUsers(_userRoleData.role.id,_userRoleData.usersPageIndex);
+			UserRoleStore.emitChange();
 		}
 	});
 }
@@ -146,12 +136,10 @@ function modifyRoleName(roleId,roleName){
 		id: roleId,
 		name: roleName
 	}
-	console.log(requireData);
 	ajax({
 		url:'/eye/role/v1/editRole.json',
 		data: requireData,
 		success: function(data) {
-			console.log(data);
 			getRolesList(_userRoleData.pageIndex);
 		}
 	});
@@ -163,7 +151,8 @@ const UserRoleStore=assign({},EventEmitter.prototype,{
 		return _userRoleData.rolesList;
 	},
 
-	getRoleRights: function(){
+	getRoleRights: function(roleId){
+		getRoleRights(roleId);
 		return _userRoleData.roleRights;
 	},
 
@@ -203,7 +192,9 @@ const UserRoleStore=assign({},EventEmitter.prototype,{
 		return areAllRightChecked;
 	},
 
-	getRoleUsers: function(){
+	getRoleUsers: function(roleId,pageIndex){
+		if(pageIndex) _userRoleData.usersPageIndex=pageIndex;
+		getRoleUsers(roleId,_userRoleData.usersPageIndex);
 		return _userRoleData.roleUsers;
 	},
 
@@ -243,175 +234,17 @@ AppDispatcher.register(function(action){
 			//获取角色权限
 
 			_userRoleData.role=action.role;
-			getRoleRights(_userRoleData.role.id);
-			break;
-
-		case UserRoleConstants.CHECK_ROLE_RIGHT:
-
-			//权限选择操作
-			if(action.isChecked){
-				//取消权限
-
-				//一级遍历
-				_userRoleData.roleRights.forEach(function(element,index,array){
-					var children=element.datas;
-
-					if(element.id==action.id) {
-						element.isChecked="0";
-						children.forEach(function(element,index,array){
-							var children=element.datas;
-							element.isChecked="0";
-							children.forEach(function(element,index,array){
-								element.isChecked="0";
-							});
-						});
-					}
-
-					//二级遍历
-					children.forEach(function(element,index,array){
-						var children=element.datas;
-
-						if(element.id==action.id) {
-							element.isChecked="0";
-							children.forEach(function(element,index,array){
-								element.isChecked="0";
-							});
-						}
-
-						//三级遍历
-						children.forEach(function(element,index,array){
-							if(element.id==action.id) element.isChecked="0";
-						});
-					});
-
-				});
-			}else{
-				//勾选权限
-
-				//一级遍历
-				_userRoleData.roleRights.forEach(function(element,index,array){
-					var children=element.datas;
-
-					if(element.id==action.id) {
-						element.isChecked="1";
-						children.forEach(function(element,index,array){
-							var children=element.datas;
-							element.isChecked="1";
-							children.forEach(function(element,index,array){
-								element.isChecked="1";
-							});
-						});
-					}
-
-					//二级遍历
-					var firstChecked=false;
-					children.forEach(function(element,index,array){
-						var children=element.datas;
-
-						if(element.id==action.id) {
-							element.isChecked="1";
-							children.forEach(function(element,index,array){
-								element.isChecked="1";
-							});
-							firstChecked=true;
-						}
-
-						//三级遍历
-						var secondeChecked=false;
-						children.forEach(function(element,index,array){
-							if(element.id==action.id) {
-								element.isChecked="1";
-								secondeChecked=true;
-							}
-						});
-						if(secondeChecked) element.isChecked="1";
-
-						if(element.isChecked=="1") firstChecked=true;
-					});
-					if(firstChecked) element.isChecked="1";
-
-				});
-			}
-
-			UserRoleStore.emitChange();
-			break;
-
-		case UserRoleConstants.CHECK_ALL_ROLE_RIGHTS:
-
-			//菜单权限全选操作
-			if(action.isCheckedAll){
-				//全选
-				_userRoleData.roleRights.forEach(function(element,index,array){
-					element.isChecked="1";
-					let children=element.datas;
-					children.forEach(function(element,index,array){
-						element.isChecked="1";
-						let children=element.datas;
-						children.forEach(function(element,index,array){
-							element.isChecked="1";
-						});
-					});
-				});
-			}else{
-				//全不选
-				_userRoleData.roleRights.forEach(function(element,index,array){
-					element.isChecked="0";
-					let children=element.datas;
-					children.forEach(function(element,index,array){
-						element.isChecked="0";
-						let children=element.datas;
-						children.forEach(function(element,index,array){
-							element.isChecked="0";
-						});
-					});
-				});
-			}
-
-			UserRoleStore.emitChange();
+			getRoleRights(_userRoleData.roleId);
 			break;
 
 		case UserRoleConstants.ASSIGN_ROLE_RIGHTS:
-			//分配角色权限
-			var rights=[];
-
-			//把选中的权限放入rights数组
-			_userRoleData.roleRights.forEach(function(element,index,array){
-				if(element.isChecked=="1") {
-					var right={"rightId":element.id}
-					rights.push(right);
-				}
-
-				let children=element.datas;
-				children.forEach(function(element,index,array){
-					if(element.isChecked=="1") {
-						var right={"rightId":element.id}
-						rights.push(right);
-					}
-
-					let children=element.datas;
-					children.forEach(function(element,index,array){
-						if(element.isChecked=="1") {
-							var right={"rightId":element.id}
-							rights.push(right);
-						}
-					});
-				});
-			});
 
 			var requireData={
 				roleId: action.roleId,
-				rights: rights
+				rights: action.rights
 			}
 
 			assignRoleRights(requireData);
-			break;
-
-		case UserRoleConstants.GET_ROLE_USERS:
-			//获取角色用户
-			if(action.pageIndex) _userRoleData.usersPageIndex=action.pageIndex;
-			_userRoleData.role=action.role;
-			getRoleUsers(_userRoleData.role.id,_userRoleData.usersPageIndex);
-
 			break;
 
 		case UserRoleConstants.DELETE_ROLE_USER:

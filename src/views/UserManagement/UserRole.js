@@ -164,25 +164,26 @@ const UserRole = React.createClass({
 
 	_assignRoleUsers: function(e){
 		var roleId=e.target.parentNode.parentNode.id,
-			roleName=e.target.name,
-			role={
-				id: roleId,
-				name: roleName
-			};
-
-		UserRoleActions.getRoleUsers(role);
-		this.context.router.push("/assignUsers");
+				roleName=e.target.name;
+				this.context.router.push({
+					pathname: "/assignUsers",
+					query: {
+						roleId: roleId,
+						roleName: roleName
+					}
+				});
 	},
 
 	_assignRoleRights: function(e){
 		var roleId=e.target.parentNode.parentNode.id,
-			roleName=e.target.name,
-			role={
-				id: roleId,
-				name: roleName
-			};
-		UserRoleActions.getRoleRights(role);
-		this.context.router.push("/assignRights");
+			roleName=e.target.name;
+			this.context.router.push({
+				pathname: "/assignRights",
+				query: {
+					roleId: roleId,
+					roleName: roleName
+				}
+			});
 	},
 
 	_enableEdit: function(e){

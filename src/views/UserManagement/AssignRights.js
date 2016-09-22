@@ -14,10 +14,12 @@ const AssignRights = React.createClass({
 	},
 
 	getInitialState: function(){
+		var roleId=this.props.location.query.roleId;
+		var roleName=this.props.location.query.roleName;
 		return {
-			roleRights: UserRoleStore.getRoleRights(),
-			role: UserRoleStore.getRole(),
-			areAllRightChecked: UserRoleStore.areAllRightChecked()
+			roleId: roleId,
+			roleName: roleName,
+			roleRights: UserRoleStore.getRoleRights(roleId)
 		}
 	},
 
@@ -34,24 +36,22 @@ const AssignRights = React.createClass({
 		var roleRights=this.state.roleRights;
 
 		return <div className="hy-section pdg20">
-		    	
+
 			<ul className="hy-multiline-form clearfix" style={{width: "285px"}}>
 				<li>
-					<label>角色名称：</label> {this.state.role.name}
+					<label>角色名称：</label> {this.state.roleName}
 				</li>
 				<li>
-					<ControlMenu 
-						initialData={roleRights} 
-						checkHandle={UserRoleActions.checkRoleRight} 
-						checkAllHandle={UserRoleActions.checkAllRoleRights} 
-						areAllRightChecked={this.state.areAllRightChecked}
+					<ControlMenu
+						initialData={roleRights}
+						export={this._exportRights}
 					/>
 				</li>
 				<li className="hy-multiline-form-footer clearfix">
 					<button className="hy-button secondary pull-left" onClick={this._cancel}>取消</button>
 		          	<button className="hy-button default pull-right" onClick={this._confirm}>确认</button>
 		        </li>
-			</ul>	
+			</ul>
 
 		</div>
 
@@ -60,9 +60,7 @@ const AssignRights = React.createClass({
 	_onChange: function(){
 		//更新视图
 		this.setState({
-			roleRights: UserRoleStore.getRoleRights(),
-			role: UserRoleStore.getRole(),
-			areAllRightChecked: UserRoleStore.areAllRightChecked()
+			roleRights: UserRoleStore.getRoleRights(this.state.roleId)
 		});
 	},
 
@@ -71,8 +69,14 @@ const AssignRights = React.createClass({
 	},
 
 	_confirm: function(){
-		UserRoleActions.assignRoleRights(this.state.role.id);
+		if(this.state.rights){
+			UserRoleActions.assignRoleRights(this.state.roleId,this.state.rights);
+		}
 		this.context.router.push("/userRole");
+	},
+
+	_exportRights: function(rights){
+		this.state.rights=rights;
 	}
 
 });

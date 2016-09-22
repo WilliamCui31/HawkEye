@@ -14,9 +14,10 @@ const ModifyRights = React.createClass({
 	},
 
 	getInitialState: function(){
+		var userId=this.props.location.query.userId;
 		return {
-			userRights: UserListStore.getUserRights(),
-			userId: UserListStore.getUserInfo().userId,
+			userId: userId,
+			userRights: UserListStore.getUserRights(userId),
 			areAllRightChecked: UserListStore.areAllRightChecked()
 		}
 	},

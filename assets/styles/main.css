@@ -85,7 +85,7 @@ body {
 .side-category-tit>.down-arrow {
 	position: absolute;
 	top: 20px;
-	right: 22px;
+	right: 17px;
 }
 .side-category-cont>a:before {
 	display: inline-block;
@@ -348,7 +348,7 @@ body {
 .control-menu-tit>.down-arrow {
 	position: absolute;
 	top: 20px;
-	right: 22px;
+	right: 17px;
 }
 .control-menu-level3 {
 	overflow: hidden;

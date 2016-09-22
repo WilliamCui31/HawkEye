@@ -9,14 +9,13 @@ import { Link } from 'react-router';
 
 const AssignUsers = React.createClass({
 
-	contextTypes: {
-		router: React.PropTypes.object.isRequired
-	},
-
 	getInitialState: function(){
+		var roleId=this.props.location.query.roleId;
+		var roleName=this.props.location.query.roleName;
 		return {
-			roleUsers: UserRoleStore.getRoleUsers(),
-			role: UserRoleStore.getRole()
+			roleId: roleId,
+			roleName: roleName,
+			roleUsers: UserRoleStore.getRoleUsers(roleId)
 		}
 	},
 
@@ -30,13 +29,13 @@ const AssignUsers = React.createClass({
 
 	render: function(){
 		var roleUsers=this.state.roleUsers,
-			users=[],
-			pageSize=0,
-			recordCount=0,
-			currentPage=0,
-			currentRecord=0,
-			totalPage=0,
-			paging=null;
+				users=[],
+				pageSize=0,
+				recordCount=0,
+				currentPage=0,
+				currentRecord=0,
+				totalPage=0,
+				paging=null;
 		if(roleUsers&&roleUsers.list.length>0){
 
 			pageSize=roleUsers.pageSize;
@@ -56,18 +55,18 @@ const AssignUsers = React.createClass({
 	    	      </td>
 	            </tr>)
 			});
-			paging=<Paging 
-				pageSize={currentRecord} 
-				currentPage={currentPage} 
-				totalPage={totalPage} 
-				switchPageAction={UserRoleActions.getRoleUsers} 
+			paging=<Paging
+				pageSize={currentRecord}
+				currentPage={currentPage}
+				totalPage={totalPage}
+				switchPageAction={this._switchPage}
 			/>
 		}
 
 		return <div className="hy-section">
 			<table className="list-grid" width="100%">
 			  <caption className="list-grid-header clearfix">
-				  <span className="list-grid-header-text pull-left"><strong className="hy-strong">{this.state.role.name}</strong>所在用户</span>
+				  <span className="list-grid-header-text pull-left"><strong className="hy-strong">{this.state.roleName}</strong>所在用户</span>
 				  <div className="pull-right">
 				  	<Link to="/userRole" className="link-button">返回角色列表</Link>
 				  	<button className="hy-button" onClick={this._addRole}>添加用户</button>
@@ -100,19 +99,24 @@ const AssignUsers = React.createClass({
 	_onChange: function(){
 		//更新视图
 		this.setState({
-			roleUsers: UserRoleStore.getRoleUsers(),
-			role: UserRoleStore.getRole()
+			roleUsers: UserRoleStore.getRoleUsers(this.state.roleId)
+		});
+	},
+
+	_switchPage: function(pageIndex){
+		this.setState({
+			roleUsers: UserRoleStore.getRoleUsers(this.state.roleId,pageIndex)
 		});
 	},
 
 	_addRole: function(){
-		var userTreeData=UserRoleStore.getUserTree(this.state.role.id);
+		var userTreeData=UserRoleStore.getUserTree(this.state.roleId);
 		var structure=<Structure initialData={userTreeData} export={this._exportUsers}  />;
 
-		var addUserPopup=<Popup 
+		var addUserPopup=<Popup
 			title="添加用户"
 			content={structure}
-			confirm={this._confirmAddUser} 
+			confirm={this._confirmAddUser}
 			close={this._closePopup}
 		/>;
 
@@ -120,7 +124,7 @@ const AssignUsers = React.createClass({
 	},
 
 	_confirmAddUser: function(){
-		UserRoleActions.addRoleUser(this.state.role.id,this.state.users);
+		UserRoleActions.addRoleUser(this.state.roleId,this.state.users);
 	},
 
 	_exportUsers: function(users){
@@ -134,10 +138,10 @@ const AssignUsers = React.createClass({
 				<h1>确认要删除用户:<strong className="hy-strong">{userName}</strong>吗？</h1>
 				<p>删除该用户后，该用户将不再拥有该角色权限！</p>
 			</div>,
-			deletUserPopup=<Confirm 
+			deletUserPopup=<Confirm
 				title="删除用户"
 				message={message}
-				confirm={this._confirmDeleteUser} 
+				confirm={this._confirmDeleteUser}
 				close={this._closePopup}
 			/>;
 
@@ -148,7 +152,7 @@ const AssignUsers = React.createClass({
 	},
 
 	_confirmDeleteUser: function(){
-		UserRoleActions.deleteRoleUser(this.state.userId,this.state.role.id);
+		UserRoleActions.deleteRoleUser(this.state.userId,this.state.roleId);
 	},
 
 	_closePopup: function(){
