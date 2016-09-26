@@ -26,7 +26,6 @@ var Login = React.createClass({
 
 	render: function(){
 		var loginData=this.state.loginData;
-
 		return (
 			<div className="login-container">
 				<div className="login-box">

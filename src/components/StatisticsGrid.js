@@ -27,7 +27,8 @@ const StatisticsGrid = React.createClass({
 				if(key==="index"){
 					tds.push(<td key={key}>{index+1}</td>);
 				}else{
-					tds.push(<td key={key}>{element[key]}</td>);
+					var value=element?element[key]:"";
+					tds.push(<td key={key}>{value}</td>);
 				}
 			};
 			trs.push(<tr key={index}>{tds}</tr>);

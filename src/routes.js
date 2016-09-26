@@ -20,22 +20,26 @@ export default (
 			<Route path="/" component={Login} />
   		<Route component={TopBar}>
   			<IndexRedirect to="/welcome" />
-  			<Route path="/userManagement" component={SideBar}>
- 				<IndexRedirect to="/userAdd" />
- 				<Route path="/welcome" component={Welcome} />
- 				<Route path="/userAdd" component={UserAdd} />
- 				<Route path="/userList" component={UserList} />
- 				<Route path="/modifyInfo" component={ModifyInfo} />
- 				<Route path="/modifyRights" component={ModifyRights} />
- 				<Route path="/userRole" component={UserRole} />
- 				<Route path="/assignUsers" component={AssignUsers} />
- 				<Route path="/assignRights" component={AssignRights} />
- 				<Route path="/resetPassword" component={ResetPassword} />
+	  		<Route path="/userManagement" component={SideBar}>
+	 				<IndexRedirect to="/userAdd" />
+					<Route path="/welcome" component={Welcome} />
+	 				<Route path="/userAdd" component={UserAdd} />
+	 				<Route path="/userList" component={UserList} />
+	 				<Route path="/userList">
+						<Route path="/modifyInfo" component={ModifyInfo} />
+		 				<Route path="/modifyRights" component={ModifyRights} />
+					</Route>
+	 				<Route path="/userRole" component={UserRole} />
+					<Route path="/userRole">
+		 				<Route path="/assignUsers" component={AssignUsers} />
+		 				<Route path="/assignRights" component={AssignRights} />
+					</Route>
+	 				<Route path="/resetPassword" component={ResetPassword} />
+	 			</Route>
+	 			<Route path="/operateReport" component={SideBar}>
+	 				<IndexRedirect to="/operateForm" />
+	 				<Route path="/operateForm" component={OperateForm} />
+	 			</Route>
  			</Route>
- 			<Route path="/operateReport" component={SideBar}>
- 				<IndexRedirect to="/operateForm" />
- 				<Route path="/operateForm" component={OperateForm} />
- 			</Route>
- 		</Route>
  	</Router>
 );

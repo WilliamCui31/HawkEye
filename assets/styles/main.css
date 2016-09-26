@@ -229,7 +229,7 @@ body {
 }
 .list-grid th,
 .list-grid td {
-	padding: 10px;
+	line-height: 50px;
 	font-weight: normal;
 	text-align: center;
 }
@@ -405,6 +405,7 @@ body {
 }
 .hy-popup-box-message {
 	padding: 30px;
+	font-size: 18px;
 	text-align: center;
 }
 .hy-popup-box-footer {

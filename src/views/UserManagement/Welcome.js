@@ -8,7 +8,6 @@ function loadLoginInfo(){
 	var LoginInfo;
 	ajax({
 		url: '/eye/user/v1/lastLoginRecordInfo.json',
-		data: {validateKey: utils.getCookie("validateKey")},
 		async: false,
 		success: function(data) {
 			if(data.code==="0000") {
@@ -47,7 +46,7 @@ export default class Welcome extends React.Component{
 				</ul>
 			);
 		}
-		
+
 		return <div className="hy-section">
 			{infoDom}
 		</div>

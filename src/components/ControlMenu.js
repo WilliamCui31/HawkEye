@@ -62,6 +62,7 @@ const ControlMenu = React.createClass({
 				})
 			});
 		});
+		
 		this.props.export(rights);
 	},
 

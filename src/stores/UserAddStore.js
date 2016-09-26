@@ -11,24 +11,26 @@ const CHANGE_EVENT='change';
 //定义新增用户数据对象
 var _userAddData={}
 
-//加载权限
-function getRights(){
-	ajax({
-		url:'/eye/right/v1/getAllRighs.json',
-		async: false,
-		success: function(data) {
-			_userAddData.rights=data.data;
-		}
-	});
-}
-
 //确认新增用户
 function addUser(addAccount){
 	ajax({
 		url:'/eye/user/v1/saveUser.json',
 		data: addAccount,
 		success: function(data) {
-			console.log(data);
+			var feedback;
+			if(data.code==="0000"){
+				feedback={
+					flag: true,
+					msg: "新增用户成功！"
+				}
+			}else{
+				feedback={
+					flag: false,
+					msg: data.description
+				}
+			}
+			_userAddData.feedback=feedback;
+			UserAddStore.emitChange();
 		}
 	});
 }
@@ -39,20 +41,16 @@ const UserAddStore=assign({},EventEmitter.prototype,{
 		return _userAddData;
 	},
 
-	areAllRightChecked: function(){
-		var areAllRightChecked=true;
-		_userAddData.rights.forEach(function(element,index,array){
-			if(element.isChecked=="0") areAllRightChecked=false;
-			let children=element.datas;
-			children.forEach(function(element,index,array){
-				if(element.isChecked=="0") areAllRightChecked=false;
-				let children=element.datas;
-				children.forEach(function(element,index,array){
-					if(element.isChecked=="0") areAllRightChecked=false;
-				});
-			});
+	getRights: function(){
+		var rights;
+		ajax({
+			url:'/eye/right/v1/getAllRighs.json',
+			async: false,
+			success: function(data) {
+				rights=data.data;
+			}
 		});
-		return areAllRightChecked;
+		return rights;
 	},
 
 	emitChange: function(){
@@ -85,8 +83,6 @@ AppDispatcher.register(function(action){
 
 			//发送新增用户请求
 			addUser(account);
-
-			UserAddStore.emitChange();
 			break;
 
 		default:

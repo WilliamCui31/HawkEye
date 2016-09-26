@@ -1,4 +1,4 @@
-/* @desc 自己封装的ajax，目前主要支持工作中常用的post，get请求。调用方式几乎等同于jquery的ajax封装，略有出入。
+/** @desc 封装ajax请求带validateKey和token验证，调用方式几乎等同于jquery的ajax封装，略有出入。
 *
 *  @param obj.url {string} 请求的url
 *  @param obj.method {string} 请求的方法（默认值为post）
@@ -9,13 +9,14 @@
 *
 *  @author William Cui
 *  @date 2016-09-20
-* */
+**/
 import utils from './utils';
 import md5 from './common/md5';
 import CryptoJS from './common/pad-zeropadding';
 
 function ajax(settings) {
-    var url=settings.url,
+    //http://192.168.1.242:9701
+    var url="http://192.168.1.242:9701"+settings.url,
         method=settings.method || "post",
         async=settings.async,
         data=settings.data || {},
@@ -39,9 +40,11 @@ function ajax(settings) {
 
       //属性字符串追加validateKey
       propsString+="validateKey="+data.validateKey;
+      //console.log("参数拼接：",propsString);
 
       //MD5加密
       token=md5(propsString);
+      //console.log("md5:",token);
 
       //AES加密
     	var key=CryptoJS.enc.Latin1.parse('ntj-eye-20160920');
@@ -50,6 +53,8 @@ function ajax(settings) {
 
       //把经过MD5和AES两次加密后的token追加到data数据对象
       data.token=token.toString();
+
+      //console.log("token:",data.token);
 
     }
 
@@ -85,14 +90,23 @@ function ajax(settings) {
 
     //请求成功回调
     function callback() {
-      if (xhr.status == 200) {  //判断http的交互是否成功，200表示成功
-          success(JSON.parse(xhr.responseText));//将返回的json字符串解析返回
+      //判断http的交互是否成功，200表示成功
+      if (xhr.status == 200) {
+
+          //将返回的json字符串解析成json对象
+          var response=JSON.parse(xhr.responseText);
+
+          //当返回的code的值为1003(用户已过期)，2001（校验key为空）的时候，跳转到登录页面
+          if(response.code==="1003"||response.code==="2001") location.assign("/");
+
+          //将解析的json对象返回
+          success(response);
       } else {
           //alert('获取数据错误！错误代号：' + xhr.status + '，错误信息：' + xhr.statusText);
       }
     }
 
-    //属性按英文字母排序，然后连接起来
+    //属性按英文字母排序并拼接起来
     function joinProps(data){
       var props=[];
       for(let i in data){

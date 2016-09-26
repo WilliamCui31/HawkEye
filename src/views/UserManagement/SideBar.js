@@ -8,18 +8,6 @@ var ReactCSSTransitionGroup=require('react/lib/ReactCSSTransitionGroup');
 
 const UserManagement=React.createClass({
 
-	contextTypes: {
-		router: React.PropTypes.object
-	},
-
-	componentDidMount: function(){
-		GlobalStore.addChangeListener(this._onChange);
-	},
-
-	componentWillUnmount: function(){
-		GlobalStore.removeChangeListener(this._onChange);
-	},
-
 	render: function(){
 		var menusData=GlobalStore.getMenusData(this.props.location.query.columnId),menus=[];
 
@@ -55,6 +43,7 @@ const UserManagement=React.createClass({
 
 		</div>
 	}
+
 });
 
 export default UserManagement;

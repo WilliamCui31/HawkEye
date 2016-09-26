@@ -5,7 +5,7 @@ const Alert = React.createClass({
 
 	propTypes: {
 		title: React.PropTypes.string,
-		message: React.PropTypes.object.isRequired,
+		message: React.PropTypes.oneOfType([React.PropTypes.string,React.PropTypes.object]).isRequired,
 		confirm: React.PropTypes.func,
 		close: React.PropTypes.func.isRequired,
 		status: React.PropTypes.string

@@ -59,11 +59,9 @@ const ModifyInfo = React.createClass({
 		});
 	},
 
-	_setUserInfo: function(id,value){
-		var record={};
-		record[id]=value;
-		var data=assign({},this.state.user,record);
-		this.setState({user: data});
+	_setUserInfo: function(e){
+		if(!this.state.user) this.state.user={};
+		this.state.user[e.target.id]=e.target.value;
 	},
 
 	_cancel: function(){

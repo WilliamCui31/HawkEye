@@ -8,7 +8,7 @@ import { hashHistory } from 'react-router';
 
 const CHANGE_EVENT='change';
 
-var _loginData={account:{}};
+var _loginData={};
 
 //获取验证码
 function getVerfiyCode(){
@@ -72,7 +72,8 @@ AppDispatcher.register(function(action){
 			break;
 
 		case LoginConstants.INPUT_ACCOUNT:
-			_loginData["account"][action.id]=action.value;
+		  if(!_loginData.account) _loginData.account={};
+			_loginData.account[action.id]=action.value;
 			LoginStore.emitChange();
 			break;
 
@@ -85,11 +86,8 @@ AppDispatcher.register(function(action){
 			}else if (!account.valideNum) {
 				_loginData.errorMsg="请输入验证码！";
 			}else{
-				//console.log(account);
-				var validateKey=submit(account);
+				submit(account);
 			}
-
-			LoginStore.emitChange();
 			break;
 
 		default:

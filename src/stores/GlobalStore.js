@@ -4,24 +4,10 @@ import GlobalConstants from '../constants/GlobalConstants';
 import assign from 'object-assign';
 import ajax from '../ajax';
 import utils from '../utils';
-import { hashHistory } from 'react-router';
 
 const CHANGE_EVENT='change';
 
-var _globalData={
-	//头部栏目列表
-	columnsData: null,
-	//用户信息
-	userInfo: null,
-	//右侧菜单
-	menusData: null,
-	//部门列表
-	departments: null,
-	//角色列表
-	roles: null,
-	//声明栏目ID
-	pid: null
-}
+var _globalData={}
 
 //加载系统栏目
 function loadColumn(){
@@ -32,7 +18,7 @@ function loadColumn(){
 		success: function(data) {
 			if(data.code==="0000") {
 				columnsData=data.data;
-				_globalData.pid=columnsData[0].id;
+				_globalData.columnId=columnsData[0].id;
 			}
 		}
 	});
@@ -55,9 +41,8 @@ function loadUserInfo(){
 }
 
 //加载菜单
-function loadMenu(pid){
-	if(!pid) pid=_globalData.pid;
-	var requestData={pid: pid},menusData;
+function loadMenu(columnId){
+	var requestData={pid: columnId},menusData;
 	ajax({
 		url: '/eye/user/v1/getUserRights.json',
 		async: false,
@@ -106,7 +91,7 @@ function logout(){
 				//从cookie删除validateKey
 				utils.delCookie("validateKey");
 				//跳转到登录页
-				location.assign("/#/");
+				location.assign("/");
 			}
 		}
 	});
@@ -133,7 +118,6 @@ function resetPassword(cpwd,newPwd){
 					msg: data.description
 				}
 			}
-			console.log(data);
 			GlobalStore.emitChange();
 		}
 	});
@@ -150,7 +134,8 @@ const GlobalStore=assign({},EventEmitter.prototype,{
 	},
 
 	getMenusData: function(columnId){
-		return loadMenu(columnId);
+		if(columnId) _globalData.columnId=columnId;
+		return loadMenu(_globalData.columnId);
 	},
 
 	getDepartments: function(){

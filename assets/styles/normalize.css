@@ -267,6 +267,10 @@ ul {
 .hy-input.primary {
   width: 200px;
 }
+.hy-input.calendar {
+  width: 253px;
+  background: url(../images/calendar.png) 95% center no-repeat;
+}
 .hy-input.small {
   width: 120px;
 }

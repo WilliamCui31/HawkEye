@@ -33,36 +33,22 @@ const UserListActions = {
 		});
 	},
 
-	modifyUserInfo: function(userId,userInfo){
+	modifyUserInfo: function(userId,user){
 		AppDispatcher.dispatch({
 			actionType: UserListConstants.MODIFY_USER_INFO,
 			userId: userId,
-			userInfo: userInfo
+			user: user
 		});
 	},
 
-	modifyUserRights: function(userId,roleId) {
+	modifyUserRights: function(userId,rights,roleId) {
 		AppDispatcher.dispatch({
 			actionType: UserListConstants.MODIFY_USER_RIGHTS,
 			userId: userId,
+			rights: rights,
 			roleId: roleId
 		});
 	},
-
-	checkRight: function(id,isChecked){
-		AppDispatcher.dispatch({
-			actionType: UserListConstants.CHECK_RIGHT,
-			id: id,
-			isChecked: isChecked
-		});
-	},
-
-	checkAllRights: function(isCheckedAll){
-		AppDispatcher.dispatch({
-			actionType: UserListConstants.CHECK_ALL_RIGHTS,
-			isCheckedAll: isCheckedAll
-		});
-	}
 
 }
 

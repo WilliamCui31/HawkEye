@@ -12,7 +12,8 @@ const Input = React.createClass({
 		placeholder: React.PropTypes.string,
 		focus: React.PropTypes.bool,
 		disabled: React.PropTypes.bool,
-		readonly: React.PropTypes.bool
+		readonly: React.PropTypes.bool,
+		onChange: React.PropTypes.func
 	},
 
 	getInitialState: function(){
@@ -29,7 +30,7 @@ const Input = React.createClass({
 			placeholder={this.props.placeholder}
 			autoFocus={this.props.focus}
 			onBlur={this._onBlur}
-			defaultValue={this.props.defaultValue}
+			value={this.props.defaultValue}
 			disabled={this.props.disabled}
 			readOnly={this.props.readonly}
 		/>
@@ -38,6 +39,7 @@ const Input = React.createClass({
 	_onBlur: function(e){
 		this.props.inputAction(e);
 	}
+
 });
 
 export default Input;

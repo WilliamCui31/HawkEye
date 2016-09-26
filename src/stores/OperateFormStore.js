@@ -14,7 +14,6 @@ function queryForm(start,end){
 		start: start,
 		end: end
 	};
-	console.log(requireData);
 
 	//活动统计
 	query("activityData","/eye/operatorReport/v1/activityStatistic.json",requireData);

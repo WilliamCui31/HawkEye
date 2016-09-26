@@ -17,8 +17,7 @@ const ModifyRights = React.createClass({
 		var userId=this.props.location.query.userId;
 		return {
 			userId: userId,
-			userRights: UserListStore.getUserRights(userId),
-			areAllRightChecked: UserListStore.areAllRightChecked()
+			userRights: UserListStore.getUserRights(userId)
 		}
 	},
 
@@ -36,6 +35,8 @@ const ModifyRights = React.createClass({
 		//权限树列表
 		var rightsData=this.state.userRights;
 
+		console.log("000000",rightsData);
+
 		return <div className="hy-section pdg20">
 
 			<ul className="hy-multiline-form clearfix" style={{width: "285px"}}>
@@ -44,7 +45,7 @@ const ModifyRights = React.createClass({
 					<Select appearance="primary" id="roleId" initialData={rolesData} selectAction={this._setRoleId} defaultValue={UserListStore.getUserInfo().roleId.toString()} />
 				</li>
 				<li>
-					<ControlMenu initialData={rightsData} checkHandle={UserListActions.checkRight} checkAllHandle={UserListActions.checkAllRights} areAllRightChecked={this.state.areAllRightChecked}/>
+					<ControlMenu initialData={rightsData} export={this._exportRights}/>
 				</li>
 				<li className="hy-multiline-form-footer clearfix">
 					<button className="hy-button secondary pull-left" onClick={this._cancel}>取消</button>
@@ -59,10 +60,12 @@ const ModifyRights = React.createClass({
 	_onChange: function(){
 		//更新视图
 		this.setState({
-			userRights: UserListStore.getUserRights(),
-			userId: UserListStore.getUserInfo().userId,
-			areAllRightChecked: UserListStore.areAllRightChecked()
+			userRights: UserListStore.getUserRights(this.state.userId)
 		});
+	},
+
+	_exportRights: function(rights){
+		this.state.rights=rights;
 	},
 
 	_setRoleId: function(e){
@@ -74,7 +77,7 @@ const ModifyRights = React.createClass({
 	},
 
 	_confirm: function(){
-		UserListActions.modifyUserRights(this.state.userId,this.state.roleId);
+		UserListActions.modifyUserRights(this.state.userId,this.state.rights,this.state.roleId,);
 		this.context.router.push("/userList");
 	}
 

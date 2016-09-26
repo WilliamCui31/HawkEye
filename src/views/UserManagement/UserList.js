@@ -122,7 +122,6 @@ const UserList = React.createClass({
 
 	_onChange: function(){
 		//更新视图
-
 		this.setState({userListData: UserListStore.getUserListData()});
 	},
 
