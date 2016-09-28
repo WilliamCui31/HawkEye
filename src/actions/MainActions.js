@@ -3,13 +3,6 @@ import MainConstants from '../constants/MainConstants';
 
 const MainActions = {
 
-	switchColumn: function(pid){
-		AppDispatcher.dispatch({
-			actionType: MainConstants.SWITCH_COLUMN,
-			pid: pid
-		});
-	},
-
 	logout: function(){
 		AppDispatcher.dispatch({
 			actionType: MainConstants.LOGOUT

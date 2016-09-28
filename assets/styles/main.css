@@ -65,7 +65,27 @@ body {
 	overflow: hidden;
 	background-color: #fff;
 }
-.side-category {}
+.side-category {
+	position: relative;
+	overflow: hidden;
+}
+.side-category-tit {
+	z-index: 1;
+	position: relative;
+	background-color: #fff;
+}
+.side-category-cont-wrap {
+	position: relative;
+	overflow: hidden;
+}
+.side-category-cont{
+	z-index: 0;
+	margin-top: -100%;
+	transition: all .2s ease-out;
+}
+.side-category-cont.spread {
+	margin-top: 0;
+}
 .side-category-tit,
 .side-category-cont>a {
 	position: relative;
@@ -326,10 +346,25 @@ body {
 	font-size: 16px;
 }
 .control-menu-accordion {
+	position: relative;
 	margin-top: 5px;
 	border-right: 1px solid #DFDFDF;
 	border-left: 1px solid #DFDFDF;
 	border-bottom: 1px solid #DFDFDF;
+}
+.control-menu-level2-wrap,
+.control-menu-level3-wrap{
+	position: relative;
+	overflow: hidden;
+}
+.control-menu-level2,
+.control-menu-level3{
+	margin-top: -100%;
+	transition: all .2s ease-out;
+}
+.control-menu-level2.spread,
+.control-menu-level3.spread{
+	margin-top: 0;
 }
 .control-menu-tit {
 	position: relative;
@@ -344,14 +379,12 @@ body {
 .control-menu-level2>.control-menu-tit {
 	padding-left: 44px;
 	border-bottom: 1px solid #DFDFDF;
+	background-color: #fff;
 }
 .control-menu-tit>.down-arrow {
 	position: absolute;
 	top: 20px;
 	right: 17px;
-}
-.control-menu-level3 {
-	overflow: hidden;
 }
 .control-menu-level3>li {
 	height: 48px;

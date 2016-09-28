@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router';
 import MainActions from '../actions/MainActions';
 import MainStore from '../stores/MainStore';
+import classnames from 'classnames';
 
 var ReactCSSTransitionGroup=require('react/lib/ReactCSSTransitionGroup');
 
@@ -15,19 +16,15 @@ const Main=React.createClass({
 	},
 
 	getInitialState: function(){
+		var columnsData=MainStore.getColumnsData();
+		var userInfo=MainStore.getUserInfo();
+		var menusData=MainStore.getMenusData();
+		menusData[0].spread="spread";
 		return {
-			columnsData: MainStore.getColumnsData(),
-			userInfo: MainStore.getUserInfo(),
-			menusData: MainStore.getMenusData()
+			columnsData: columnsData,
+			userInfo: userInfo,
+			menusData: menusData
 		}
-	},
-
-	componentDidMount: function(){
-		MainStore.addChangeListener(this._onChange);
-	},
-
-	componentWillUnmount: function(){
-		MainStore.removeChangeListener(this._onChange);
 	},
 
 	render: function(){
@@ -35,12 +32,21 @@ const Main=React.createClass({
 		//系统栏目
 		var columnsData=this.state.columnsData,columns=[];
 		for(let column of columnsData) {
-			columns.push(<li key={column.id}><Link to={column.url} activeClassName="active" name={column.url} title={column.id} onClick={this._onSwitchColumn}>{column.name}</Link></li>)
+			columns.push(<li key={column.id}>
+				<Link
+					to={column.url}
+					activeClassName="active"
+					data-id={column.id}
+					onClick={this._onSwitchColumn}>
+					{column.name}
+				</Link>
+			</li>);
 		}
 
 		//用户名
 		var userName=this.state.userInfo.name;
 
+		//栏目下面的菜单
 		var menusData=this.state.menusData,menus=[];
 
 		for(let category of menusData) {
@@ -50,10 +56,12 @@ const Main=React.createClass({
 			}
 			menus.push(
 				<li key={category.id} className="side-category">
-				<h1 className="side-category-tit">{category.name}<i className="hy-icon down-arrow"></i></h1>
-				<div className="side-category-cont">
-					{links}
-				</div>
+					<h1 className="side-category-tit" data-id={category.id} onClick={this._onSpreadMenu}>{category.name}<i className="hy-icon down-arrow"></i></h1>
+					<div className="side-category-cont-wrap">
+						<div className={classnames("side-category-cont",category.spread)}>
+							{links}
+						</div>
+					</div>
 				</li>
 			);
 		}
@@ -89,21 +97,39 @@ const Main=React.createClass({
 		MainActions.logout();
 	},
 
-	_onChange: function(){
+	_onSwitchColumn: function(e) {
+		var columnId=e.target.dataset.id;
+
+		//修改栏目ID
+		sessionStorage.setItem("columnId",columnId);
+
+		//更新右侧菜单
+		var menusData=MainStore.getMenusData();
+		menusData[0].spread="spread";
 		this.setState({
-			columnsData: MainStore.getColumnsData(),
-			userInfo: MainStore.getUserInfo()
+			menusData: menusData
 		});
 	},
 
-	_onSwitchColumn: function(e) {
-		var columnId=e.target.title;
-		//修改栏目ID
-		sessionStorage.setItem("columnId",columnId);
-		this.setState({
-			menusData: MainStore.getMenusData()
+	_onSpreadMenu: function(e){
+		var menuId=e.target.dataset.id;
+		var menusData=this.state.menusData;
+		menusData.forEach(function(element,index,array){
+			if(element.id==menuId) {
+				if(element.spread) {
+					delete element.spread;
+				}else {
+					element.spread="spread";
+				}
+			}
 		});
+
+		//更新菜单状态
+		this.setState({
+			menusData: menusData
+		})
 	}
+
 });
 
 export default Main;

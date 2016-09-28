@@ -231,7 +231,7 @@ const OperateForm = React.createClass({
         &&operateFormData.areaData.length>0){
   			var areaData={
   				lists: operateFormData.areaData,
-  				keys: ["index","erea","invest_amount"]
+  				keys: ["index","area","invest_amount"]
   			};
   			areaComponent=<StatisticsGrid
   				title="投资区域排行榜"

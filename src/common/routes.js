@@ -24,9 +24,9 @@ export default (
 			<Route path="/" component={Login} />
   		<Route component={Main}>
   			<IndexRedirect to="/welcome" />
+				<Route path="/welcome" component={Welcome} />
 	  		<Route path="/userManagement">
 	 				<IndexRedirect to="/userAdd" />
-					<Route path="/welcome" component={Welcome} />
 	 				<Route path="/userAdd" component={UserAdd} />
 	 				<Route path="/userList" component={UserList} />
 	 				<Route path="/userList">

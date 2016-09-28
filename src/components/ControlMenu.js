@@ -1,5 +1,6 @@
 import React from 'react';
 import CheckBox from './CheckBox';
+import classnames from 'classnames';
 
 const ControlMenu = React.createClass({
 
@@ -62,7 +63,7 @@ const ControlMenu = React.createClass({
 				})
 			});
 		});
-		
+
 		this.props.export(rights);
 	},
 
@@ -78,19 +79,21 @@ const ControlMenu = React.createClass({
 					level3Menu.push(<li key={level3.id}><CheckBox id={level3.id} text={level3.name} isChecked={level3.isChecked==1} onCheck={this._onCheck} /></li>);
 				}
 
-				level2Menu.push(<div key={level2.id} className="control-menu-level2">
-					<h1 className="control-menu-tit">
+				level2Menu.push(<div key={level2.id} className="control-menu-level2-wrap"><div className={classnames("control-menu-level2",level1.spread)}>
+					<h1 className="control-menu-tit" data-id={level2.id} onClick={this._spreadRights}>
 						<CheckBox id={level2.id} text={level2.name} hasIcon={true} isChecked={level2.isChecked==1} onCheck={this._onCheck} />
 						<i className="hy-icon down-arrow"></i>
 					</h1>
-					<ul className="control-menu-level3">
-						{level3Menu}
-					</ul>
-				</div>);
+					<div className="control-menu-level3-wrap">
+						<ul className={classnames("control-menu-level3",level2.spread)}>
+							{level3Menu}
+						</ul>
+					</div>
+				</div></div>);
 			}
 
 			level1Menu.push(<div key={level1.id} className="control-menu-level1">
-				<h1 className="control-menu-tit">
+				<h1 className="control-menu-tit" data-id={level1.id} onClick={this._spreadRights}>
 					<CheckBox id={level1.id} text={level1.name} hasIcon={true} isChecked={level1.isChecked==1} onCheck={this._onCheck} />
 					<i className="hy-icon down-arrow"></i>
 				</h1>
@@ -184,7 +187,37 @@ const ControlMenu = React.createClass({
 		this.setState({
 			treeData:treeData,
 			areAllChecked: !areAllChecked
-		})
+		});
+	},
+
+	_spreadRights: function(e){
+		var rightId=e.target.dataset.id;
+		var treeData=this.state.treeData;
+		treeData.forEach(function(element,index,array){
+			 if(element.id==rightId) {
+				 if(element.spread){
+					 delete element.spread;
+				 }else{
+					 element.spread="spread";
+				 }
+			 }
+			 var children=element.datas;
+			 children.forEach(function(element,index,array){
+				 if(element.id==rightId) {
+					 if(element.spread){
+						 delete element.spread;
+					 }else{
+						 element.spread="spread";
+					 }
+				 }
+			 });
+		});
+		//console.log(rightId,treeData);
+
+		//更新权限状态
+		this.setState({
+			treeData: treeData
+		});
 	}
 
 });

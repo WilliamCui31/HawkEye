@@ -139,7 +139,7 @@ const MainStore=assign({},EventEmitter.prototype,{
 		return loadUserInfo();
 	},
 
-	getMenusData: function(columnId){
+	getMenusData: function(){
 		return loadMenu();
 	},
 
