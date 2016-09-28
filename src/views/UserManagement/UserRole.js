@@ -1,6 +1,7 @@
 import React from 'react';
 import Input from '../../components/Input';
 import Paging from '../../components/Paging';
+import Alert from '../../components/Alert';
 import Confirm from '../../components/Confirm';
 import Prompt from '../../components/Prompt';
 import UserRoleStore from '../../stores/UserRoleStore';
@@ -116,7 +117,10 @@ const UserRole = React.createClass({
 	},
 
 	_addRole: function(){
-		var message=<p>角色名称是汉字，长度在2-10个汉字以内</p>;
+		var message=<div style={{marginTop: "10px"}}>
+			角色名称是汉字，长度在2-10个汉字以内
+			<div className="hy-popup-error">&nbsp;</div>
+		</div>;
 		var addRolePrompt=<Prompt
 			title="新增角色"
 			name="角色名称"
@@ -131,7 +135,27 @@ const UserRole = React.createClass({
 	},
 
 	_confirmAddRole: function(value){
-		if(value) UserRoleActions.addRole(value);
+		if(value) {
+			if(/^[\u4e00-\u9fa5]{2,10}$/.test(value)){
+				UserRoleActions.addRole(value);
+				return true;
+			}
+		}
+		var message=<div style={{marginTop: "10px"}}>
+			角色名称是汉字，长度在2-10个汉字以内
+			<div className="hy-popup-error">输入有误，请重新输入</div>
+		</div>;
+		var addRolePrompt=<Prompt
+			title="新增角色"
+			name="角色名称"
+			message={message}
+			confirm={this._confirmAddRole}
+			close={this._closePopup}
+		/>;
+		this.setState({
+			popup: addRolePrompt
+		});
+		document.getElementById("input").focus();
 	},
 
 	_deleteRole: function(e){
@@ -176,14 +200,14 @@ const UserRole = React.createClass({
 
 	_assignRoleRights: function(e){
 		var roleId=e.target.parentNode.parentNode.id,
-			roleName=e.target.name;
-			this.context.router.push({
-				pathname: "/assignRights",
-				query: {
-					roleId: roleId,
-					roleName: roleName
-				}
-			});
+				roleName=e.target.name;
+				this.context.router.push({
+					pathname: "/assignRights",
+					query: {
+						roleId: roleId,
+						roleName: roleName
+					}
+				});
 	},
 
 	_enableEdit: function(e){
@@ -197,13 +221,26 @@ const UserRole = React.createClass({
 
 	_updateRoleName: function(e){
 		var rolesList=this.state.rolesList;
-		var roleId=e.target.parentNode.parentNode.id;
+		var roleId=e.target.parentNode.parentNode.parentNode.id;
 		var roleName=e.target.value;
 		rolesList.list.forEach(function(element,index,array){
 			if(element.id==roleId) delete element.editable;
 		});
 		this.setState({rolesList: rolesList});
-		if(roleName) UserRoleActions.modifyRoleName(roleId,roleName);
+		if(roleName) {
+			if(/^[\u4e00-\u9fa5]{2,10}$/.test(roleName)){
+				UserRoleActions.modifyRoleName(roleId,roleName);
+			}else{
+				var confirmPopup=<Alert
+					title="角色名称修改"
+					message="角色名称必须为汉字，长度在2-10个汉字以内"
+					close={this._closePopup}
+				/>;
+				this.setState({
+					popup: confirmPopup
+				});
+			}
+		}
 	}
 
 });

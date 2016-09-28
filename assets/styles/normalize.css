@@ -274,13 +274,63 @@ ul {
 .hy-input.small {
   width: 120px;
 }
+.hy-input.success {
+  border-color: #56BD27;
+}
+.hy-input.wrong {
+  border-color: #FF0000;
+}
+.hy-input.warn {
+  border-color: #F4BD00;
+}
 .hy-input:focus {
   border-color: #22C9D3;
 }
 
+/* feild */
+.hy-feild-status {
+  display: inline-block;
+  padding-left: 10px;
+  line-height: 40px;
+  vertical-align: middle;
+}
+.hy-feild-status:before{
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  margin-right: 5px;
+  border: 1px solid;
+  border-radius: 50%;
+  font-size: 15px;
+  line-height: 20px;
+  text-align: center;
+  vertical-align: middle;
+}
+.hy-feild-status.success {
+  color: #56BD27;
+}
+.hy-feild-status.success:before {
+  border-color: #56BD27;
+  content: "\2713";
+}
+.hy-feild-status.wrong {
+  color: #FF0000;
+}
+.hy-feild-status.wrong:before {
+  border-color: #FF0000;
+  content: "\2715";
+}
+.hy-feild-status.warn {
+  color: #F4BD00;
+}
+.hy-feild-status.warn:before {
+  border-color: #F4BD00;
+  content: "!";
+}
+
 /* select */
 .hy-select-outer,
-.hy-select-inner{
+.hy-select-inner {
   position: relative;
   display: inline-block;
 }

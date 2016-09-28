@@ -1,5 +1,5 @@
 import React from 'react';
-import Input from '../../components/Input';
+import Feild from '../../components/Feild';
 import Select from '../../components/Select';
 import Alert from '../../components/Alert';
 import ControlMenu from '../../components/ControlMenu';
@@ -30,19 +30,60 @@ const UserAdd = React.createClass({
 	},
 
 	render: function(){
-
+		var deptFeedback,roleFeedback;
+		if(this.state.focusDept){
+			deptFeedback=<span className="hy-feild-status warn">请选择部门</span>;
+		}
+		if(this.state.focusRole){
+			roleFeedback=<span className="hy-feild-status warn">请选择角色</span>;
+		}
 		return <div className="hy-section pdg20">
 	    	<ul className="hy-multiline-form clearfix">
-          <li><label>用户名：</label><Input appearance="primary" id="name" inputAction={this._inputUser} /></li>
-          <li><label>姓名：</label><Input appearance="primary" id="realName" inputAction={this._inputUser} /></li>
+          <Feild
+						id="name"
+						label="用户名"
+						inputAction={this._inputUser}
+						pattern={/^([a-zA-Z0-9]{4,20})$/}
+						wrong="用户名必须是字母、数字格式，长度在4-20个字符以内"
+						validation={UserAddStore.validateUser}
+						validateFailure="用户名已存在，请重新输入"
+						focus={true}
+					/>
+					<Feild
+						id="realName"
+						label="姓名"
+						inputAction={this._inputUser}
+						pattern={/^[\u4e00-\u9fa5]{2,10}$/}
+						wrong="姓名必须是汉字，长度在2-10个汉字以内"
+					/>
           <li>
             <label>所在部门：</label>
-            <Select appearance="primary" id="deptId" initialData={this.state.departments} selectAction={this._inputUser} placeholder="选择部门" />
+            <Select
+							appearance="primary"
+							id="deptId"
+							initialData={this.state.departments}
+							selectAction={this._inputDeptId} placeholder="选择部门"
+						/>
+						{deptFeedback}
           </li>
-          <li><label>密码：</label><Input type="password" appearance="primary" id="pwd" inputAction={this._inputUser} /></li>
+					<Feild
+						id="pwd"
+						type="password"
+						label="密码"
+						inputAction={this._inputUser}
+						pattern={/(?!^[0-9]*$)(?!^[a-zA-Z]*$)^([a-zA-Z0-9]{4,20})$/}
+						wrong="密码必须是字母+数字，长度在4-20个字符以内"
+					/>
           <li>
           	<label>分配角色：</label>
-          	<Select appearance="primary" id="roleId" initialData={this.state.roles} selectAction={this._inputRoleId} placeholder="选择角色" />
+          	<Select
+							appearance="primary"
+							id="roleId"
+							initialData={this.state.roles}
+							selectAction={this._inputRoleId}
+							placeholder="选择角色"
+						/>
+						{roleFeedback}
           </li>
         </ul>
 
@@ -61,7 +102,7 @@ const UserAdd = React.createClass({
 						title="用户新增"
 						status={feedback.flag?"success":"failure"}
 						message={feedback.msg}
-						close={this._closePopup}
+						close={this._completeAddUser}
 					/>;
 			this.setState({
 				popup: popup,
@@ -70,18 +111,45 @@ const UserAdd = React.createClass({
 		}
 	},
 
-	_inputUser: function(e){
+	_inputUser: function(id,value){
 		var user=this.state.user||{};
-		user[e.target.id]=e.target.value;
+		user[id]=value;
 		this.setState({user: user});
 	},
 
+	_inputDeptId: function(e){
+		var user=this.state.user||{};
+		user[e.target.id]=e.target.value;
+		this.setState({user: user,focusDept: false});
+	},
+
 	_inputRoleId: function(e){
-		this.state[e.target.id]=e.target.value;
+		this.setState({[e.target.id]: e.target.value,focusRole: false});
 	},
 
 	_addUser: function(){
-		UserAddActions.addUser(this.state.user,this.state.rights,this.state.roleId);
+		if(!this.state.user||!this.state.user.name){
+			this._focusById("name");
+		}else if(!this.state.user.realName){
+			this._focusById("realName");
+		}else if(!this.state.user.deptId){
+			this.setState({focusDept: true});
+			this._focusById("deptId");
+		}else if(!this.state.user.pwd){
+			this._focusById("pwd");
+		}else if(!this.state.roleId){
+			this.setState({focusRole: true});
+			this._focusById("roleId");
+		}else{
+			UserAddActions.addUser(this.state.user,this.state.rights,this.state.roleId);
+		}
+	},
+
+	//根据ID获得焦点
+  _focusById(id){
+		document.getElementById(id).focus();
+		document.getElementById(id).blur();
+		document.getElementById(id).focus();
 	},
 
 	_exportRights: function(rights){
@@ -90,7 +158,23 @@ const UserAdd = React.createClass({
 
 	_closePopup: function(){
 		this.setState({popup: null});
-		location.reload();
+	},
+
+	_completeAddUser: function(){
+		//关闭弹窗提示
+		this.setState({popup: null});
+		//恢复状态和清空数据
+		document.getElementById("name").value="";
+		document.getElementById("realName").value="";
+		document.getElementById("deptId").value="";
+		document.getElementById("pwd").value="";
+		document.getElementById("roleId").value="";
+		this._focusById("pwd");
+		this._focusById("realName");
+		this._focusById("name");
+		delete this.state.user;
+		delete this.state.roleId;
+		console.log(this.state);
 	}
 
 });

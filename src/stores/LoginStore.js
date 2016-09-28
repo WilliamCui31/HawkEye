@@ -22,7 +22,7 @@ function getVerfiyCode(){
 }
 
 //登录请求
-function submit(account){
+function login(account){
 	ajax({
 		url: '/eye/user/v1/userLogin.json',
 		data: account,
@@ -71,23 +71,9 @@ AppDispatcher.register(function(action){
 			getVerfiyCode();
 			break;
 
-		case LoginConstants.INPUT_ACCOUNT:
-		  if(!_loginData.account) _loginData.account={};
-			_loginData.account[action.id]=action.value;
-			LoginStore.emitChange();
-			break;
+		case LoginConstants.LOGIN:
 
-		case LoginConstants.SUBMIT:
-			var account=_loginData.account;
-			if(!account.accountName) {
-				_loginData.errorMsg="请输入用户名！";
-			}else if (!account.password) {
-				_loginData.errorMsg="请输入密码！";
-			}else if (!account.valideNum) {
-				_loginData.errorMsg="请输入验证码！";
-			}else{
-				submit(account);
-			}
+			login(action.account);
 			break;
 
 		default:

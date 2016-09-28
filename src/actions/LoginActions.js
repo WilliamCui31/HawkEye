@@ -9,17 +9,10 @@ const LoginActions = {
 		});
 	},
 
-	inputAccount: function(e){
+	login: function(account){
 		AppDispatcher.dispatch({
-			actionType: LoginConstants.INPUT_ACCOUNT,
-			id: e.target.id,
-			value: e.target.value
-		});
-	},
-
-	submit: function(){
-		AppDispatcher.dispatch({
-			actionType: LoginConstants.SUBMIT
+			actionType: LoginConstants.LOGIN,
+			account: account
 		})
 	}
 

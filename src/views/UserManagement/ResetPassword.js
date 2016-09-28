@@ -1,6 +1,6 @@
 import React from 'react';
 import ajax from '../../ajax';
-import Input from '../../components/Input';
+import Feild from '../../components/Feild';
 import Alert from '../../components/Alert';
 import GlobalActions from '../../actions/GlobalActions';
 import GlobalStore from '../../stores/GlobalStore';
@@ -25,9 +25,32 @@ const ResetPassword = React.createClass({
 		return <div className="hy-section pdg20">
 			<ul className="hy-multiline-form clearfix">
 				<li><label>当前用户：</label>{this.state.accountName}</li>
-				<li><label>当前密码：</label><Input type="password" appearance="primary" id="cpwd" inputAction={this._inputData} /></li>
-				<li><label>新密码：</label><Input type="password" appearance="primary" id="newPwd" inputAction={this._inputData} /></li>
-				<li><label>确认密码：</label><Input type="password" appearance="primary" id="rePwd" inputAction={this._inputData} /></li>
+				<Feild
+					type="password"
+					id="cpwd"
+					label="当前密码"
+					inputAction={this._inputData}
+					pattern={/(?!^[0-9]*$)(?!^[a-zA-Z]*$)^([a-zA-Z0-9]{4,20})$/}
+					wrong="密码必须是字母+数字，长度在4-20个字符以内"
+				/>
+				<Feild
+					type="password"
+					id="newPwd"
+					label="新密码"
+					inputAction={this._inputData}
+					pattern={/(?!^[0-9]*$)(?!^[a-zA-Z]*$)^([a-zA-Z0-9]{4,20})$/}
+					wrong="密码必须是字母+数字，长度在4-20个字符以内"
+				/>
+				<Feild
+					type="password"
+					id="rePwd"
+					label="确认密码"
+					inputAction={this._inputData}
+					pattern={/(?!^[0-9]*$)(?!^[a-zA-Z]*$)^([a-zA-Z0-9]{4,20})$/}
+					wrong="密码必须是字母+数字，长度在4-20个字符以内"
+					validation={this._confirmPassword}
+					validateFailure="新密码两次输入不一致，请重试"
+				/>
 				<li className="hy-multiline-form-footer">
 					<label>&nbsp;</label>
 					<button className="hy-button" onClick={this._resetPassword}>确认</button>
@@ -47,35 +70,43 @@ const ResetPassword = React.createClass({
 			message=<span>{rePasswordBack.msg}!</span>;
 			status="failure";
 		}
-		resetPasswordPopup=<Alert 
+		resetPasswordPopup=<Alert
 			title="重置密码"
 			message={message}
 			status={status}
 			close={this._closePopup}
 		/>;
-		
+
 		//更新视图
 		this.setState({popup: resetPasswordPopup});
 	},
 
-	_inputData: function(e) {
-		this.state[e.target.id]=e.target.value;
+	_inputData: function(id,value) {
+		this.state[id]=value;
+	},
+
+	_confirmPassword: function(e){
+		if(this.state.newPwd!==e.target.value) return false;
+		return true;
 	},
 
 	_resetPassword: function(){
 		var message,resetPasswordPopup;
-		if(this.state.newPwd!==this.state.rePwd){
-			message=<span>新密码两次输入不一致，请重试!</span>;
-			resetPasswordPopup=<Alert 
-				title="重置密码"
-				message={message}
-				status={status}
-				close={this._closePopup}
-			/>;			
-			this.setState({popup: resetPasswordPopup});
-		}else {
+		if(!this.state.cpwd){
+			this._focusById("cpwd");
+		}else if(!this.state.newPwd){
+			this._focusById("newPwd");
+		}else if(!this.state.rePwd){
+			this._focusById("rePwd");
+		}else{
 			GlobalActions.resetPassword(this.state.cpwd,this.state.newPwd);
 		}
+	},
+
+	_focusById: function(id){
+		document.getElementById(id).focus();
+		document.getElementById(id).blur();
+		document.getElementById(id).focus();
 	},
 
 	_closePopup: function(){

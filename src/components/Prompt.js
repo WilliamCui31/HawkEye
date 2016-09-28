@@ -26,8 +26,8 @@ const Prompt = React.createClass({
 		        <h1 className="hy-popup-box-header">{title}<i className="hy-icon fork hy-popup-box-close" onClick={this._close}></i></h1>
 		        <div className="hy-popup-box-message">
 		        	<label style={{marginRight: "10px"}}>{this.props.name}:</label>
-					<Input appearance="primary" id="input" inputAction={this._inputValue} />
-		        	{this.props.message}
+							<Input appearance="primary" id="input" inputAction={this._inputValue} />
+							{this.props.message}
 		        </div>
 		        <div className="hy-popup-box-footer">
 		          <button className="hy-button secondary" onClick={this._cancel}>取消</button>
@@ -43,8 +43,7 @@ const Prompt = React.createClass({
 	},
 
 	_confirm: function(){
-		this.props.confirm(this.state.input);
-		this._close();
+		if(this.props.confirm(this.state.input))this._close();
 	},
 
 	_cancel: function(){

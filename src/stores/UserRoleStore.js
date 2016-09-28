@@ -263,7 +263,6 @@ AppDispatcher.register(function(action){
 
 		case UserRoleConstants.MODIFY_ROLE_NAME:
 			//修改角色名称
-
 			modifyRoleName(action.roleId,action.roleName);
 
 			break;

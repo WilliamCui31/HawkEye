@@ -405,7 +405,6 @@ body {
 }
 .hy-popup-box-message {
 	padding: 30px;
-	font-size: 18px;
 	text-align: center;
 }
 .hy-popup-box-footer {
@@ -415,6 +414,12 @@ body {
 }
 .hy-popup-box-footer>.hy-button {
 	margin: 0 30px;
+}
+.hy-popup-error {
+	margin-top: 10px;
+	margin-bottom: -10px;
+	color: #f00;
+	text-align: center;
 }
 
 

@@ -53,6 +53,19 @@ const UserAddStore=assign({},EventEmitter.prototype,{
 		return rights;
 	},
 
+	validateUser: function(e){
+		var requireData={accountName: e.target.value},flag=true;
+		ajax({
+			url:'/eye/user/v1/userValide.json',
+			async: false,
+			data: requireData,
+			success: function(data) {
+				if(data.code==="1000") flag=false;
+			}
+		});
+		return flag;
+	},
+
 	emitChange: function(){
 		this.emit(CHANGE_EVENT);
 	},

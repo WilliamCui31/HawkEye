@@ -13,31 +13,52 @@ const Input = React.createClass({
 		focus: React.PropTypes.bool,
 		disabled: React.PropTypes.bool,
 		readonly: React.PropTypes.bool,
-		onChange: React.PropTypes.func
+		onChange: React.PropTypes.func,
+		onKeyUp: React.PropTypes.func,
+		onKeyDown: React.PropTypes.func
 	},
 
 	getInitialState: function(){
 		return {
-			type: this.props.type||"input"
+			value: this.props.defaultValue || ""
 		}
 	},
 
 	render: function(){
-		return <input
-			id={this.props.id}
-			type={this.state.type}
-			className={classnames('hy-input',this.props.appearance)}
-			placeholder={this.props.placeholder}
-			autoFocus={this.props.focus}
-			onBlur={this._onBlur}
-			value={this.props.defaultValue}
-			disabled={this.props.disabled}
-			readOnly={this.props.readonly}
-		/>
+		var type=this.props.type||"input";
+		return <span>
+			<input
+				id={this.props.id}
+				type={type}
+				className={classnames('hy-input',this.props.appearance)}
+				placeholder={this.props.placeholder}
+				autoFocus={this.props.focus}
+				onBlur={this._onBlur}
+				onChange={this._onChange}
+				onKeyDown={this._onKeyDown}
+				onKeyUp={this._onKeyUp}
+				value={this.state.value}
+				disabled={this.props.disabled}
+				readOnly={this.props.readonly}
+			/>
+		</span>
+
 	},
 
 	_onBlur: function(e){
 		this.props.inputAction(e);
+	},
+
+	_onChange: function(e){
+		this.setState({value: e.target.value});
+	},
+
+	_onKeyUp: function(e){
+		if(this.props.onKeyUp) this.props.onKeyUp(e);
+	},
+
+	_onKeyDown: function(e){
+		if(this.props.onKeyDown) this.props.onKeyDown(e);
 	}
 
 });
