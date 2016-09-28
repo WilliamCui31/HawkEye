@@ -2,7 +2,7 @@ import React from 'react';
 import Input from '../../components/Input';
 import Select from '../../components/Select';
 import UserListActions from '../../actions/UserListActions';
-import GlobalStore from '../../stores/GlobalStore';
+import MainStore from '../../stores/MainStore';
 import UserListStore from '../../stores/UserListStore';
 import assign from 'object-assign';
 
@@ -17,7 +17,7 @@ const ModifyInfo = React.createClass({
 		return {
 			userId: userId,
 			userInfo: UserListStore.getUserInfo(userId),
-			departments: GlobalStore.getDepartments(),
+			departments: MainStore.getDepartments(),
 		}
 	},
 

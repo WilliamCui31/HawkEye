@@ -3,7 +3,7 @@ import Feild from '../../components/Feild';
 import Select from '../../components/Select';
 import Alert from '../../components/Alert';
 import ControlMenu from '../../components/ControlMenu';
-import GlobalStore from '../../stores/GlobalStore';
+import MainStore from '../../stores/MainStore';
 import UserAddStore from '../../stores/UserAddStore';
 import UserAddActions from '../../actions/UserAddActions';
 
@@ -15,8 +15,8 @@ const UserAdd = React.createClass({
 
 	getInitialState: function(){
 		return {
-			departments: GlobalStore.getDepartments(),
-			roles: GlobalStore.getRoles(),
+			departments: MainStore.getDepartments(),
+			roles: MainStore.getRoles(),
 			initialRights: UserAddStore.getRights()
 		}
 	},

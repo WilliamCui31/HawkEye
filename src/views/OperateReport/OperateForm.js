@@ -1,7 +1,6 @@
 import React from 'react';
 import Input from '../../components/Input';
 import Alert from '../../components/Alert';
-import utils from '../../utils'
 import StatisticsGrid from '../../components/StatisticsGrid';
 import OperateFormStore from '../../stores/OperateFormStore';
 import OperateFormActions from '../../actions/OperateFormActions';

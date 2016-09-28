@@ -1,13 +1,12 @@
 import AppDispatcher from '../dispatcher/AppDispatcher';
 import { EventEmitter } from 'events';
-import GlobalConstants from '../constants/GlobalConstants';
+import MainConstants from '../constants/MainConstants';
 import assign from 'object-assign';
-import ajax from '../ajax';
-import utils from '../utils';
+import ajax from '../common/ajax';
 
 const CHANGE_EVENT='change';
 
-var _globalData={}
+var _MainData={}
 
 //加载系统栏目
 function loadColumn(){
@@ -18,7 +17,11 @@ function loadColumn(){
 		success: function(data) {
 			if(data.code==="0000") {
 				columnsData=data.data;
-				_globalData.columnId=columnsData[0].id;
+				var columnId=columnsData[0].id;
+				if(!sessionStorage.getItem("columnId")){
+					//设置栏目ID
+					sessionStorage.setItem("columnId",columnId);
+				}
 			}
 		}
 	});
@@ -41,7 +44,8 @@ function loadUserInfo(){
 }
 
 //加载菜单
-function loadMenu(columnId){
+function loadMenu(){
+	var columnId=sessionStorage.getItem("columnId");
 	var requestData={pid: columnId},menusData;
 	ajax({
 		url: '/eye/user/v1/getUserRights.json',
@@ -88,8 +92,10 @@ function logout(){
 		url: '/eye/user/v1/logout.json',
 		success: function(data) {
 			if(data.code==="0000") {
-				//从cookie删除validateKey
-				utils.delCookie("validateKey");
+				//删除validateKey
+				sessionStorage.removeItem("validateKey");
+				//删除栏目ID
+				sessionStorage.removeItem("columnId");
 				//跳转到登录页
 				location.assign("/");
 			}
@@ -109,21 +115,21 @@ function resetPassword(cpwd,newPwd){
 		success: function(data) {
 			if(data.code==="0000") {
 				//密码重置成功
-				_globalData.resetPassword={
+				_MainData.resetPassword={
 					status: true
 				}
 			}else {
-				_globalData.resetPassword={
+				_MainData.resetPassword={
 					status: false,
 					msg: data.description
 				}
 			}
-			GlobalStore.emitChange();
+			MainStore.emitChange();
 		}
 	});
 }
 
-const GlobalStore=assign({},EventEmitter.prototype,{
+const MainStore=assign({},EventEmitter.prototype,{
 
 	getColumnsData: function(){
 		return loadColumn();
@@ -134,8 +140,7 @@ const GlobalStore=assign({},EventEmitter.prototype,{
 	},
 
 	getMenusData: function(columnId){
-		if(columnId) _globalData.columnId=columnId;
-		return loadMenu(_globalData.columnId);
+		return loadMenu();
 	},
 
 	getDepartments: function(){
@@ -147,7 +152,7 @@ const GlobalStore=assign({},EventEmitter.prototype,{
 	},
 
 	resetPasswordfeedback: function(){
-		return _globalData.resetPassword
+		return _MainData.resetPassword
 	},
 
 	emitChange: function(){
@@ -167,12 +172,12 @@ const GlobalStore=assign({},EventEmitter.prototype,{
 AppDispatcher.register(function(action){
 	switch(action.actionType){
 
-		case GlobalConstants.LOGOUT:
+		case MainConstants.LOGOUT:
 			//退出登录
 			logout();
 			break;
 
-		case GlobalConstants.RESET_PASSWORD:
+		case MainConstants.RESET_PASSWORD:
 			//重置密码
 			resetPassword(action.cpwd,action.newPwd);
 			break;
@@ -182,4 +187,4 @@ AppDispatcher.register(function(action){
 	}
 });
 
-export default GlobalStore;
+export default MainStore;

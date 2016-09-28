@@ -1,24 +1,24 @@
 import AppDispatcher from '../dispatcher/AppDispatcher';
-import GlobalConstants from '../constants/GlobalConstants';
+import MainConstants from '../constants/MainConstants';
 
-const GlobalActions = {
+const MainActions = {
 
 	switchColumn: function(pid){
 		AppDispatcher.dispatch({
-			actionType: GlobalConstants.SWITCH_COLUMN,
+			actionType: MainConstants.SWITCH_COLUMN,
 			pid: pid
 		});
 	},
 
 	logout: function(){
 		AppDispatcher.dispatch({
-			actionType: GlobalConstants.LOGOUT
+			actionType: MainConstants.LOGOUT
 		});
 	},
 
 	resetPassword: function(cpwd,newPwd){
 		AppDispatcher.dispatch({
-			actionType: GlobalConstants.RESET_PASSWORD,
+			actionType: MainConstants.RESET_PASSWORD,
 			cpwd: cpwd,
 			newPwd: newPwd
 		});
@@ -26,4 +26,4 @@ const GlobalActions = {
 
 }
 
-export default GlobalActions;
+export default MainActions;

@@ -1,24 +1,23 @@
 import React from 'react';
-import ajax from '../../ajax';
 import Feild from '../../components/Feild';
 import Alert from '../../components/Alert';
-import GlobalActions from '../../actions/GlobalActions';
-import GlobalStore from '../../stores/GlobalStore';
+import MainActions from '../../actions/MainActions';
+import MainStore from '../../stores/MainStore';
 
 const ResetPassword = React.createClass({
 
 	getInitialState: function(){
 		return {
-			accountName: GlobalStore.getUserInfo().name
+			accountName: MainStore.getUserInfo().name
 		}
 	},
 
 	componentDidMount: function(){
-		GlobalStore.addChangeListener(this._onChange);
+		MainStore.addChangeListener(this._onChange);
 	},
 
 	componentWillUnmount: function(){
-		GlobalStore.removeChangeListener(this._onChange);
+		MainStore.removeChangeListener(this._onChange);
 	},
 
 	render: function(){
@@ -61,7 +60,7 @@ const ResetPassword = React.createClass({
 	},
 
 	_onChange: function(){
-		var rePasswordBack=GlobalStore.resetPasswordfeedback();
+		var rePasswordBack=MainStore.resetPasswordfeedback();
 		var message,status,resetPasswordPopup;
 		if(rePasswordBack.status){
 			message=<span>密码重置成功!</span>;
@@ -99,7 +98,7 @@ const ResetPassword = React.createClass({
 		}else if(!this.state.rePwd){
 			this._focusById("rePwd");
 		}else{
-			GlobalActions.resetPassword(this.state.cpwd,this.state.newPwd);
+			MainActions.resetPassword(this.state.cpwd,this.state.newPwd);
 		}
 	},
 

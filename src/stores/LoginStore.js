@@ -2,8 +2,7 @@ import AppDispatcher from '../dispatcher/AppDispatcher';
 import { EventEmitter } from 'events';
 import LoginConstants from '../constants/LoginConstants';
 import assign from 'object-assign';
-import ajax from '../ajax';
-import utils from '../utils';
+import ajax from '../common/ajax';
 import { hashHistory } from 'react-router';
 
 const CHANGE_EVENT='change';
@@ -29,7 +28,7 @@ function login(account){
 		success: function(data) {
 			if(data.code==="0000") {
 				//登录成功
-				utils.setCookie("validateKey",data.data.userId);
+				sessionStorage.setItem("validateKey",data.data.userId);
 				//跳转系统欢迎页面
 				hashHistory.push("/welcome");
 			}else {

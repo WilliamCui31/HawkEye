@@ -3,7 +3,7 @@ import Input from '../../components/Input';
 import Select from '../../components/Select';
 import Paging from '../../components/Paging';
 import Confirm from '../../components/Confirm';
-import GlobalStore from '../../stores/GlobalStore';
+import MainStore from '../../stores/MainStore';
 import UserListStore from '../../stores/UserListStore';
 import UserListActions from '../../actions/UserListActions';
 
@@ -29,7 +29,7 @@ const UserList = React.createClass({
 
 	render: function(){
 		//部门列表
-		var departmentsData=GlobalStore.getDepartments();
+		var departmentsData=MainStore.getDepartments();
 
 		//用户列表
 		var userListData=this.state.userListData,

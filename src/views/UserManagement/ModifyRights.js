@@ -3,7 +3,7 @@ import Input from '../../components/Input';
 import Select from '../../components/Select';
 import ControlMenu from '../../components/ControlMenu';
 import UserListActions from '../../actions/UserListActions';
-import GlobalStore from '../../stores/GlobalStore';
+import MainStore from '../../stores/MainStore';
 import UserListStore from '../../stores/UserListStore';
 import assign from 'object-assign';
 
@@ -31,7 +31,7 @@ const ModifyRights = React.createClass({
 
 	render: function() {
 		//角色列表
-		var rolesData=GlobalStore.getRoles();
+		var rolesData=MainStore.getRoles();
 		//权限树列表
 		var rightsData=this.state.userRights;
 

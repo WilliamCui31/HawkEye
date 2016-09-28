@@ -3,7 +3,7 @@ import Input from '../../components/Input';
 import Select from '../../components/Select';
 import ControlMenu from '../../components/ControlMenu';
 import UserRoleActions from '../../actions/UserRoleActions';
-import GlobalStore from '../../stores/GlobalStore';
+import MainStore from '../../stores/MainStore';
 import UserRoleStore from '../../stores/UserRoleStore';
 import assign from 'object-assign';
 

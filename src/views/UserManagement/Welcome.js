@@ -1,6 +1,6 @@
 import React from 'react';
-import ajax from '../../ajax';
-import utils from '../../utils';
+import ajax from '../../common/ajax';
+import utils from '../../common/utils';
 import LoginStore from '../../stores/LoginStore';
 
 //加载登录信息

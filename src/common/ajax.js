@@ -10,9 +10,9 @@
 *  @author William Cui
 *  @date 2016-09-20
 **/
-import utils from './utils';
-import md5 from './common/md5';
-import CryptoJS from './common/pad-zeropadding';
+import utils from './utils'
+import md5 from './md5';
+import CryptoJS from './pad-zeropadding';
 
 function ajax(settings) {
     //http://192.168.1.242:9701
@@ -27,7 +27,7 @@ function ajax(settings) {
     }
 
     //如果存在validateKey，表示是登录状态，data数据对象追加validateKey和token数据
-    if(utils.getCookie("validateKey")) {
+    if(sessionStorage.getItem("validateKey")) {
 
       //定义属性连接字符串，最终通过MD5和AES两层加密得到token
       var propsString="",token="";
@@ -35,8 +35,8 @@ function ajax(settings) {
       //如果有请求数据则追加到属性字符串
       if(!utils.isEmptyObject(data)) propsString=joinProps(data)+"&";
 
-      //从cookie获取登录validateKey,追加到data数据对象
-      data.validateKey=utils.getCookie("validateKey");
+      //获取登录validateKey,追加到data数据对象
+      data.validateKey=sessionStorage.getItem("validateKey");
 
       //属性字符串追加validateKey
       propsString+="validateKey="+data.validateKey;

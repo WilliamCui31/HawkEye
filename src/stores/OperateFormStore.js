@@ -1,9 +1,9 @@
 import AppDispatcher from '../dispatcher/AppDispatcher';
 import { EventEmitter } from 'events';
-import GlobalStore from '../stores/GlobalStore';
+import MainStore from '../stores/MainStore';
 import OperateFormConstants from '../constants/OperateFormConstants';
 import assign from 'object-assign';
-import ajax from '../ajax';
+import ajax from '../common/ajax';
 
 const CHANGE_EVENT='change';
 
