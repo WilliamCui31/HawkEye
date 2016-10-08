@@ -14,6 +14,7 @@ const UserList = React.createClass({
 	},
 
 	getInitialState: function(){
+		UserListActions.queryUsers(1);
 		return {
 			userListData: UserListStore.getUserListData()
 		}
@@ -77,47 +78,46 @@ const UserList = React.createClass({
 		return <div>
 
 			<div className="hy-panel">
-		        <ul className="hy-inline-form clearfix">
-		          <li><label>用户名：</label><Input appearance="primary" id="name" inputAction={UserListActions.inputData}  /></li>
-		          <li>
-		            <label>所在部门：</label>
-		            <Select appearance="primary" id="deptId" initialData={departmentsData} selectAction={UserListActions.inputData} placeholder="选择部门" />
-		          </li>
-		          <li><button className="hy-button query-button" onClick={this._queryUsers}>查询</button></li>
-		        </ul>
-		    </div>
-
-		    <div className="hy-section">
-
-				<table className="list-grid" width="100%">
-		          <thead>
-		            <tr>
-		              <th width="5%">序号</th>
-		              <th width="15%">用户名</th>
-		              <th width="10%">姓名</th>
-		              <th width="10%">所在部门</th>
-		              <th width="10%">所在角色</th>
-		              <th width="10%">当前状态</th>
-		              <th>操作</th>
-		            </tr>
-		          </thead>
-		          <tbody>
-		            {users}
-		          </tbody>
-		          <tfoot>
-		            <tr>
-		              <td colSpan="7">
-		              	{paging}
-		              </td>
-		            </tr>
-		          </tfoot>
-		        </table>
-
-		    </div>
-
-		   	{this.state.popup}
-
+	        <ul className="hy-inline-form clearfix">
+	          <li><label>用户名：</label><Input appearance="primary" id="name" inputAction={UserListActions.inputData}  /></li>
+	          <li>
+	            <label>所在部门：</label>
+	            <Select appearance="primary" id="deptId" initialData={departmentsData} selectAction={UserListActions.inputData} placeholder="选择部门" />
+	          </li>
+	          <li><button className="hy-button query-button" onClick={this._queryUsers}>查询</button></li>
+	        </ul>
 	    </div>
+
+	    <div className="hy-section">
+				<table className="list-grid" width="100%">
+					
+          <thead>
+            <tr>
+              <th width="5%">序号</th>
+              <th width="15%">用户名</th>
+              <th width="10%">姓名</th>
+              <th width="10%">所在部门</th>
+              <th width="10%">所在角色</th>
+              <th width="10%">当前状态</th>
+              <th>操作</th>
+            </tr>
+          </thead>
+          <tbody>
+            {users}
+          </tbody>
+          <tfoot>
+            <tr>
+              <td colSpan="7">
+              	{paging}
+              </td>
+            </tr>
+          </tfoot>
+        </table>
+	    </div>
+
+	   	{this.state.popup}
+
+    </div>
 	},
 
 	_onChange: function(){

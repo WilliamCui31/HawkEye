@@ -21,23 +21,25 @@ const StatisticsGrid = React.createClass({
 			if(element.width) width=element.width;
 			ths.push(<th key={index} width={width}>{element.name}</th>);
 		});
-		lists.forEach(function(element,index,array){
-			var tds=[];
-			for(let key of keys){
-				if(key==="index"){
-					tds.push(<td key={key}>{index+1}</td>);
-				}else{
-					var value=element?element[key]:"";
-					tds.push(<td key={key}>{value}</td>);
-				}
-			};
-			trs.push(<tr key={index}>{tds}</tr>);
-		});
+		if(lists&&Array.isArray(lists)&&lists.length>0){
+			lists.forEach(function(element,index,array){
+				var tds=[];
+				keys.forEach(function(key){
+					if(key==="index"){
+						tds.push(<td key={key}>{index+1}</td>);
+					}else{
+						var value=element?element[key]:"";
+						tds.push(<td key={key}>{value}</td>);
+					}
+				});
+				trs.push(<tr key={index}>{tds}</tr>);
+			});
+		}
 
 		var explain;
-		if(this.props.explain) explain=<i className="hy-icon info" title={this.props.explain}></i>;
+		if(this.props.explain) explain=<span className="statistic-grid-explain">（{this.props.explain}）</span>;
 		return <table className="statistic-grid" width={this.props.width}>
-			<caption>{this.props.title}{explain}</caption>
+			<caption>{this.props.title} {explain}</caption>
 			<thead>
 				<tr>{ths}</tr>
 			</thead>

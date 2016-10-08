@@ -2,8 +2,6 @@ var path = require('path');
 var openBrowserPlugin = require('open-browser-webpack-plugin');
 var htmlWebpackplugin = require('html-webpack-plugin');
 
-var autoprefixer = require('autoprefixer');
-
 module.exports = {
 	entry: {
 		app: [
@@ -23,7 +21,7 @@ module.exports = {
 			'images': path.resolve(__dirname, './assets/images')
 		}
 	},
-	postcss: [autoprefixer({browsers:['last 2 versions']})],
+	postcss: [require('autoprefixer')],
 	module: {
 		loaders: [{
 			test: /\.jsx?$/,

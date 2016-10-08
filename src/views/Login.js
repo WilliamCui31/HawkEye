@@ -37,7 +37,7 @@ var Login = React.createClass({
 					      <li><label>密码</label>：<Input type="password" appearance="primary" id="password" inputAction={this._inputAccount} onKeyUp={this._onKeyUp} /></li>
 					      <li><label>验证码</label>：<Input appearance="small" id="valideNum" inputAction={this._inputAccount} onKeyUp={this._onKeyUp} />
 					      <span className="verify-code" onClick={this._refreshCode}>{this.state.verfiyCode}</span></li>
-					      <li className="login-error-message"><label>&nbsp;</label> {this.state.errorMsg}</li>
+					      <li className="login-error-message">{this.state.errorMsg}</li>
 					      <li className="clearfix"><input type="submit" id="loginBtn" className="hy-button primary" value="登 录" onClick={this._login} /></li>
 					    </ul>
 					</div>

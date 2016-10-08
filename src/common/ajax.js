@@ -98,7 +98,7 @@ function ajax(settings) {
 
           //console.log(response);
           //当返回的code的值为1003(用户已过期)，2001（校验key为空）的时候，跳转到登录页面
-          if(response.code==="1003"||response.code==="2001") location.assign("/");
+          if(response.code==="1003"/*||response.code==="2001"*/) location.assign("/");
 
           //将解析的json对象返回
           success(response);

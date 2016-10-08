@@ -58,16 +58,16 @@ const UserRole = React.createClass({
 					/>;
 				}
 				roles.push(<tr key={element.id} id={element.id}>
-	              <td>{(currentPage-1)*pageSize+index+1}</td>
-	              <td style={{width: "200px"}}>
-		              {roleName}
-	              </td>
-	              <td>
-		              <button className="link-button" name={element.name} onClick={_this._assignRoleUsers}>分配用户</button>
-		              <button className="link-button" name={element.name} onClick={_this._assignRoleRights}>分配权限</button>
-		    	      <button className="link-button warning" name={element.name} onClick={_this._deleteRole}>删除</button>
-	    	      </td>
-	            </tr>)
+          <td>{(currentPage-1)*pageSize+index+1}</td>
+          <td style={{width: "200px",textAlign: "left"}}>
+            {roleName}
+          </td>
+          <td>
+            <button className="link-button" name={element.name} onClick={_this._assignRoleUsers}>分配用户</button>
+            <button className="link-button" name={element.name} onClick={_this._assignRoleRights}>分配权限</button>
+  	      <button className="link-button warning" name={element.name} onClick={_this._deleteRole}>删除</button>
+	      </td>
+        </tr>)
 			});
 			paging=<Paging
 				pageSize={currentRecord}
@@ -78,36 +78,32 @@ const UserRole = React.createClass({
 		}
 
 		return <div>
-
 		    <div className="hy-section">
-				<table className="list-grid" width="100%">
-				  <caption className="list-grid-header clearfix">
-					  <span className="list-grid-header-text pull-left">当前角色列表</span>
-					  <button className="hy-button pull-right" onClick={this._addRole}>新增角色</button>
-				  </caption>
-		          <thead>
-		            <tr>
-		              <th>序号</th>
-		              <th>角色名称</th>
-		              <th>操作</th>
-		            </tr>
-		          </thead>
-		          <tbody>
-					{roles}
-		          </tbody>
-		          <tfoot>
-		            <tr>
-		              <td colSpan="3">
-		              	{paging}
-		              </td>
-		            </tr>
-		          </tfoot>
-		        </table>
-
+					<table className="list-grid" width="100%">
+					  <caption className="list-grid-header clearfix">
+						  <span className="list-grid-header-text pull-left">当前角色列表</span>
+						  <button className="hy-button pull-right" onClick={this._addRole}>新增角色</button>
+					  </caption>
+	          <thead>
+	            <tr>
+	              <th width="10%">序号</th>
+	              <th width="50%" style={{textAlign: "left"}}>角色名称</th>
+	              <th width="250">操作</th>
+	            </tr>
+	          </thead>
+	          <tbody>
+							{roles}
+	          </tbody>
+	          <tfoot>
+	            <tr>
+	              <td colSpan="3">
+	              	{paging}
+	              </td>
+	            </tr>
+	          </tfoot>
+			    </table>
 		    </div>
-
 		   	{this.state.popup}
-
 	    </div>
 	},
 

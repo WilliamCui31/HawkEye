@@ -20,9 +20,10 @@ function queryUsers(queryParam) {
 		url: '/eye/user/v1/getUsers.json',
 		data: queryParam,
 		success: function(data) {
+			console.log("queryParam",data);
 			if(data.code==="0000") {
 				_userListData.usersList=data.data;
-
+				console.log("usersList",usersList);
 				UserListStore.emitChange();
 			}
 		}
@@ -76,6 +77,10 @@ const UserListStore=assign({},EventEmitter.prototype,{
 	getUserRights: function(userId){
 		getUserDetail(userId);
 		return _userListData.userRights;
+	},
+
+	getFeedback: function(){
+		return _userListData.feedback;
 	},
 
 	emitChange: function(){
@@ -139,10 +144,8 @@ AppDispatcher.register(function(action){
 
 		case UserListConstants.MODIFY_USER_RIGHTS:
 			//修改用户权限
-			var modifyData={
-				uid: action.userId,
-				rights: action.rights
-			};
+			var modifyData={uid: action.userId};
+			if(action.rights) modifyData.roleId=action.rights;
 			if(action.roleId) modifyData.roleId=action.roleId;
 
 			modifyUser(modifyData);

@@ -6,7 +6,7 @@ import ajax from '../common/ajax';
 
 const CHANGE_EVENT='change';
 
-var _MainData={}
+var _mainData={}
 
 //加载系统栏目
 function loadColumn(){
@@ -17,10 +17,12 @@ function loadColumn(){
 		success: function(data) {
 			if(data.code==="0000") {
 				columnsData=data.data;
-				var columnId=columnsData[0].id;
-				if(!sessionStorage.getItem("columnId")){
-					//设置栏目ID
-					sessionStorage.setItem("columnId",columnId);
+				if(columnsData.length>0) {
+					var columnId=columnsData[0].id;
+					if(!sessionStorage.getItem("columnId")||sessionStorage.getItem("columnId")==="undefined"){
+						//设置栏目ID
+						sessionStorage.setItem("columnId",columnId);
+					}
 				}
 			}
 		}
@@ -57,6 +59,7 @@ function loadMenu(){
 			}
 		}
 	});
+
 	return menusData;
 }
 
@@ -115,11 +118,11 @@ function resetPassword(cpwd,newPwd){
 		success: function(data) {
 			if(data.code==="0000") {
 				//密码重置成功
-				_MainData.resetPassword={
+				_mainData.resetPassword={
 					status: true
 				}
 			}else {
-				_MainData.resetPassword={
+				_mainData.resetPassword={
 					status: false,
 					msg: data.description
 				}
@@ -152,7 +155,7 @@ const MainStore=assign({},EventEmitter.prototype,{
 	},
 
 	resetPasswordfeedback: function(){
-		return _MainData.resetPassword
+		return _mainData.resetPassword
 	},
 
 	emitChange: function(){

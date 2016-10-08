@@ -74,7 +74,8 @@
 	background-color: #DFDFDF;
 }
 .login-form>.login-error-message {
-	height: 20px;
+	padding-left: 70px;
+	min-height: 20px;
 	color: #F00;
 	font-size: 14px;
 }

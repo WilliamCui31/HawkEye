@@ -3,8 +3,6 @@ var webpack = require('webpack');
 var HtmlWebpackplugin = require('html-webpack-plugin');
 var CleanPlugin = require('clean-webpack-plugin');
 
-var autoprefixer = require('autoprefixer');
-
 module.exports = {
 	devtool: 'cheap-module-source-map',
 	entry: {
@@ -18,10 +16,11 @@ module.exports = {
 	resolve: {
 		extentions: ['', '.js', '.jsx'],
 		alias: {
-			'styles': path.resolve(__dirname, './assets/styles')
+			'styles': path.resolve(__dirname, './assets/styles'),
+			'images': path.resolve(__dirname, './assets/images')
 		}
 	},
-	postcss: [autoprefixer({browsers:['last 2 versions']})],
+	postcss: [require('autoprefixer')],
 	module: {
 		loaders: [{
 			test: /\.jsx?$/,
@@ -31,7 +30,7 @@ module.exports = {
 			}
 		},{
 			test: /\.css$/,
-			loader: 'style!css'
+			loader: 'style!css!postcss'
 		},{
 			test: /\.(png|jpg|gif|eot|svg|ttf|woff)\??.*$/,
 			loader: 'url?limit=25000&name=[path][name].[ext]'

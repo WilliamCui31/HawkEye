@@ -420,6 +420,17 @@ ul {
 .hy-button.secondary:hover {
   background-color: #304162;
 }
+.hy-button.hollow {
+  color: #51D7B8;
+  border: 1px solid #51D7B8;
+  background-color: #FFF;
+}
+.hy-button.hollow.export:before {
+  display: inline-block;
+  margin-right: 5px;
+  content: "​\21E7";
+  font-size: 18px;
+}
 
 /* 查询按钮 */
 .query-button {
@@ -479,7 +490,7 @@ ul {
   background-color: #fff;
 }
 .hy-checkbox.checked:before{
-  content: "✔";
+  content: "\2714";
 }
 
 /* icons */

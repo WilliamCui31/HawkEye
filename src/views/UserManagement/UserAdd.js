@@ -51,7 +51,7 @@ const UserAdd = React.createClass({
 					/>
 					<Feild
 						id="realName"
-						label="姓名"
+						label="真实姓名"
 						inputAction={this._inputUser}
 						pattern={/^[\u4e00-\u9fa5]{2,10}$/}
 						wrong="姓名必须是汉字，长度在2-10个汉字以内"
@@ -174,6 +174,11 @@ const UserAdd = React.createClass({
 		this._focusById("name");
 		delete this.state.user;
 		delete this.state.roleId;
+
+		this.setState({
+			initialRights: UserAddStore.getRights()
+		});
+
 		console.log(this.state);
 	}
 

@@ -212,18 +212,27 @@ body {
 	text-align: right;
 }
 .hy-multiline-form-footer {
+	width: 285px;
 	margin-top: 30px;
 }
 
 /* statistic-grid(统计类表格) */
 .statistic-grid {
-	float: left;
 	margin-right: 20px;
-	margin-bottom: 20px;
+	column-break-inside: avoid;
+	-webkit-column-break-inside: avoid;
+	-ms-column-break-inside: avoid;
+	-moz-column-break-inside: avoid;
+	-o-column-break-inside: avoid;
 }
 .statistic-grid>caption {
+	margin-top: 20px;
   margin-bottom: 5px;
   text-align: left;
+}
+.statistic-grid-explain {
+	color: #999;
+	font-size: 14px;
 }
 .statistic-grid th,
 .statistic-grid td{
@@ -378,13 +387,15 @@ body {
 }
 .control-menu-level2>.control-menu-tit {
 	padding-left: 44px;
-	border-bottom: 1px solid #DFDFDF;
 	background-color: #fff;
 }
 .control-menu-tit>.down-arrow {
 	position: absolute;
 	top: 20px;
 	right: 17px;
+}
+.control-menu-level3 {
+	border-top: 1px solid #DFDFDF;
 }
 .control-menu-level3>li {
 	height: 48px;
@@ -465,6 +476,12 @@ body {
 	bottom: 0;
 	left: 0;
 	background: rgba(0,0,0,.5) url(../images/loading.gif) center center no-repeat;
+}
+
+/* 表格容器排版 */
+.grid-container {
+	padding-top: 0!important;
+	column-width :500px;
 }
 
 

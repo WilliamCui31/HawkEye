@@ -20,25 +20,25 @@ const Select = React.createClass({
 
 	render: function(){
 		var optionsData=this.props.initialData,options=[];
-		for(let option of optionsData){
+		optionsData.forEach(function(option){
 			options.push(<option key={option.id} value={option.id.toString()}>{option.name}</option>);
-		}
+		});
 		return (
 			<span className="hy-select-outer">
-              <span className="hy-select-inner">
-                <select 
-                	className={classnames('hy-input',this.props.appearance)} 
-                	id={this.props.id} 
-                	defaultValue={this.state.defaultValue}
-                	onChange={this._onChange}>
-                  	<option value="default" disabled hidden>{this.props.placeholder}</option>  
-                  	{options}
-                </select>
-              </span>
-            </span>
+        <span className="hy-select-inner">
+          <select
+          	className={classnames('hy-input',this.props.appearance)}
+          	id={this.props.id}
+          	defaultValue={this.state.defaultValue}
+          	onChange={this._onChange}>
+            	<option value="default" disabled hidden>{this.props.placeholder}</option>
+            	{options}
+          </select>
+        </span>
+      </span>
 		)
 	},
-	
+
 	_onChange: function(e){
 		if(e.target.value)
 		this.props.selectAction(e);

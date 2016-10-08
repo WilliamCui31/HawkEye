@@ -34,15 +34,15 @@ const ModifyRights = React.createClass({
 		var rolesData=MainStore.getRoles();
 		//权限树列表
 		var rightsData=this.state.userRights;
-
-		console.log("000000",rightsData);
+		//角色id
+		var roleId=UserListStore.getUserInfo().roleId?UserListStore.getUserInfo().roleId.toString():"default";
 
 		return <div className="hy-section pdg20">
 
 			<ul className="hy-multiline-form clearfix" style={{width: "285px"}}>
 				<li>
 					<label>用户角色：</label>
-					<Select appearance="primary" id="roleId" initialData={rolesData} selectAction={this._setRoleId} defaultValue={UserListStore.getUserInfo().roleId.toString()} />
+					<Select appearance="primary" id="roleId" initialData={rolesData} selectAction={this._setRoleId} placeholder="当前暂无角色" defaultValue={roleId} />
 				</li>
 				<li>
 					<ControlMenu initialData={rightsData} export={this._exportRights}/>

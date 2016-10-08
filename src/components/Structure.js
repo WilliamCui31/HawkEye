@@ -1,5 +1,6 @@
 import React from 'react';
 import CheckBox from './CheckBox';
+import classnames from 'classnames';
 
 const Structure = React.createClass({
 
@@ -45,27 +46,30 @@ const Structure = React.createClass({
 	},
 
 	render: function(){
+		var _this=this;
 		var level1Data=this.state.treeData,level1Menu=[];
 		var action=this.props.action;
 
-		for(let level1 of level1Data) {
+		level1Data.forEach(function(level1) {
 			var level2Data=level1.users,level2Menu=[];
-			for(let level2 of level2Data) {
-				level2Menu.push(<div key={level2.id} className="control-menu-level2">
-					<h1 className="control-menu-tit">
-						<CheckBox id={level2.id} text={level2.name} isChecked={level2.isChecked==1} onCheck={this._onCheck} />
-					</h1>
+			level2Data.forEach(function(level2) {
+				level2Menu.push(<div key={level2.id} className="control-menu-level2-wrap">
+					<div key={level2.id} className={classnames("control-menu-level2",level1.spread)}>
+						<h1 className="control-menu-tit">
+							<CheckBox id={level2.id} text={level2.name} isChecked={level2.isChecked==1} onCheck={_this._onCheck} />
+						</h1>
+					</div>
 				</div>);
-			}
+			});
 
 			level1Menu.push(<div key={level1.id} className="control-menu-level1">
-				<h1 className="control-menu-tit">
-					<CheckBox id={level1.id} text={level1.deptName} hasIcon={true} isChecked={level1.isChecked==1} onCheck={this._onCheck} />
-					<i className="hy-icon down-arrow"></i>
+				<h1 className="control-menu-tit" data-id={level1.id} onClick={_this._spreadDepart}>
+					<CheckBox id={level1.id} text={level1.deptName} hasIcon={true} isChecked={level1.isChecked==1} onCheck={_this._onCheck} />
+					<i className="hy-icon down-arrow" data-id={level1.id} onClick={_this._spreadDepart}></i>
 				</h1>
 				{level2Menu}
 			</div>);
-		}
+		});
 
 		return <div className="control-menu" style={{margin: "0 auto"}}>
 			<h1 className="control-menu-header">
@@ -110,7 +114,7 @@ const Structure = React.createClass({
 				areAllChecked=false;
 			}
 		});
-		
+
 		this.setState({
 			treeData: treeData,
 			areAllChecked: areAllChecked
@@ -133,8 +137,29 @@ const Structure = React.createClass({
 			treeData:treeData,
 			areAllChecked: !areAllChecked
 		})
+	},
+
+	_spreadDepart: function(e){
+		e.stopPropagation();
+
+		var departId=e.target.dataset?e.target.dataset.id:e.target.getAttribute('data-id');
+		var treeData=this.state.treeData;
+		treeData.forEach(function(element,index,array){
+			 if(element.id==departId) {
+				 if(element.spread){
+					 delete element.spread;
+				 }else{
+					 element.spread="spread";
+				 }
+			 }
+		});
+
+		//更新权限状态
+		this.setState({
+			treeData: treeData
+		});
 	}
-	
+
 });
 
 export default Structure;

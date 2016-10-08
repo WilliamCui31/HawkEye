@@ -19,7 +19,7 @@ const Main=React.createClass({
 		var columnsData=MainStore.getColumnsData();
 		var userInfo=MainStore.getUserInfo();
 		var menusData=MainStore.getMenusData();
-		menusData[0].spread="spread";
+		if(menusData) menusData[0].spread="spread";
 		return {
 			columnsData: columnsData,
 			userInfo: userInfo,
@@ -28,42 +28,48 @@ const Main=React.createClass({
 	},
 
 	render: function(){
+		var _this=this;
 
 		//系统栏目
 		var columnsData=this.state.columnsData,columns=[];
-		for(let column of columnsData) {
-			columns.push(<li key={column.id}>
-				<Link
-					to={column.url}
-					activeClassName="active"
-					data-id={column.id}
-					onClick={this._onSwitchColumn}>
-					{column.name}
-				</Link>
-			</li>);
+
+		if(columnsData){
+			columnsData.forEach(function(column){
+				columns.push(<li key={column.id}>
+					<Link
+						to={column.url}
+						activeClassName="active"
+						data-id={column.id}
+						onClick={_this._onSwitchColumn}>
+						{column.name}
+					</Link>
+				</li>);
+			});
 		}
 
 		//用户名
+		if(!this.state.userInfo) location.assign("/");
 		var userName=this.state.userInfo.name;
 
 		//栏目下面的菜单
 		var menusData=this.state.menusData,menus=[];
-
-		for(let category of menusData) {
-			var linkDatas=category.datas, links=[];
-			for(let link of linkDatas){
-				links.push(<Link key={link.id} to={link.url} activeClassName="active">{link.name}</Link>);
-			}
-			menus.push(
-				<li key={category.id} className="side-category">
-					<h1 className="side-category-tit" data-id={category.id} onClick={this._onSpreadMenu}>{category.name}<i className="hy-icon down-arrow"></i></h1>
-					<div className="side-category-cont-wrap">
-						<div className={classnames("side-category-cont",category.spread)}>
-							{links}
+		if(menusData){
+			menusData.forEach(function(category){
+				var linkDatas=category.datas, links=[];
+				linkDatas.forEach(function(link){
+					links.push(<Link key={link.id} to={link.url} activeClassName="active">{link.name}</Link>);
+				});
+				menus.push(
+					<li key={category.id} className="side-category">
+						<h1 className="side-category-tit" data-id={category.id} onClick={_this._onSpreadMenu}>{category.name}<i className="hy-icon down-arrow" data-id={category.id} onClick={_this._onSpreadMenu}></i></h1>
+						<div className="side-category-cont-wrap">
+							<div className={classnames("side-category-cont",category.spread)}>
+								{links}
+							</div>
 						</div>
-					</div>
-				</li>
-			);
+					</li>
+				);
+			});
 		}
 
 		return <div>
@@ -98,7 +104,7 @@ const Main=React.createClass({
 	},
 
 	_onSwitchColumn: function(e) {
-		var columnId=e.target.dataset.id;
+		var columnId=e.target.dataset?e.target.dataset.id:e.target.getAttribute('data-id');
 
 		//修改栏目ID
 		sessionStorage.setItem("columnId",columnId);
@@ -112,7 +118,9 @@ const Main=React.createClass({
 	},
 
 	_onSpreadMenu: function(e){
-		var menuId=e.target.dataset.id;
+		e.stopPropagation();
+
+		var menuId=e.target.dataset?e.target.dataset.id:e.target.getAttribute('data-id');
 		var menusData=this.state.menusData;
 		menusData.forEach(function(element,index,array){
 			if(element.id==menuId) {
