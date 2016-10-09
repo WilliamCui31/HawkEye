@@ -110,16 +110,16 @@ function ajax(settings) {
     //属性按英文字母排序并拼接起来
     function joinProps(data){
       var props=[];
-      for(let i in data){
+      for(var i in data){
         var value=data[i];
         if(typeof value==="object") value=JSON.stringify(value);
         if(i!="validateKey"&&i!="token")
         props.push(i+"="+value);
       }
       props.sort(function(x,y){
-        x=x.toUpperCase();
-        y=y.toUpperCase();
-        return x>y;
+        x=x.split("=")[0].toLowerCase();
+        y=y.split("=")[0].toLowerCase();
+        return x>y?1:-1;
       });
       return props.join("&");
     }

@@ -14,13 +14,13 @@ const UserList = React.createClass({
 	},
 
 	getInitialState: function(){
-		UserListActions.queryUsers(1);
 		return {
 			userListData: UserListStore.getUserListData()
 		}
 	},
 
 	componentDidMount: function(){
+		UserListActions.queryUsers(1);
 		UserListStore.addChangeListener(this._onChange);
 	},
 
@@ -90,7 +90,7 @@ const UserList = React.createClass({
 
 	    <div className="hy-section">
 				<table className="list-grid" width="100%">
-					
+
           <thead>
             <tr>
               <th width="5%">序号</th>

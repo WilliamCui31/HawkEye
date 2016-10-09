@@ -95,7 +95,6 @@ const OperateForm = React.createClass({
     end=end.endOf("month");
     var start=end.clone().subtract(2, 'months');
     start=start.startOf("month");
-    OperateFormActions.queryForm(start.format("YYYY-MM-DD"),end.format("YYYY-MM-DD"));
 		return {
 			startValue: start,
       endValue: end
@@ -103,6 +102,9 @@ const OperateForm = React.createClass({
 	},
 
 	componentDidMount: function(){
+    var start=this.state.startValue.format(getFormat(SHOW_TIME));
+    var end=this.state.endValue.format(getFormat(SHOW_TIME));
+    OperateFormActions.queryForm(start,end);
 		OperateFormStore.addChangeListener(this._onChange);
 	},
 

@@ -481,26 +481,26 @@ body {
 /* 表格容器排版 */
 .grid-container {
 	padding-top: 0!important;
-	column-width :500px;
+	column-width: 500px;
 }
 
 
 /* left_cut 转场动画 */
 .left_cut-enter {
+	position: relative;
+	z-index: 1;
 	opacity: 0;
-	transform: translateY(10%);
-	transition: all .2s ease-out;
+	transition: all .1s linear;
 }
 .left_cut-enter.left_cut-enter-active {
 	opacity: 1;
-	transform: translateY(0);
 }
 .left_cut-leave {
+	position: relative;
+	z-index: 0;
 	opacity: 1;
-	transform: translateY(0);
-	transition: all .2s ease-out;
+	transition: all .1s linear;
 }
 .left_cut-leave.left_cut-leave-active {
 	opacity: 0;
-	transform: translateY(-10%);
 }

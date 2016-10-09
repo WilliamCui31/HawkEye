@@ -60,7 +60,7 @@ var Login = React.createClass({
 		if(e.keyCode===13){
 			//当用户按下回车
 			document.getElementById(e.target.id).blur();
-			document.getElementById("loginBtn").click();
+			setTimeout(function(){document.getElementById("loginBtn").click();},200);
 		}
 	},
 

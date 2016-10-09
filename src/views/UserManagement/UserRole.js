@@ -14,13 +14,13 @@ const UserRole = React.createClass({
 	},
 
 	getInitialState: function(){
-		UserRoleActions.getRolesList(1);
 		return {
 			rolesList: UserRoleStore.getRolesList()
 		}
 	},
 
 	componentDidMount: function(){
+		UserRoleActions.getRolesList(1);
 		UserRoleStore.addChangeListener(this._onChange);
 	},
 

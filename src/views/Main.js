@@ -84,16 +84,11 @@ const Main=React.createClass({
 			</div>
 
 			<ul className="side-bar">
-			    {menus}
+				{menus}
 			</ul>
 
 			<div className="hy-cont">
-				<ReactCSSTransitionGroup
-					transitionName="left_cut"
-					transitionEnterTimeout={200}
-					transitionLeaveTimeout={200}>
-					{React.cloneElement(this.props.children, {key: this.props.location.pathname})}
-				</ReactCSSTransitionGroup>
+				{this.props.children}
 			</div>
 
 		</div>

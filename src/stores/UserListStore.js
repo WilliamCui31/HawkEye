@@ -20,10 +20,8 @@ function queryUsers(queryParam) {
 		url: '/eye/user/v1/getUsers.json',
 		data: queryParam,
 		success: function(data) {
-			console.log("queryParam",data);
 			if(data.code==="0000") {
 				_userListData.usersList=data.data;
-				console.log("usersList",usersList);
 				UserListStore.emitChange();
 			}
 		}
