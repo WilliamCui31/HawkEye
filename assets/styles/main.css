@@ -218,15 +218,10 @@ body {
 
 /* statistic-grid(统计类表格) */
 .statistic-grid {
+	margin-bottom: 20px;
 	margin-right: 20px;
-	column-break-inside: avoid;
-	-webkit-column-break-inside: avoid;
-	-ms-column-break-inside: avoid;
-	-moz-column-break-inside: avoid;
-	-o-column-break-inside: avoid;
 }
 .statistic-grid>caption {
-	margin-top: 20px;
   margin-bottom: 5px;
   text-align: left;
 }
@@ -477,13 +472,6 @@ body {
 	left: 0;
 	background: rgba(0,0,0,.5) url(../images/loading.gif) center center no-repeat;
 }
-
-/* 表格容器排版 */
-.grid-container {
-	padding-top: 0!important;
-	column-width: 500px;
-}
-
 
 /* left_cut 转场动画 */
 .left_cut-enter {

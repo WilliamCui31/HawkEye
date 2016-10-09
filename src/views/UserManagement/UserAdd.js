@@ -47,7 +47,6 @@ const UserAdd = React.createClass({
 						wrong="用户名必须是字母、数字格式，长度在4-20个字符以内"
 						validation={UserAddStore.validateUser}
 						validateFailure="用户名已存在，请重新输入"
-						focus={true}
 					/>
 					<Feild
 						id="realName"

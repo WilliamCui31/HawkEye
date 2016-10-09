@@ -1,9 +1,13 @@
 import React from 'react';
+import Masonry from 'react-masonry-component';
 import Input from '../../components/Input';
 import Alert from '../../components/Alert';
 import StatisticsGrid from '../../components/StatisticsGrid';
 import OperateFormStore from '../../stores/OperateFormStore';
 import OperateFormActions from '../../actions/OperateFormActions';
+var masonryOptions = {
+    transitionDuration: 0
+};
 
 import 'rc-calendar/assets/index.css';
 import Calendar from 'rc-calendar';
@@ -166,7 +170,7 @@ const OperateForm = React.createClass({
       	title="用户复投次数"
       	width="500"
       	explain="汇总每个用户投资的次数，统计时间不以筛选统计时间为准"
-      	theads={[{name:"投资次数",width:"50%"},{name:"人数"}]}
+      	theads={[{name:"投资次数",width:"30%"},{name:"人数"}]}
       	data={reinvestData}
       />;
 
@@ -179,7 +183,7 @@ const OperateForm = React.createClass({
 				title="投资终端分布"
 				width="500"
 				explain="类汇总投资金额/总投资金额"
-				theads={[{name:"终端类型",width:"30%"},{name:"投资金额",width:"30%"},{name:"投资金额占比"}]}
+				theads={[{name:"终端类型"},{name:"投资金额"},{name:"投资金额占比"}]}
 				data={terminalData}
 			/>;
 
@@ -192,7 +196,7 @@ const OperateForm = React.createClass({
 				title="投资产品"
 				width="500"
 				explain="类汇总投资金额/总投资金额"
-				theads={[{name:"产品",width:"30%"},{name:"投资金额",width:"30%"},{name:"投资金额占比"}]}
+				theads={[{name:"产品"},{name:"投资金额"},{name:"投资金额占比"}]}
 				data={productData}
 			/>;
 
@@ -205,8 +209,8 @@ const OperateForm = React.createClass({
 				title="用户性别"
 				width="500"
 				explain="根据投资金额排序"
-				theads={[{name:"性别",width:"20%"},{name:"投资人数",width:"20%"},{name:"投资金额",width:"20%"},
-               {name:"投资金额占比",width:"20%"},{name:"投资人数占比"}]}
+				theads={[{name:"性别"},{name:"投资人数"},{name:"投资金额"},
+               {name:"投资金额占比"},{name:"投资人数占比"}]}
 				data={sexData}
 			/>;
 
@@ -219,7 +223,7 @@ const OperateForm = React.createClass({
 				title="投资区域排行榜"
 				width="500"
 				explain="汇总每个地区投资金额排序，排名10以外汇总到其他"
-				theads={[{name:"排行",width:"20%"},{name:"地区",width:"30%"},{name:"投资金额"}]}
+				theads={[{name:"排行"},{name:"地区"},{name:"投资金额"}]}
 				data={areaData}
 			/>;
 
@@ -232,7 +236,7 @@ const OperateForm = React.createClass({
 				title="借款用户所在地区"
 				width="500"
 				explain="汇总每个地区的借款金额，并根据借款金额排序"
-				theads={[{name:"排行",width:"10%"},{name:"地区",width:"20%"},{name:"借款金额",width:"40%"},{name:"借款金额占比"}]}
+				theads={[{name:"排行"},{name:"地区"},{name:"借款金额"},{name:"借款金额占比"}]}
 				data={borrowMoneyData}
 			/>;
 
@@ -259,7 +263,7 @@ const OperateForm = React.createClass({
 				title="收益最高"
 				width="500"
 				explain="汇总每个用户产生的收益"
-				theads={[{name:"排行",width:"10%"},{name:"姓名",width:"15%"},{name:"手机",width:"30%"},{name:"累计收益"}]}
+				theads={[{name:"排行"},{name:"姓名",width:"15%"},{name:"手机"},{name:"累计收益"}]}
 				data={incomeData}
 			/>;
 
@@ -272,7 +276,7 @@ const OperateForm = React.createClass({
 				title="用户星座"
 				width="500"
 				explain="汇总投资金额排序"
-				theads={[{name:"星座",width:"15%"},{name:"投资人数",width:"15%"},{name:"投资金额",width:"40%"},{name:"投资金额占比"}]}
+				theads={[{name:"星座"},{name:"投资人数"},{name:"投资金额"},{name:"投资金额占比"}]}
 				data={onstellationData}
 			/>;
 
@@ -285,7 +289,7 @@ const OperateForm = React.createClass({
 				title="推荐投资最多"
 				width="500"
 				explain="汇总每个用户推荐好友的投资总值排序"
-				theads={[{name:"排行",width:"15%"},{name:"姓名",width:"15%"},{name:"手机",width:"40%"},{name:"推荐投资累计"}]}
+				theads={[{name:"排行"},{name:"姓名",width:"15%"},{name:"手机"},{name:"推荐投资累计"}]}
 				data={recommendData}
 			/>;
 
@@ -298,7 +302,7 @@ const OperateForm = React.createClass({
 				title="用户投资金额排行榜"
 				width="500"
 				explain="汇总投资金额排序"
-				theads={[{name:"排行",width:"15%"},{name:"姓名",width:"15%"},{name:"手机",width:"40%"},{name:"投资总金额"}]}
+				theads={[{name:"排行"},{name:"姓名",width:"15%"},{name:"手机"},{name:"投资总金额"}]}
 				data={userData}
 			/>;
 
@@ -311,7 +315,7 @@ const OperateForm = React.createClass({
 				title="用户年代"
 				width="500"
 				explain="汇总每个类型统计"
-				theads={[{name:"类型",width:"15%"},{name:"投资人数",width:"20%"},{name:"投资金额",width:"40%"},{name:"投资金额占比"}]}
+				theads={[{name:"类型"},{name:"投资人数"},{name:"投资金额"},{name:"投资金额占比"}]}
 				data={yearData}
 			/>;
 
@@ -324,7 +328,7 @@ const OperateForm = React.createClass({
 				title="投资最活跃"
 				width="500"
 				explain="汇总每个用户投资的笔数，并根据总笔数排序"
-				theads={[{name:"排行",width:"10%"},{name:"姓名",width:"15%"},{name:"手机",width:"25%"},{name:"投资总笔数",width:"20%"},{name:"累计收益"}]}
+				theads={[{name:"排行"},{name:"姓名",width:"15%"},{name:"手机"},{name:"投资总笔数"},{name:"累计收益"}]}
 				data={activeUserData}
 			/>;
 
@@ -332,48 +336,53 @@ const OperateForm = React.createClass({
 		const state = this.state;
 		return <div>
 			<div className="hy-panel">
-		        <ul className="hy-inline-form clearfix">
-		          <li>
-		          	<label>统计时间：</label>
-								<Picker
-				          disabledDate={this.disabledStartDate}
-				          value={state.startValue}
-				          onChange={this._pickDate.bind(this, 'startValue')}
-				        />
-		          	<span style={{padding: "0 10px"}}>至</span>
-								<Picker
-				          disabledDate={this.disabledEndDate}
-				          value={state.endValue}
-				          onChange={this._pickDate.bind(this, 'endValue')}
-				        />
-		          </li>
-		          <li><button className="hy-button query-button" onClick={this._queryForm}>查询</button></li>
-		        </ul>
-		    </div>
-
-		    <div className="hy-section pdg20 grid-container clearfix">
-
-					{baseComponent}
-					{areaComponent}
-          {sexComponent}
-          {onstellationComponent}
-          {yearComponent}
-          {activityComponent}
-          {borrowTypeComponent}
-          {userComponent}
-          {reinvestComponent}
-          {productComponent}
-          {terminalComponent}
-          {recommendComponent}
-					{borrowMoneyComponent}
-					{activeUserComponent}
-					{incomeComponent}
-
-		    </div>
-
-		   	{this.state.popup}
-
+        <ul className="hy-inline-form clearfix">
+          <li>
+          	<label>统计时间：</label>
+						<Picker
+		          disabledDate={this.disabledStartDate}
+		          value={state.startValue}
+		          onChange={this._pickDate.bind(this, 'startValue')}
+		        />
+          	<span style={{padding: "0 10px"}}>至</span>
+						<Picker
+		          disabledDate={this.disabledEndDate}
+		          value={state.endValue}
+		          onChange={this._pickDate.bind(this, 'endValue')}
+		        />
+          </li>
+          <li><button className="hy-button query-button" onClick={this._queryForm}>查询</button></li>
+        </ul>
 	    </div>
+
+      <Masonry
+        className={'my-gallery-class hy-section pdg20'}
+        elementType={'ul'}
+        options={masonryOptions}
+        disableImagesLoaded={false}
+        updateOnEachImageLoad={false}
+        style={{paddingRight: "0px"}}
+      >
+        <li>{userComponent}</li>
+        <li>{recommendComponent}</li>
+        <li>{activeUserComponent}</li>
+        <li>{incomeComponent}</li>
+        <li>{reinvestComponent}</li>
+        <li>{onstellationComponent}</li>
+        <li>{areaComponent}</li>
+        <li>{borrowMoneyComponent}</li>
+        <li>{yearComponent}</li>
+        <li>{borrowTypeComponent}</li>
+        <li>{productComponent}</li>
+        <li>{terminalComponent}</li>
+        <li>{sexComponent}</li>
+        <li>{activityComponent}</li>
+        <li>{baseComponent}</li>
+      </Masonry>
+
+	   	{this.state.popup}
+
+    </div>
 	},
 
 	_onChange: function(){
