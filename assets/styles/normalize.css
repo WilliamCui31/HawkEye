@@ -329,27 +329,26 @@ ul {
 }
 
 /* select */
-.hy-select-outer,
-.hy-select-inner {
+.hy-select-wrap{
   position: relative;
   display: inline-block;
 }
-.hy-select-outer:before {
+.hy-select-triangle {
   z-index: 1;
   position: absolute;
   top: 1px;
   right: 1px;
-  bottom: 1px;
+  height: 38px;
   width: 32px;
   border-left: 1px solid #DFDFDF;
   content: "";
   background: #fff;
 }
-.hy-select-inner:before {
+.hy-select-triangle:before {
   z-index: 1;
   position: absolute;
   top: 15px;
-  right: 9px;
+  right: 8px;
   width: 0;
   height: 0;
   border: solid transparent;
@@ -357,11 +356,11 @@ ul {
   border-top-color: #999;
   content: "";
 }
-.hy-select-inner:after {
+.hy-select-triangle:after {
   z-index: 2;
   position: absolute;
   top: 14px;
-  right: 9px;
+  right: 8px;
   width: 0;
   height: 0;
   overflow: hidden;
@@ -390,6 +389,29 @@ ul {
 .hy-select:focus {
   border-color: #22C9D3;
   background-color: #fff;
+}
+.hy-select-options-wrap {
+  z-index: 2;
+  position: absolute;
+  width: 100%;
+  margin-top: -1px;
+  overflow: hidden;
+}
+.hy-select-options {
+  height: 0;
+  transform: translateY(-100%);
+  border: 1px solid #22C9D3;
+  border-top: 1px solid #DFDFDF;
+  background-color: #fff;
+  transition: all .2s;
+}
+.hy-select-options.slide {
+  height: auto;
+  transform: translateY(0);
+}
+.hy-select-options>li {
+  padding: 5px 10px;
+  cursor: pointer;
 }
 
 

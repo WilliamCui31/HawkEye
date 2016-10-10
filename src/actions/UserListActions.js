@@ -3,18 +3,10 @@ import UserListConstants from '../constants/UserListConstants';
 
 const UserListActions = {
 
-	inputData: function(e){
-		AppDispatcher.dispatch({
-			actionType: UserListConstants.INPUT_DATA,
-			id: e.target.id,
-			value: e.target.value
-		});
-	},
-
-	queryUsers: function(pageIndex){
+	queryUsers: function(queryParam){
 		AppDispatcher.dispatch({
 			actionType: UserListConstants.QUERY_USERS,
-			pageIndex: pageIndex
+			queryParam: queryParam
 		});
 	},
 

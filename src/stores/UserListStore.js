@@ -7,15 +7,11 @@ import ajax from '../common/ajax';
 
 const CHANGE_EVENT='change';
 
-var _userListData={
-	queryParam: {
-		//每页10条
-		pageSize: 10
-	}
-}
+var _userListData={}
 
 //查询用户
 function queryUsers(queryParam) {
+	queryParam.pageSize=10;
 	ajax({
 		url: '/eye/user/v1/getUsers.json',
 		data: queryParam,
@@ -97,20 +93,11 @@ const UserListStore=assign({},EventEmitter.prototype,{
 
 AppDispatcher.register(function(action){
 	switch(action.actionType){
-		case UserListConstants.INPUT_DATA:
-
-			_userListData.queryParam[action.id]=action.value;
-
-			UserListStore.emitChange();
-			break;
 
 		case UserListConstants.QUERY_USERS:
 
-			//设置查询页码
-			_userListData.queryParam.pageNum=action.pageIndex;
-
 			//查询用户
-			queryUsers(_userListData.queryParam);
+			queryUsers(action.queryParam);
 
 			break;
 

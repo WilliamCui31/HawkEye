@@ -200,7 +200,7 @@ const ControlMenu = React.createClass({
 
 	_spreadRights: function(e){
 		e.stopPropagation();
-
+		
 		var rightId=e.target.dataset?e.target.dataset.id:e.target.getAttribute('data-id');
 		var treeData=this.state.treeData;
 		treeData.forEach(function(element,index,array){

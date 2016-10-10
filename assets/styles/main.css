@@ -81,7 +81,7 @@ body {
 .side-category-cont{
 	z-index: 0;
 	margin-top: -100%;
-	transition: all .2s ease-out;
+	transition: all .2s;
 }
 .side-category-cont.spread {
 	margin-top: 0;
@@ -364,7 +364,7 @@ body {
 .control-menu-level2,
 .control-menu-level3{
 	margin-top: -100%;
-	transition: all .2s ease-out;
+	transition: all .2s;
 }
 .control-menu-level2.spread,
 .control-menu-level3.spread{

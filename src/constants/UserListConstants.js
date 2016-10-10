@@ -1,7 +1,6 @@
 import keyMirror from 'keymirror';
 
 export default keyMirror({
-	INPUT_DATA: null,
 	QUERY_USERS: null,
 	SWITCH_USER_STATUS: null,
 	GET_USER_DETAIL: null,

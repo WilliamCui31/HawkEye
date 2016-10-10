@@ -48,7 +48,16 @@ const ModifyInfo = React.createClass({
 					pattern={/^[\u4e00-\u9fa5]{2,10}$/}
 					wrong="姓名必须是汉字，长度在2-10个汉字以内"
 				/>
-				<li><label>所在部门：</label><Select appearance="primary" id="deptId" initialData={departments} selectAction={this._setUserInfo} defaultValue={userInfo.deptId.toString()} /></li>
+				<li>
+					<label>所在部门：</label>
+					<Select
+						appearance="primary"
+						id="deptId"
+						initialData={departments}
+						selectAction={this._setUserInfo}
+						defaultValue={userInfo.deptName}
+					/>
+				</li>
 				<Feild
 					id="pwd"
 					type="password"

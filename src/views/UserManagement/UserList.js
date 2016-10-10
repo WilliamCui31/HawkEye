@@ -20,7 +20,7 @@ const UserList = React.createClass({
 	},
 
 	componentDidMount: function(){
-		UserListActions.queryUsers(1);
+		UserListActions.queryUsers({pageNum: 1});
 		UserListStore.addChangeListener(this._onChange);
 	},
 
@@ -69,7 +69,7 @@ const UserList = React.createClass({
 				pageSize={currentRecord}
 				currentPage={currentPage}
 				totalPage={totalPage}
-				switchPageAction={UserListActions.queryUsers}
+				switchPageAction={this._switchPage}
 			/>
 		}else{
 			users.push(<tr key={0} className="list-grid-placeholder"><td colSpan="7">暂时没有数据哦，请点击查询！</td></tr>);
@@ -79,10 +79,10 @@ const UserList = React.createClass({
 
 			<div className="hy-panel">
 	        <ul className="hy-inline-form clearfix">
-	          <li><label>用户名：</label><Input appearance="primary" id="name" inputAction={UserListActions.inputData}  /></li>
+	          <li><label>用户名：</label><Input appearance="primary" id="name" inputAction={this._inputName}  /></li>
 	          <li>
 	            <label>所在部门：</label>
-	            <Select appearance="primary" id="deptId" initialData={departmentsData} selectAction={UserListActions.inputData} placeholder="选择部门" />
+	            <Select appearance="primary" id="deptId" initialData={departmentsData} selectAction={this._selectDept} placeholder="选择部门" />
 	          </li>
 	          <li><button className="hy-button query-button" onClick={this._queryUsers}>查询</button></li>
 	        </ul>
@@ -125,10 +125,28 @@ const UserList = React.createClass({
 		this.setState({userListData: UserListStore.getUserListData()});
 	},
 
+	_inputName: function(e){
+		this.state.name=e.target.value;
+	},
+
+	_selectDept: function(id,value){
+		this.state.deptId=value;
+	},
+
 	_queryUsers: function(){
 		//查询用户列表
-		var pageIndex=1;
-		UserListActions.queryUsers(pageIndex);
+		var queryParam={pageNum: 1};
+		if(this.state.name) queryParam.name=this.state.name;
+		if(this.state.deptId) queryParam.deptId=this.state.deptId;
+		UserListActions.queryUsers(queryParam);
+	},
+
+	_switchPage: function(pageIndex){
+		//翻页
+		var queryParam={pageNum: pageIndex};
+		if(this.state.name) queryParam.name=this.state.name;
+		if(this.state.deptId) queryParam.deptId=this.state.deptId;
+		UserListActions.queryUsers(queryParam);
 	},
 
 	_confirmSwitchUserStatus: function(e){

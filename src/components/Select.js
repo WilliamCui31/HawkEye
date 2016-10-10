@@ -14,34 +14,53 @@ const Select = React.createClass({
 
 	getInitialState: function(){
 		return {
-			defaultValue: this.props.defaultValue||'default'
+			value: this.props.defaultValue||""
 		}
 	},
 
 	render: function(){
 		var optionsData=this.props.initialData,options=[];
+		var _this=this;
 		optionsData.forEach(function(option){
-			options.push(<option key={option.id} value={option.id.toString()}>{option.name}</option>);
+			options.push(<li key={option.id} value={option.id.toString()} onMouseDown={_this._onSelect}>{option.name}</li>);
 		});
 		return (
-			<span className="hy-select-outer">
-        <span className="hy-select-inner">
-          <select
-          	className={classnames('hy-input',this.props.appearance)}
+			<div className="hy-select-wrap">
+          <input
+          	className={classnames('hy-select',this.props.appearance)}
           	id={this.props.id}
-          	defaultValue={this.state.defaultValue}
-          	onChange={this._onChange}>
-            	<option value="default" disabled hidden>{this.props.placeholder}</option>
-            	{options}
-          </select>
-        </span>
-      </span>
+          	value={this.state.value}
+						onFocus={this._onSlide}
+						onBlur={this._onBlur}
+						placeholder={this.props.placeholder}
+						readOnly
+					/>
+					<span className="hy-select-triangle" onClick={this._onFocus}></span>
+					<div className="hy-select-options-wrap">
+						<ul className={classnames('hy-select-options',this.state.slide)}>{options}</ul>
+					</div>
+      </div>
 		)
 	},
 
-	_onChange: function(e){
-		if(e.target.value)
-		this.props.selectAction(e);
+	_onSelect: function(e){
+		this.setState({value: e.target.innerText});
+		if(e.target.value){
+			this.props.selectAction(this.props.id,e.target.value);
+		}
+	},
+
+	_onSlide: function(){
+		if(this.state.slide) this.setState({slide: ""});
+		else this.setState({slide: "slide"});
+	},
+
+	_onBlur: function(){
+		this.setState({slide: ""});
+	},
+
+	_onFocus: function(){
+		if(!this.state.slide) document.getElementById(this.props.id).focus();
 	}
 });
 

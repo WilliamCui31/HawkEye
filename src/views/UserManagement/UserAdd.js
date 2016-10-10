@@ -61,7 +61,7 @@ const UserAdd = React.createClass({
 							appearance="primary"
 							id="deptId"
 							initialData={this.state.departments}
-							selectAction={this._inputDeptId} placeholder="选择部门"
+							selectAction={this._selectDept} placeholder="选择部门"
 						/>
 						{deptFeedback}
           </li>
@@ -79,7 +79,7 @@ const UserAdd = React.createClass({
 							appearance="primary"
 							id="roleId"
 							initialData={this.state.roles}
-							selectAction={this._inputRoleId}
+							selectAction={this._selectRole}
 							placeholder="选择角色"
 						/>
 						{roleFeedback}
@@ -116,14 +116,14 @@ const UserAdd = React.createClass({
 		this.setState({user: user});
 	},
 
-	_inputDeptId: function(e){
+	_selectDept: function(id,value){
 		var user=this.state.user||{};
-		user[e.target.id]=e.target.value;
+		user[id]=value;
 		this.setState({user: user,focusDept: false});
 	},
 
-	_inputRoleId: function(e){
-		this.setState({[e.target.id]: e.target.value,focusRole: false});
+	_selectRole: function(id,value){
+		this.setState({[id]: value,focusRole: false});
 	},
 
 	_addUser: function(){
