@@ -56,7 +56,6 @@ function addRole(name){
 //获取角色权限
 function getRoleRights(roleId){
 	var requireData={roleId: roleId};
-	console.log(requireData);
 	ajax({
 		url:'/eye/role/v1/roleRights.json',
 		data: requireData,

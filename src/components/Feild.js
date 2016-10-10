@@ -13,7 +13,8 @@ const Feild = React.createClass({
 		focus: React.PropTypes.bool,
 		onChange: React.PropTypes.func,
 		validation: React.PropTypes.func,
-		validateFailure: React.PropTypes.string
+		validateFailure: React.PropTypes.string,
+		store: React.PropTypes.object
 	},
 
 	getInitialState: function(){
@@ -22,7 +23,16 @@ const Feild = React.createClass({
 		}
 	},
 
+	componentDidMount: function(){
+		if(this.props.store) this.props.store.addEventListener("reset",this._onReset);
+	},
+
+	componentWillUnmount: function(){
+		if(this.props.store) this.props.store.removeEventListener("reset",this._onReset);
+	},
+
 	render: function(){
+		//alert(this.state.value);
 		var type=this.props.type||"input";
 		var feedback;
 		if(this.state.status){
@@ -46,7 +56,7 @@ const Feild = React.createClass({
 				autoFocus={this.props.focus}
 				onBlur={this._onBlur}
 				onChange={this._onChange}
-				defaultValue={this.props.defaultValue}
+				value={this.state.value}
 			/>
 			{feedback}
 		</li>
@@ -70,6 +80,13 @@ const Feild = React.createClass({
 
 	_onChange: function(e){
 		this.setState({value: e.target.value});
+	},
+
+	_onReset: function(){
+		var state=this.state;
+		delete state.status;
+		state.value="";
+		this.setState(state);
 	}
 
 });

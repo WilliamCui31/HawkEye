@@ -9,17 +9,27 @@ const Select = React.createClass({
 		selectAction: React.PropTypes.func.isRequired,
 		className: React.PropTypes.string,
 		placeholder: React.PropTypes.string,
-		defaultValue: React.PropTypes.string
+		defaultValue: React.PropTypes.string,
+		store: React.PropTypes.object
 	},
 
 	getInitialState: function(){
 		return {
-			value: this.props.defaultValue||""
+			value: this.props.defaultValue||"",
+			optionsData: this.props.initialData
 		}
 	},
 
+	componentDidMount: function(){
+		if(this.props.store) this.props.store.addEventListener("reset",this._onReset);
+	},
+
+	componentWillUnmount: function(){
+		if(this.props.store) this.props.store.removeEventListener("reset",this._onReset);
+	},
+
 	render: function(){
-		var optionsData=this.props.initialData,options=[];
+		var optionsData=this.state.optionsData,options=[];
 		var _this=this;
 		optionsData.forEach(function(option){
 			options.push(<li key={option.id} value={option.id.toString()} onMouseDown={_this._onSelect}>{option.name}</li>);
@@ -61,6 +71,13 @@ const Select = React.createClass({
 
 	_onFocus: function(){
 		if(!this.state.slide) document.getElementById(this.props.id).focus();
+	},
+
+	_onReset: function(){
+		this.setState({
+			value: this.props.defaultValue||"",
+			optionsData: this.props.initialData
+		});
 	}
 });
 

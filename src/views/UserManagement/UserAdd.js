@@ -6,6 +6,7 @@ import ControlMenu from '../../components/ControlMenu';
 import MainStore from '../../stores/MainStore';
 import UserAddStore from '../../stores/UserAddStore';
 import UserAddActions from '../../actions/UserAddActions';
+import UserRoleStore from '../../stores/UserRoleStore';
 
 const UserAdd = React.createClass({
 
@@ -17,16 +18,17 @@ const UserAdd = React.createClass({
 		return {
 			departments: MainStore.getDepartments(),
 			roles: MainStore.getRoles(),
-			initialRights: UserAddStore.getRights()
+			initialRights: UserAddStore.getRights(),
+			updateRights: UserAddStore.getRights()
 		}
 	},
 
 	componentDidMount: function(){
-		UserAddStore.addChangeListener(this._onChange);
+		UserAddStore.addEventListener("change",this._onChange);
 	},
 
 	componentWillUnmount: function(){
-		UserAddStore.removeChangeListener(this._onChange);
+		UserAddStore.removeEventListener("change",this._onChange);
 	},
 
 	render: function(){
@@ -38,59 +40,70 @@ const UserAdd = React.createClass({
 			roleFeedback=<span className="hy-feild-status warn">请选择角色</span>;
 		}
 		return <div className="hy-section pdg20">
-	    	<ul className="hy-multiline-form clearfix">
-          <Feild
-						id="name"
-						label="用户名"
-						inputAction={this._inputUser}
-						pattern={/^([a-zA-Z0-9]{4,20})$/}
-						wrong="用户名必须是字母、数字格式，长度在4-20个字符以内"
-						validation={UserAddStore.validateUser}
-						validateFailure="用户名已存在，请重新输入"
+    	<ul className="hy-multiline-form clearfix">
+        <Feild
+					id="name"
+					label="用户名"
+					inputAction={this._inputUser}
+					pattern={/^([a-zA-Z0-9]{4,20})$/}
+					wrong="用户名必须是字母、数字格式，长度在4-20个字符以内"
+					validation={UserAddStore.validateUser}
+					validateFailure="用户名已存在，请重新输入"
+					store={UserAddStore}
+				/>
+				<Feild
+					id="realName"
+					label="真实姓名"
+					inputAction={this._inputUser}
+					pattern={/^[\u4e00-\u9fa5]{2,10}$/}
+					wrong="姓名必须是汉字，长度在2-10个汉字以内"
+					store={UserAddStore}
+				/>
+        <li>
+          <label>所在部门：</label>
+          <Select
+						appearance="primary"
+						id="deptId"
+						initialData={this.state.departments}
+						selectAction={this._selectDept}
+						placeholder="选择部门"
+						store={UserAddStore}
 					/>
-					<Feild
-						id="realName"
-						label="真实姓名"
-						inputAction={this._inputUser}
-						pattern={/^[\u4e00-\u9fa5]{2,10}$/}
-						wrong="姓名必须是汉字，长度在2-10个汉字以内"
+					{deptFeedback}
+        </li>
+				<Feild
+					id="pwd"
+					type="password"
+					label="密码"
+					inputAction={this._inputUser}
+					pattern={/(?!^[0-9]*$)(?!^[a-zA-Z]*$)^([a-zA-Z0-9]{4,20})$/}
+					wrong="密码必须是字母+数字，长度在4-20个字符以内"
+					store={UserAddStore}
+				/>
+        <li>
+        	<label>分配角色：</label>
+        	<Select
+						appearance="primary"
+						id="roleId"
+						initialData={this.state.roles}
+						selectAction={this._selectRole}
+						placeholder="选择角色"
+						store={UserAddStore}
 					/>
-          <li>
-            <label>所在部门：</label>
-            <Select
-							appearance="primary"
-							id="deptId"
-							initialData={this.state.departments}
-							selectAction={this._selectDept} placeholder="选择部门"
-						/>
-						{deptFeedback}
-          </li>
-					<Feild
-						id="pwd"
-						type="password"
-						label="密码"
-						inputAction={this._inputUser}
-						pattern={/(?!^[0-9]*$)(?!^[a-zA-Z]*$)^([a-zA-Z0-9]{4,20})$/}
-						wrong="密码必须是字母+数字，长度在4-20个字符以内"
-					/>
-          <li>
-          	<label>分配角色：</label>
-          	<Select
-							appearance="primary"
-							id="roleId"
-							initialData={this.state.roles}
-							selectAction={this._selectRole}
-							placeholder="选择角色"
-						/>
-						{roleFeedback}
-          </li>
-        </ul>
+					{roleFeedback}
+        </li>
+      </ul>
 
-				<ControlMenu initialData={this.state.initialRights} export={this._exportRights}/>
+			<ControlMenu
+				initialData={this.state.initialRights}
+				updateAction={this._updateRights}
+				export={this._exportRights}
+				store={UserAddStore}
+			/>
 
-				<button className="hy-button" onClick={this._addUser}>确认</button>
+			<button className="hy-button" onClick={this._addUser}>确认</button>
 
-				{this.state.popup}
+			{this.state.popup}
 	  </div>
 	},
 
@@ -119,11 +132,18 @@ const UserAdd = React.createClass({
 	_selectDept: function(id,value){
 		var user=this.state.user||{};
 		user[id]=value;
-		this.setState({user: user,focusDept: false});
+		this.state.user=user;
+		this.state.focusDept=false;
 	},
 
 	_selectRole: function(id,value){
-		this.setState({[id]: value,focusRole: false});
+		this.state[id]=value;
+		this.state.focusRole=false;
+		UserAddStore.emitEvent("update");
+	},
+
+	_updateRights: function(){
+		return UserRoleStore.getRoleRights(this.state.roleId);
 	},
 
 	_addUser: function(){
@@ -160,25 +180,16 @@ const UserAdd = React.createClass({
 	},
 
 	_completeAddUser: function(){
-		//关闭弹窗提示
-		this.setState({popup: null});
+
+
 		//恢复状态和清空数据
-		document.getElementById("name").value="";
-		document.getElementById("realName").value="";
-		document.getElementById("deptId").value="";
-		document.getElementById("pwd").value="";
-		document.getElementById("roleId").value="";
-		this._focusById("pwd");
-		this._focusById("realName");
-		this._focusById("name");
 		delete this.state.user;
 		delete this.state.roleId;
+		//触发reset事件，更新表单状态
+		UserAddStore.emitEvent("reset");
 
-		this.setState({
-			initialRights: UserAddStore.getRights()
-		});
-
-		console.log(this.state);
+		//关闭弹窗提示
+		this.setState({popup: null});
 	}
 
 });

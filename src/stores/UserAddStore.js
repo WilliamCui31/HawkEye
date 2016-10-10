@@ -6,6 +6,8 @@ import assign from 'object-assign';
 import ajax from '../common/ajax';
 
 const CHANGE_EVENT='change';
+const RESET_EVENT='reset';
+const UPDATE_EVENT='update';
 
 //定义新增用户数据对象
 var _userAddData={}
@@ -29,7 +31,7 @@ function addUser(addAccount){
 				}
 			}
 			_userAddData.feedback=feedback;
-			UserAddStore.emitChange();
+			UserAddStore.emitEvent(CHANGE_EVENT);
 		}
 	});
 }
@@ -65,16 +67,16 @@ const UserAddStore=assign({},EventEmitter.prototype,{
 		return flag;
 	},
 
-	emitChange: function(){
-		this.emit(CHANGE_EVENT);
+	emitEvent: function(event){
+		this.emit(event);
 	},
 
-	addChangeListener: function(callback){
-		this.on(CHANGE_EVENT,callback);
+	addEventListener: function(event,callback){
+		this.on(event,callback);
 	},
 
-	removeChangeListener: function(callback){
-		this.removeListener(CHANGE_EVENT,callback);
+	removeEventListener: function(event,callback){
+		this.removeListener(event,callback);
 	}
 
 });
@@ -83,7 +85,7 @@ AppDispatcher.register(function(action){
 	switch(action.actionType){
 		case UserAddConstants.GET_RIGHTS:
 			getRights();
-			UserAddStore.emitChange();
+			UserAddStore.emitEvent(CHANGE_EVENT);
 			break;
 
 		case UserAddConstants.ADD_USER:
