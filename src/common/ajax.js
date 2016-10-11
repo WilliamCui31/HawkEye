@@ -55,7 +55,6 @@ function ajax(settings) {
       data.token=token.toString();
 
       //console.log("token:",data.token);
-
     }
 
     //基于兼容考虑，创建一个XMLHttpRequest对象
