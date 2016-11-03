@@ -1,10 +1,10 @@
 /** @desc 封装ajax请求带validateKey和token验证，调用方式几乎等同于jquery的ajax封装，略有出入。
 *
-*  @param obj.url {string} 请求的url
-*  @param obj.method {string} 请求的方法（默认值为post）
-*  @param obj.data {object} 需要发送的数据（json对象）
-*  @param obj.async {boolean} true:异步请求，false:同步请求（默认值）
-*  @param obj.success {function} 请求成功回调函数
+*  @param settings.url {string} 请求的url
+*  @param settings.method {string} 请求的方法（默认值为post）
+*  @param settings.data {object} 需要发送的数据（json对象）
+*  @param settings.async {boolean} true:异步请求，false:同步请求（默认值）
+*  @param settings.success {function} 请求成功回调函数
 *  @return object；返回的数据（json对象）
 *
 *  @author William Cui
@@ -22,7 +22,7 @@ function ajax(settings) {
         data=settings.data || {},
         success=settings.success;
 
-    if(!async && async!==false){
+    if(!async || async!==false){
         async = true; //默认使用异步请求
     }
 
@@ -71,7 +71,7 @@ function ajax(settings) {
         xhr.send(JSON.stringify(data));		//post方式将数据放在send()方法里
     } else {
         //get方式，则将数据加到url后面
-        if(data) url += '&' + params(data);
+        if(data) url += '?' + params(data);
         xhr.send(null);		//get方式则填null
     }
 
