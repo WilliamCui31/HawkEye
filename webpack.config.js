@@ -1,6 +1,9 @@
 var path = require('path');
 var openBrowserPlugin = require('open-browser-webpack-plugin');
 var htmlWebpackplugin = require('html-webpack-plugin');
+var Dashboard = require('webpack-dashboard');
+var DashboardPlugin = require('webpack-dashboard/plugin');
+var dashboard = new Dashboard();
 
 module.exports = {
 	entry: {
@@ -47,6 +50,7 @@ module.exports = {
 			template: path.resolve(__dirname, './src/index.html'),
 			filename: 'index.html',
 			inject: 'body'
-		})
+		}),
+		new DashboardPlugin(dashboard.setData)
 	]
 }
